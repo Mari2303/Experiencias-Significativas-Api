@@ -9,12 +9,6 @@ namespace Service.Interfaces
     /// </summary>
     public interface IUserService : IBaseModelService<User, UserDTO, UserRequest>
     {
-        /// <summary>
-        /// Agrega un nuevo usuario de manera asíncrona.
-        /// </summary>
-        /// <param name="request">El objeto de solicitud que contiene los datos del usuario a agregar.</param>
-        /// <returns>Una tarea que representa la operación asíncrona, devolviendo el usuario agregado.</returns>
-        Task<UserRequest> AddAsync(UserRequest request);
 
         /// <summary>
         /// Recupera una entidad específica por su nombre.

@@ -4,9 +4,9 @@ using Entity.Requests;
 
 namespace Service.Interfaces
 {
- 
+
     public interface IPersonService : IBaseModelService<Person, PersonDTO, PersonRequest>
     {
-        Task<PersonRequest> CreatePersonAsync(PersonRequest request);
+        Task<UserRegisterResponseRequest> CreatePersonAsync(UserRegisterRequest request);
     }
 }
