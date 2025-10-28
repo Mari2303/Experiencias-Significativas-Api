@@ -5,7 +5,6 @@ pipeline {
         DOTNET_CLI_HOME = '/var/jenkins_home/.dotnet'
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE = '1'
         DOTNET_NOLOGO = '1'
-        PROJECT_PATH = 'experi/API/API.csproj'
     }
 
     stages {
@@ -17,7 +16,7 @@ pipeline {
             steps {
                 echo "📥 Clonando repositorio desde GitHub..."
                 checkout scm
-                sh 'ls -R DevOps || true'
+                sh 'ls -R Devops || true'
             }
         }
 
@@ -27,7 +26,6 @@ pipeline {
         stage('Detectar entorno') {
             steps {
                 script {
-                    // Mapear ramas con entornos
                     switch (env.BRANCH_NAME) {
                         case 'main':
                             env.ENVIRONMENT = 'prod'
@@ -43,9 +41,9 @@ pipeline {
                             break
                     }
 
-                    env.ENV_DIR = "Devops/${env.ENVIRONMENT}"
+                    env.ENV_DIR      = "Devops/${env.ENVIRONMENT}"
                     env.COMPOSE_FILE = "${env.ENV_DIR}/docker-compose.yml"
-                    env.ENV_FILE = "${env.ENV_DIR}/.env"
+                    env.ENV_FILE     = "${env.ENV_DIR}/.env"
 
                     echo """
                     ✅ Rama detectada: ${env.BRANCH_NAME}
@@ -71,7 +69,6 @@ pipeline {
                         .inside('-v /var/run/docker.sock:/var/run/docker.sock -u root:root') {
                         sh '''
                             echo "🔧 Restaurando dependencias .NET..."
-                            cd Experiencias-Significativas-Api
                             dotnet restore API/API.csproj
                             dotnet build API/API.csproj --configuration Release
                             dotnet publish API/API.csproj -c Release -o ./publish
@@ -86,26 +83,22 @@ pipeline {
         // =======================================================
         stage('Construir imagen Docker') {
             steps {
-                dir('.') {
-                    sh """
-                        echo "🐳 Construyendo imagen Docker para GESCOMPH (${env.ENVIRONMENT})"
-                        docker build -t Experiencia-significativas-api-${env.ENVIRONMENT}:latest -f API/Dockerfile .
-                    """
-                }
+                sh """
+                    echo "🐳 Construyendo imagen Docker para Experiencias Significativas (${env.ENVIRONMENT})"
+                    docker build -t experiencias-significativas-api-${env.ENVIRONMENT}:latest -f API/Dockerfile .
+                """
             }
         }
 
         // =======================================================
         // 5️⃣ DESPLEGAR CON DOCKER COMPOSE
         // =======================================================
-        stage('Desplegar GESCOMPH') {
+        stage('Desplegar') {
             steps {
-                dir('.') {
-                    sh """
-                        echo "🚀 Desplegando entorno: ${env.ENVIRONMENT}"
-                        docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
-                    """
-                }
+                sh """
+                    echo "🚀 Desplegando entorno: ${env.ENVIRONMENT}"
+                    docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
+                """
             }
         }
     }
