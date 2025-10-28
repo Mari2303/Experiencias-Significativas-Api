@@ -4,9 +4,7 @@ using Entity.Requests.EntityDataRequest;
 using Entity.Requests.EntityDetailRequest;
 using Entity.Requests.EntityUpdateRequest;
 
-
-
-namespace Builders
+namespace Service.Extensions
 {
     ///<summary>
     ///clase estática es un tipo de clase que no se puede instanciar
@@ -18,7 +16,7 @@ namespace Builders
     /// <see cref="Experience"/> a diferentes DTOs de detalle, información básica,
     /// institución, documentos y criterios.
     /// </summary>
-    public static class ExperienceInfoBuilder
+    public static class ExperienceDetailExtensions
     {
 
 
