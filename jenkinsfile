@@ -5,7 +5,7 @@ pipeline {
         DOTNET_CLI_HOME = '/var/jenkins_home/.dotnet'
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE = '1'
         DOTNET_NOLOGO = '1'
-        PROJECT_PATH = 'GESCOMPH/WebGESCOMPH/WebGESCOMPH.csproj'
+        PROJECT_PATH = 'experi/API/API.csproj'
     }
 
     stages {
@@ -17,7 +17,7 @@ pipeline {
             steps {
                 echo "📥 Clonando repositorio desde GitHub..."
                 checkout scm
-                sh 'ls -R GESCOMPH/DevOps || true'
+                sh 'ls -R DevOps || true'
             }
         }
 
@@ -43,7 +43,7 @@ pipeline {
                             break
                     }
 
-                    env.ENV_DIR = "GESCOMPH/DevOps/${env.ENVIRONMENT}"
+                    env.ENV_DIR = "Devops/${env.ENVIRONMENT}"
                     env.COMPOSE_FILE = "${env.ENV_DIR}/docker-compose.yml"
                     env.ENV_FILE = "${env.ENV_DIR}/.env"
 
@@ -71,10 +71,10 @@ pipeline {
                         .inside('-v /var/run/docker.sock:/var/run/docker.sock -u root:root') {
                         sh '''
                             echo "🔧 Restaurando dependencias .NET..."
-                            cd GESCOMPH
-                            dotnet restore WebGESCOMPH/WebGESCOMPH.csproj
-                            dotnet build WebGESCOMPH/WebGESCOMPH.csproj --configuration Release
-                            dotnet publish WebGESCOMPH/WebGESCOMPH.csproj -c Release -o ./publish
+                            cd Experiencias-Significativas-Api
+                            dotnet restore API/API.csproj
+                            dotnet build API/API.csproj --configuration Release
+                            dotnet publish API/API.csproj -c Release -o ./publish
                         '''
                     }
                 }
@@ -86,10 +86,10 @@ pipeline {
         // =======================================================
         stage('Construir imagen Docker') {
             steps {
-                dir('GESCOMPH') {
+                dir('.') {
                     sh """
                         echo "🐳 Construyendo imagen Docker para GESCOMPH (${env.ENVIRONMENT})"
-                        docker build -t gescomph-api-${env.ENVIRONMENT}:latest -f WebGESCOMPH/Dockerfile .
+                        docker build -t Experiencia-significativas-api-${env.ENVIRONMENT}:latest -f API/Dockerfile .
                     """
                 }
             }
