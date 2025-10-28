@@ -13,6 +13,10 @@ namespace Entity.Requests.ModuleOperation
         public int Score { get; set; }
         public int EvaluationId { get; set; }
         public int CriteriaId { get; set; }
-        
+        public string? Evaluation { get; set; } = null!;
+        public string? Criteria { get; set; } = null!;
+
+
+
     }
 }

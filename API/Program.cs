@@ -1,16 +1,16 @@
 ﻿using API;
 using Microsoft.EntityFrameworkCore;
 using Entity.Context;
-using Repository.Interfaces;
-using Repository.Implementations;
 using System.Text.Json.Serialization;
 using Utilities.JwtAuthentication;
 using Service.Implementations;
 using Service.Interfaces;
-using Utilities.Email;
+using Repository.Implementations;
+using Repository.Interfaces;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 
 // SQL Server
@@ -40,10 +40,14 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddScoped<SupabaseStorageService>();
+
+
 AuthenticationExtensions.CustomSwagger(builder.Services);
 
 ServiceExtensions.AddCustomServices(builder.Services);
 
+QuestPDF.Settings.License = LicenseType.Community;
 
 
 
@@ -70,7 +74,7 @@ MapperExtension.ConfigureAutoMapper(builder.Services);
 //  SERVICIO DE EMAIL
 
 builder.Services.AddTransient<Utilities.Email.Interfaces.IEmailService, Utilities.Email.Implements.EmailService>();
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 // CONFIGURACIÓN DE CORS (permite acceso desde frontend)

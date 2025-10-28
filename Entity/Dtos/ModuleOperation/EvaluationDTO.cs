@@ -10,6 +10,8 @@ namespace Entity.Dtos.ModuleOperational
         public string TypeEvaluation { get; set; } = string.Empty;
         public string AccompanimentRole { get; set; } = string.Empty;
         public string Comments { get; set; } = string.Empty;
+
+        public string UrlEvaPdf { get; set; } = string.Empty;
         public string EvaluationResult { get; set; } = string.Empty;
 
         public int UserId { get; set; }

@@ -12,7 +12,7 @@ using Entity.Requests.ModuleOperation;
 public class EvaluationBuilder
 {
     private readonly Evaluation _evaluation;
-    private readonly List<EvaluationCriteria> _evaluationCriterias = new();
+    private readonly List<EvaluationCriteria> _EvaluationCriteria = new();
     private int _totalScore;
 
     /// <summary>
@@ -35,10 +35,12 @@ public class EvaluationBuilder
         };
     }
 
+   
+
     /// <summary>
     /// Agrega los criterios de evaluación y calcula la suma de sus puntajes.
     /// 
-    /// ⚠️ Importante: En esta etapa los criterios aún no tienen asignado el <c>EvaluationId</c>,
+    ///  Importante: En esta etapa los criterios aún no tienen asignado el <c>EvaluationId</c>,
     /// solo se preparan para ser guardados posteriormente junto con la evaluación.
     /// </summary>
     /// <param name="criteriaScores">
@@ -55,15 +57,14 @@ public class EvaluationBuilder
             int scoreSum = c.Scores.Sum(); // Suma los 3 números de cada criterio
             _totalScore += scoreSum;
 
-            var evalCriteria = new EvaluationCriteria
+            var criterEval = new EvaluationCriteria
             {
                 CriteriaId = c.CriteriaId,
                 Score = scoreSum,
-                State = true,
-                CreatedAt = DateTime.UtcNow
+               
             };
 
-            _evaluationCriterias.Add(evalCriteria);
+            _EvaluationCriteria.Add(criterEval);
         }
         return this;
     }
@@ -81,7 +82,7 @@ public class EvaluationBuilder
     public (Evaluation Evaluation, List<EvaluationCriteria> Criteria) Build()
     {
         _evaluation.EvaluationResult = CalcularResultadoFinal(_totalScore);
-        return (_evaluation, _evaluationCriterias);
+        return (_evaluation, _EvaluationCriteria);
     }
 
     /// <summary>

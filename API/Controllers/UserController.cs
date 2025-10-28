@@ -3,10 +3,8 @@ using Entity.Dtos;
 using Entity.Models;
 using Entity.Requests;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
-using Entity.Requests.Email;
 using ResetPasswordRequest = Entity.Requests.Email.ResetPasswordRequest;
 using ForgotPasswordRequest = Entity.Requests.Email.ForgotPasswordRequest;
 
@@ -22,26 +20,6 @@ namespace API.Controllers
             _userService = service;
             _mapper = mapper;
         }
-
-
-
-        /// <summary>
-        /// Registrar un nuevo usuario
-        /// </summary>
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserRequest request)
-        {
-            try
-            {
-                var createdUser = await _userService.AddAsync(request);
-                return Ok(createdUser);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
-
 
 
         /// <summary>
@@ -100,5 +78,4 @@ namespace API.Controllers
 
 
     }
-    }
-
+}
