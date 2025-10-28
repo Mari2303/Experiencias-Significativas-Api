@@ -1,13 +1,11 @@
 ﻿using API;
 using Microsoft.EntityFrameworkCore;
 using Entity.Context;
-using Repository.Interfaces;
-using Repository.Implementations;
 using System.Text.Json.Serialization;
 using Utilities.JwtAuthentication;
 using Service.Implementations;
 using Service.Interfaces;
-using Utilities.Email;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,10 +38,14 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddScoped<SupabaseStorageService>();
+
+
 AuthenticationExtensions.CustomSwagger(builder.Services);
 
 ServiceExtensions.AddCustomServices(builder.Services);
 
+QuestPDF.Settings.License = LicenseType.Community;
 
 
 
