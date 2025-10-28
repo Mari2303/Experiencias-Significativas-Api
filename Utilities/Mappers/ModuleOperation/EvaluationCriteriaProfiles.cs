@@ -11,6 +11,9 @@ namespace Utilities.Mappers.ModuleOperation
         {
             CreateMap <EvaluationCriteriaDTO,  EvaluationCriteria>().ReverseMap();
             CreateMap<EvaluationCriteriaRequest, EvaluationCriteria>().ReverseMap();
+            CreateMap<EvaluationCriteria, EvaluationCriteriaRequest>()
+    .ForMember(dest => dest.Criteria, opt => opt.MapFrom(src => src.Criteria.Name))
+    .ForMember(dest => dest.Evaluation, opt => opt.Ignore()); 
         }
     }
 }

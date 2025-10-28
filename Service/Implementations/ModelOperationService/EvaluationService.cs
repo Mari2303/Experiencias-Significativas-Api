@@ -5,16 +5,19 @@ using Entity.Requests.EntityDetailRequest;
 using Entity.Requests.ModuleOperation;
 using Repository.Interfaces.IModuleOperationRepository;
 using Service.Interfaces.ModelOperationService;
+using Services.Pdf;
 
 namespace Service.Implementations.ModelOperationService
 {
     public class EvaluationService : BaseModelService<Evaluation, EvaluationDTO, EvaluationRequest>, IEvaluationService
     {
         private readonly IEvaluationRepository _evaluationRepository;
+        private readonly SupabaseStorageService _storage;
 
-        public EvaluationService(IEvaluationRepository evaluationRepository) : base(evaluationRepository)
+        public EvaluationService(IEvaluationRepository evaluationRepository, SupabaseStorageService storage) : base(evaluationRepository)
         {
             _evaluationRepository = evaluationRepository;
+            _storage = storage;
         }
 
 
@@ -54,6 +57,16 @@ namespace Service.Implementations.ModelOperationService
 
             // 6. Obtener DTO final usando el mapper del repository
             var evaluationDto = await _evaluationRepository.GetEvaluationDetailAsync(evaluation.Id);
+
+            var pdfBytes = EvaluationPdfGenerator.Generate(
+                    TypeEvaluation: evaluationDto.TypeEvaluation,   
+                    comments: evaluationDto.Comments              
+                );
+            // 7. Subir PDF a Supabase
+                 string pdfUrl = await _storage.UploadEvaluationPdfToSupabase(pdfBytes, evaluation.Id);
+
+            // 8. Guardar URL en la evaluación y actualizar en BD
+            await _evaluationRepository.UpdateEvaluationPdfUrlAsync(evaluation.Id, pdfUrl);
 
             return evaluationDto;
         }
