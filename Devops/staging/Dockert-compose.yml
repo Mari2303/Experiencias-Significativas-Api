@@ -1,0 +1,23 @@
+ postgres-staging:
+    container_name: experiencia-significativa-postgres-staging
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env.staging
+    ports:
+      - "5434:5432"
+    networks:
+      - network_staging
+    volumes:
+      - postgres_data_staging:/var/lib/postgresql/data
+      - "./backups/staging:/backups/postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    labels:
+      - com.experienciasig.group=experienciasig
+      - com.experienciasig.environment=staging
