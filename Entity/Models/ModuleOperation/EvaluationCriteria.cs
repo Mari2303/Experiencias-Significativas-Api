@@ -8,7 +8,7 @@ namespace Entity.Models.ModuleOperation
         public int Score { get; set; }
         public int EvaluationId { get; set; }
         public int CriteriaId { get; set; }
-        public virtual Evaluation Evaluation { get; set; } = null!;
-        public virtual Criteria Criteria { get; set; } = null!;
+        public virtual Evaluation Evaluation { get; set; } 
+        public virtual Criteria Criteria { get; set; } 
     }
 }

@@ -69,7 +69,8 @@ namespace Repository.Implementations.ModuleOperationRepository
         public async Task<EvaluationDetailRequest> GetEvaluationDetailAsync(int evaluationId)
         {
             var evaluation = await _context.Evaluations
-                .Include(e => e.EvaluationCriterias)
+                  .Include(e => e.EvaluationCriterias)
+                  .ThenInclude(ec => ec.Criteria)
                 .Include(e => e.Experience)
                     .ThenInclude(ex => ex.Institution)
                 .Include(e => e.Experience)
@@ -90,6 +91,20 @@ namespace Repository.Implementations.ModuleOperationRepository
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateEvaluationPdfUrlAsync(int evaluationId, string pdfUrl)
+        {
+            // Buscar la evaluación existente
+            var evaluation = await _context.Evaluations.FindAsync(evaluationId);
+
+            if (evaluation == null)
+                throw new Exception("Evaluation not found");
+
+            // Actualizar SOLO el campo de URL del PDF
+            evaluation.UrlEvaPdf = pdfUrl;
+
+            // Guardar cambios
+            await _context.SaveChangesAsync();
+        }
 
 
 
