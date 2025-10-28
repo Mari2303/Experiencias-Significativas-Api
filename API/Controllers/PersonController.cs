@@ -12,7 +12,7 @@ namespace API.Controllers
         private readonly IPersonService _personService;
         private readonly IMapper _mapper;
 
-        public PersonController(IBaseModelService<Person, PersonDTO, PersonRequest> baseService, IPersonService service, IMapper mapper) 
+        public PersonController(IBaseModelService<Person, PersonDTO, PersonRequest> baseService, IPersonService service, IMapper mapper)
             : base(baseService, mapper)
         {
             _personService = service;
@@ -21,7 +21,7 @@ namespace API.Controllers
 
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] PersonRequest request)
+        public async Task<IActionResult> Create([FromBody] UserRegisterRequest request)
         {
             try
             {
@@ -33,13 +33,14 @@ namespace API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
-
-
-
-
-
-
-
     }
 }
+
+
+
+
+
+
+
+
+    

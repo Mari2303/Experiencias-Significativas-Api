@@ -3,6 +3,7 @@ using Entity.Context;
 using Entity.Dtos;
 using Entity.Models;
 using Entity.Requests;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Repository.Interfaces;
 using Utilities.Helper;
@@ -55,65 +56,70 @@ namespace Repository.Implementations
         {
             try
             {
-                // Configuración de paginación con valores por defecto
-                int pageNumber = filters.PageNumber.HasValue && filters.PageNumber.Value > 0
-                    ? filters.PageNumber.Value
-                    : _configuration.GetValue<int>("Pagination:DefaultPageNumber");
+                int pageNumber = filters.PageNumber.HasValue && filters.PageNumber.Value > 0 ? filters.PageNumber.Value : _configuration.GetValue<int>("Pagination:DefaultPageNumber");
+                int pageSize = filters.PageSize.HasValue && filters.PageSize.Value > 0 ? filters.PageSize.Value : _configuration.GetValue<int>("Pagination:DefaultPageSize");
 
-                int pageSize = filters.PageSize.HasValue && filters.PageSize.Value > 0
-                    ? filters.PageSize.Value
-                    : _configuration.GetValue<int>("Pagination:DefaultPageSize");
-
-                // Configuración de ordenamiento con valores por defecto
                 filters.ColumnOrder ??= _configuration.GetValue<string>("Ordering:DefaultColumnOrder");
                 filters.DirectionOrder ??= _configuration.GetValue<string>("Ordering:DefaultDirectionOrder");
 
-                // SQL base con joins a Users y Roles
-                var sql = @"SELECT
-                                userRol.Id,
-                                userRol.UserId,
-                                userRol.RoleId,
-                                u.Username AS UserName,
-                                r.Name AS RoleName
-                            FROM
-                                UserRoles AS userRol
-                            INNER JOIN Users AS u ON userRol.UserId = u.Id 
-                            INNER JOIN Roles AS r ON userRol.RoleId = r.Id 
-                            WHERE userRol.DeletedAt IS NULL ";
+                var query = from ur in _context.UserRoles
+                            join u in _context.Users on ur.UserId equals u.Id
+                            join r in _context.Roles on ur.RoleId equals r.Id
+                            where ur.DeletedAt == null
+                            select new UserRoleRequest
+                            {
+                                Id = ur.Id,
+                                UserId = ur.UserId,
+                                RoleId = ur.RoleId,
+                                User = u.Username,
+                                Role = r.Name
+                            };
 
-                // Filtro por ForeignKey (ej: UserId o RoleId)
                 if (filters.ForeignKey != null && !string.IsNullOrEmpty(filters.NameForeignKey))
                 {
-                    sql += @"AND userRol." + filters.NameForeignKey + @" = @foreignKey ";
+                    if (filters.NameForeignKey == "UserId")
+                        query = query.Where(x => x.UserId == (int)filters.ForeignKey);
+                    else if (filters.NameForeignKey == "RoleId")
+                        query = query.Where(x => x.RoleId == (int)filters.ForeignKey);
                 }
 
-                // Filtro de texto (por Username o Rol)
                 if (!string.IsNullOrEmpty(filters.Filter))
                 {
-                    sql += @"AND (UPPER(CONCAT(u.Username, r.Name)) LIKE UPPER(CONCAT('%', @filter, '%'))) ";
+                    var filterUpper = filters.Filter.ToUpper();
+                    query = query.Where(x => (x.User.ToUpper() + x.Role.ToUpper()).Contains(filterUpper));
                 }
 
-                // Ordenamiento dinámico
-                sql += @"ORDER BY userRol." + filters.ColumnOrder + @" " + filters.DirectionOrder;
+                // Aplica orden
+                if (filters.ColumnOrder == "User")
+                {
+                    query = filters.DirectionOrder == "ASC"
+                        ? query.OrderBy(x => x.User)
+                        : query.OrderByDescending(x => x.User);
+                }
+                else if (filters.ColumnOrder == "Role")
+                {
+                    query = filters.DirectionOrder == "ASC"
+                        ? query.OrderBy(x => x.Role)
+                        : query.OrderByDescending(x => x.Role);
+                }
+                else
+                {
+                    query = filters.DirectionOrder == "ASC"
+                        ? query.OrderBy(x => x.Id)
+                        : query.OrderByDescending(x => x.Id);
+                }
 
-                // Ejecutar consulta
-                IEnumerable<UserRoleRequest> items = await _context.QueryAsync<UserRoleRequest>(
-                    sql,
-                    new { filter = filters.Filter, foreignKey = filters.ForeignKey }
-                );
-
-                // Aplicar paginación en memoria
+                // Aplica paginación
                 if (filters.AplyPagination)
                 {
-                    int skip = (pageNumber - 1) * pageSize;
-                    items = items.Skip(skip).Take(pageSize);
+                    query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
                 }
 
-                return items;
+                return await query.ToListAsync();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al obtener UserRoles: {ex.Message}");
+                Console.WriteLine($"Error retrieving data: {ex.Message}");
                 throw;
             }
         }
