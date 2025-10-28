@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Entity.Requests.EntityDetailRequest
 {
-    public class EvaluationCriteriaDetailRequest
+    public class EvaluationDetailCriteriaRequest
     {
-        public int CriteriaId { get; set; }  // id del criterio ya existente
+        public int Score { get; set; }
+        public int EvaluationId { get; set; }
+        public int CriteriaId { get; set; }
 
-        
-        public List<int> Scores { get; set; } = new List<int>();       // valor otorgado por el evaluador
+       
 
         public string DescriptionContribution { get; set; } = string.Empty;
-
     }
 }

@@ -1,16 +1,13 @@
-﻿
-using Builders;
-
+﻿using Builders;
 using Entity.Dtos.ModuleOperational;
-using Entity.Models.ModelosParametros;
 using Entity.Models.ModuleOperation;
 using Entity.Requests.EntityCreateRequest;
-using Entity.Requests.EntityDataRequest;
 using Entity.Requests.EntityDetailRequest;
 using Entity.Requests.EntityUpdateRequest;
 using Entity.Requests.ModuleOperation;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces.IModuleOperationRepository;
+using Service.Extensions;
 using Service.Interfaces.ModelOperationService;
 
 
