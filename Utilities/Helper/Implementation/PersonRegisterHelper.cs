@@ -8,7 +8,7 @@ namespace Utilities.Helper.Implementation
     public  class PersonValidatorHelper
     {
         // Método principal de validación
-        public static void Validate(PersonRequest request)
+        public static void Validate(UserRegisterRequest request)
         {
             // Validar DocumentType
             if (!Enum.TryParse<DocumentType>(request.DocumentType, out _))
