@@ -2,13 +2,13 @@
 using Entity.Models.ModuleOperation;
 using Entity.Requests.EntityUpdateRequest;
 
-namespace Builders
+namespace Service.Extensions 
 {
     /// <summary>
     /// Clase estática que contiene métodos de extensión para aplicar cambios parciales (PATCH) 
     /// a la entidad <see cref="Experience"/> a partir de un objeto <see cref="ExperiencePatchDTO"/>.
     /// </summary>
-    public static class ExperiencePatchBuilder
+    public static class ExperiencePatchExtensions
     {
         /// <summary>
         /// Aplica los cambios enviados en un <see cref="ExperiencePatchDTO"/> sobre la entidad <see cref="Experience"/>.
