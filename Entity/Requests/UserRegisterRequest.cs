@@ -40,11 +40,6 @@
         public string? SecondLastName { get; set; }
 
         /// <summary>
-        /// Nombre completo calculado (puede llenarse automáticamente en el backend).
-        /// </summary>
-        public string? FullName { get; set; }
-
-        /// <summary>
         /// Código DANE de la institución (si aplica).
         /// </summary>
         public string CodeDane { get; set; } = string.Empty;
@@ -84,9 +79,6 @@
         /// </summary>
         public string Password { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Identificador de los roles que tendrá el usuario.
-        /// </summary>
-        public List<int> RoleIds { get; set; } = new();
+       
     }
 }
