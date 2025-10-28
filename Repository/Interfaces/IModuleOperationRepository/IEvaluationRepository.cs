@@ -9,11 +9,12 @@ namespace Repository.Interfaces.IModuleOperationRepository
     public interface IEvaluationRepository : IBaseModelRepository<Evaluation, EvaluationDTO, EvaluationRequest>
     {
         Task<Evaluation> AddEvaluationAsync(Evaluation evaluation);
-        Task AddEvaluationCriteriaAsync(EvaluationCriteria evalCriteria);
+        Task AddEvaluationCriteriaAsync(EvaluationCriteria criterEval);
         Task<Experience?> GetExperienceWithInstitutionAsync(int experienceId);
         Task UpdateCriteriaAsync(Criteria criteria);
         Task SaveChangesAsync();
         Task<Criteria?> GetCriteriaByIdAsync(int id);
         Task<EvaluationDetailRequest> GetEvaluationDetailAsync(int id);
+        Task UpdateEvaluationPdfUrlAsync(int evaluationId, string pdfUrl);
     }
 }
