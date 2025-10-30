@@ -43,7 +43,8 @@ pipeline {
                     }
 
                     env.COMPOSE_FILE = "Devops/${env.ENVIRONMENT}/Docker-compose.yml"
-                    env.ENV_FILE = "Devops/${env.ENVIRONMENT}/.env"
+                  env.ENV_FILE = "Devops/${env.ENVIRONMENT}/.env.${env.ENVIRONMENT}"
+
 
                     echo """
                     🌎 Entorno asignado: ${env.ENVIRONMENT}
