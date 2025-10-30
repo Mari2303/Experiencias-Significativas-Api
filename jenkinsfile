@@ -90,17 +90,17 @@ pipeline {
         // =======================================================
         // DESPLEGAR CON DOCKER COMPOSE
         // =======================================================
-    stage('Desplegar') {
-    steps {
-        script {
-            echo "🚀 Desplegando entorno ${env.ENVIRONMENT}..."
-            sh """
-                docker compose -f Devops/${env.ENVIRONMENT}/Docker-compose.yml --env-file Devops/${env.ENVIRONMENT}/.env.dev up -d --build
-            """
+        stage('Desplegar') {
+            steps {
+                script {
+                    echo "🚀 Desplegando entorno ${env.ENVIRONMENT}..."
+                    sh """
+                      docker compose -f Devops/${env.ENVIRONMENT}/Docker-compose.yml --env-file Devops/${env.ENVIRONMENT}/.env.dev up -d --build
+                    """
+                }
+            }
         }
     }
-}
-
 
     post {
         always {
