@@ -84,7 +84,7 @@ namespace Repository.Implementations
                 Email = user.Username,
                 PersonId = user.PersonId,
                 Token = token,
-                ExpirationDate = DateTime.UtcNow.AddHours(-3), 
+                ExpirationDate = DateTime.UtcNow.AddHours(30), 
                 Menu = menu,
                 Role = roles
             };
