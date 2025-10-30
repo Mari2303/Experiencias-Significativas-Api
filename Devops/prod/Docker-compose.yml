@@ -1,4 +1,7 @@
-postgres-prod:
+version: '3.9'
+
+services:
+  postgres-prod:
     container_name: experiencia-significativa-postgres-prod
     build:
       context: .
@@ -21,3 +24,10 @@ postgres-prod:
     labels:
       - com.experienciasig.group=experienciasig
       - com.experienciasig.environment=prod
+
+networks:
+  network_prod:
+    driver: bridge
+
+volumes:
+  postgres_data_prod:
