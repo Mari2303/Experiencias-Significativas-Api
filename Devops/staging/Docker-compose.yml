@@ -1,4 +1,7 @@
- postgres-staging:
+version: '3.9'
+
+services:
+  postgres-staging:
     container_name: experiencia-significativa-postgres-staging
     build:
       context: .
@@ -21,3 +24,10 @@
     labels:
       - com.experienciasig.group=experienciasig
       - com.experienciasig.environment=staging
+
+networks:
+  network_staging:
+    driver: bridge
+
+volumes:
+  postgres_data_staging:

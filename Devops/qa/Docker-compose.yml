@@ -1,3 +1,6 @@
+version: '3.9'
+
+services:
   postgres-qa:
     container_name: experiencia-significativa-postgres-qa
     build:
@@ -21,3 +24,10 @@
     labels:
       - com.experienciasig.group=experienciasig
       - com.experienciasig.environment=qa
+
+networks:
+  network_qa:
+    driver: bridge
+
+volumes:
+  postgres_data_qa:
