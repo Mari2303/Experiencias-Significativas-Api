@@ -4,8 +4,8 @@ services:
   postgres-staging:
     container_name: experiencia-significativa-postgres-staging
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../../API       
+      dockerfile: ../../API/Dockerfile 
     restart: always
     env_file:
       - .env.staging
