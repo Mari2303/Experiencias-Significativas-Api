@@ -12,10 +12,10 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - network_develop
+      - network_dev
     volumes:
       - postgres_data_develop:/var/lib/postgresql/data
-      - "./backups/develop:/backups/postgres"
+      - "./backups/dev:/backups/postgres"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 30s
@@ -23,7 +23,7 @@ services:
       retries: 5
     labels:
       - com.experienciasig.group=experienciasig
-      - com.experienciasig.environment=develop
+      - com.experienciasig.environment=dev
 
 networks:
   network_develop:
