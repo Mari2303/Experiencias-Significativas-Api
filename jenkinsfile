@@ -79,7 +79,7 @@ pipeline {
                 script {
                     echo "🐳 Construyendo imagen Docker..."
                     sh """
-                  docker build -t experiencias-api:${env.ENVIRONMENT} -f Devops/${env.ENVIRONMENT}/Dockerfile .
+                   docker build -t experiencias-api:${env.ENVIRONMENT} -f API/Dockerfile .
 
                     """
                 }
