@@ -33,7 +33,7 @@ pipeline {
                     """
 
                     if (branch == "dev") {
-                        env.ENVIRONMENT = "develop"
+                        env.ENVIRONMENT = "dev"
                     } else if (branch == "qa") {
                         env.ENVIRONMENT = "qa"
                     } else if (branch == "staging") {
