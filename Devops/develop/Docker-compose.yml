@@ -12,7 +12,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - network_dev
+      - network_develop
     volumes:
       - postgres_data_develop:/var/lib/postgresql/data
       - "./backups/dev:/backups/postgres"
@@ -23,7 +23,7 @@ services:
       retries: 5
     labels:
       - com.experienciasig.group=experienciasig
-      - com.experienciasig.environment=dev
+      - com.experienciasig.environment=develop
 
 networks:
   network_develop:
