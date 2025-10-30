@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     env_file:
-      - .env
+      - .env.qa
     ports:
       - "5433:5432"
     networks:
