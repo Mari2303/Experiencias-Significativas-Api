@@ -56,7 +56,7 @@ pipeline {
         }
 
         // =======================================================
-        // 3️⃣ COMPILAR .NET EN CONTENEDOR
+        //  COMPILAR .NET EN CONTENEDOR
         // =======================================================
         stage('Compilar .NET dentro de contenedor SDK') {
             agent {
@@ -73,7 +73,7 @@ pipeline {
         }
 
         // =======================================================
-        // 4️⃣ CONSTRUIR IMAGEN DOCKER
+        // CONSTRUIR IMAGEN DOCKER
         // =======================================================
         stage('Construir imagen Docker') {
             steps {
@@ -88,19 +88,19 @@ pipeline {
         }
 
         // =======================================================
-        // 5️⃣ DESPLEGAR CON DOCKER COMPOSE
+        // DESPLEGAR CON DOCKER COMPOSE
         // =======================================================
-        stage('Desplegar') {
-            steps {
-                script {
-                    echo "🚀 Desplegando entorno ${env.ENVIRONMENT}..."
-                    sh """
-                        docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
-                    """
-                }
-            }
+    stage('Desplegar') {
+    steps {
+        script {
+            echo "🚀 Desplegando entorno ${env.ENVIRONMENT}..."
+            sh """
+                docker compose -f Devops/${env.ENVIRONMENT}/Docker-compose.yml --env-file Devops/${env.ENVIRONMENT}/.env.dev up -d --build
+            """
         }
     }
+}
+
 
     post {
         always {
