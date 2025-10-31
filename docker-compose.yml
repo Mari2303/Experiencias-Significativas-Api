@@ -1,87 +1,84 @@
 version: "3.8"
 
 services:
-  # 🐘 PostgreSQL - DEVELOP
-  maria-experiencia-postgres-develop:
-    image: postgres:16
-    container_name: maria-experiencia-postgres-develop
+  # 🗄️ SQL Server - DEVELOP
+  Exp-sqlserver-develop:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: experiencia-sqlserver-develop
+
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Admin123!
-      POSTGRES_DB: backend_develop
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Admin123!"
+      MSSQL_PID: "Developer"
     ports:
-      - "5439:5432"
+      - "1438:1433"
     volumes:
-      - postgres_data_develop:/var/lib/postgresql/data
-      - ./backups/develop:/backups/postgres
+      - sqldata_develop:/var/opt/mssql
     networks:
       - network_experiencesig
     
    
 
-  # 🐘 PostgreSQL - QA
-  maria-experiencia-postgres-qa:
-    image: postgres:16
-    container_name: maria-experiencia-postgres-qa
+  # 🗄️ SQL Server - QA
+  Exp-sqlserver-qa:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: experiencia-sqlserver-qa
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Admin123!
-      POSTGRES_DB: backend_qa
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Admin123!"
+      MSSQL_PID: "Developer"
     ports:
-      - "5440:5432"
+      - "1436:1433"
     volumes:
-      - postgres_data_qa:/var/lib/postgresql/data
-      - ./backups/qa:/backups/postgres
+      - sqldata_qa:/var/opt/mssql
     networks:
       - network_experiencesig
    
     
 
-  # 🐘 PostgreSQL - STAGING
-  maria-experiencia-postgres-staging:
-    image: postgres:16
-    container_name: maria-experiencia-postgres-staging
+  # 🗄️ SQL Server - STAGING
+  Exp-sqlserver-staging:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: experiencia-sqlserver-staging
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Admin123!
-      POSTGRES_DB: backend_staging
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Admin123!"
+      MSSQL_PID: "Developer"
     ports:
-      - "5437:5432"
+      - "1437:1433"
     volumes:
-      - postgres_data_staging:/var/lib/postgresql/data
-      - ./backups/staging:/backups/postgres
+      - sqldata_staging:/var/opt/mssql
     networks:
       - network_experiencesig
   
  
 
-  # 🐘 PostgreSQL - PROD
-  maria-experiencia-postgres-prod:
-    image: postgres:16
-    container_name: maria-experiencia-postgres-prod
+   # 🗄️ SQL Server - PROD
+  Exp-sqlserver-prod:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: experiencia-sqlserver-prod
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Admin123!
-      POSTGRES_DB: backend_prod
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Admin123!"
+      MSSQL_PID: "Developer"
     ports:
-      - "5438:5432"
+      - "1435:1433"
     volumes:
-      - postgres_data_prod:/var/lib/postgresql/data
-      - ./backups/prod:/backups/postgres
+      - sqldata_prod:/var/opt/mssql
     networks:
       - network_experiencesig
   
     
 
 volumes:
-  postgres_data_develop:
-  postgres_data_qa:
-  postgres_data_staging:
-  postgres_data_prod:
+  sqldata_develop:
+  sqldata_qa:
+  sqldata_staging:
+  sqldata_prod:
 
 networks:
  network_experiencesig:

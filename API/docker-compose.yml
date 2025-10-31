@@ -1,20 +1,17 @@
 version: '3.8'
 
 services:
-  postgres-develop:
-    image: postgres:16
-    container_name: postgres-develop
-    restart: always
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: backend
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=MiPassword123!
     ports:
-      - "5439:5432"
+      - "1433:1433"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - sql_data:/var/opt/mssql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P MiPassword123! -Q 'SELECT 1'"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -23,21 +20,13 @@ services:
     build:
       context: ../
       dockerfile: API/Dockerfile
-    container_name: experiencia-significativa-API-develop
     ports:
       - "5000:5000"
     depends_on:
-      postgres-develop:
+      sqlserver:
         condition: service_healthy
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__PostgresConnection: "Host=postgres-develop;Port=5432;Database=backend;Username=postgres;Password=123456"
-    networks:
-      - network_experiencesig
-
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=MiBaseDeDatos;User Id=sa;Password=MiPassword123!;TrustServerCertificate=true;
 volumes:
-  postgres_data:
-
-networks:
-  network_experiencesig:
-    external: true
+  sql_data:

@@ -1,21 +1,21 @@
-version: '3.9'
+version: "3.8"
 
 services:
-  postgres-staging:
-    container_name: experiencia-significativa-API-staging
+  # 🌐 API principal - STAGING
+  Exp-api-staging:
+    container_name: experiencia-api-staging
     build:
-      context: ../..      
-      dockerfile: Dockerfile 
+      context: ../..
+      dockerfile: API/Dockerfile
     restart: always
     env_file:
       - .env.staging
     ports:
-      - "5002:5000"
+      - "5102:8080"
     networks:
       - network_experiencesig
-
     labels:
-      - com.experienciasig.environment=staging
+      - com.gescomph.environment=staging
 
 networks:
   network_experiencesig:
