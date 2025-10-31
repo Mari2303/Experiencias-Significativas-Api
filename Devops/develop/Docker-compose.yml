@@ -5,7 +5,7 @@ services:
     container_name: experiencia-significativa-postgres-develop
     build:
       context: ../..
-      dockerfile: Dockerfile  
+      dockerfile: API/Dockerfile  
     restart: always
     env_file:
       - .env.dev
