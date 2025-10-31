@@ -10,7 +10,7 @@ services:
     env_file:
       - .env.staging
     ports:
-      - "5434:5432"
+      - "5002:5000"
     networks:
       - network_experiencesig
 
