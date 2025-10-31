@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="MigrationsPostgres\**" />
     <Compile Remove="Migrations\**" />
-    <EmbeddedResource Remove="MigrationsPostgres\**" />
     <EmbeddedResource Remove="Migrations\**" />
-    <None Remove="MigrationsPostgres\**" />
     <None Remove="Migrations\**" />
   </ItemGroup>
 
@@ -34,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MigrationsSqlServer\" />
+    <Folder Include="MigrationsPostgres\" />
   </ItemGroup>
 
 </Project>
