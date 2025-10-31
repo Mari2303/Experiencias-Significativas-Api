@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   postgres-develop:
-    container_name: experiencia-significativa-postgres-develop
+    container_name: experiencia-significativa-API-develop
     build:
       context: ../..
       dockerfile: API/Dockerfile  
