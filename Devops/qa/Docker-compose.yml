@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   # 🌐 API principal - QA
-  Exp-api-qa:
+  exp-api-qa:
     container_name: experiencia-api-qa
     build:
       context: ../..
