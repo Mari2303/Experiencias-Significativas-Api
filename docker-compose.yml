@@ -1,0 +1,114 @@
+version: "3.8"
+
+services:
+  # 🐘 PostgreSQL - DEVELOP
+  maria-experiencia-postgres-develop:
+    image: postgres:16
+    container_name: maria-experiencia-postgres-develop
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Admin123!
+      POSTGRES_DB: backend_develop
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data_develop:/var/lib/postgresql/data
+      - ./backups/develop:/backups/postgres
+    networks:
+      - network_experiencesig
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    labels:
+      - com.maria-experiencia.group=experiencia
+      - com.maria-experiencia.environment=develop
+
+  # 🐘 PostgreSQL - QA
+  maria-experiencia-postgres-qa:
+    image: postgres:16
+    container_name: maria-experiencia-postgres-qa
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Admin123!
+      POSTGRES_DB: backend_qa
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres_data_qa:/var/lib/postgresql/data
+      - ./backups/qa:/backups/postgres
+    networks:
+      - network_experiencesig
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    labels:
+      - com.maria-experiencia.group=experiencia
+      - com.maria-experiencia.environment=qa
+
+  # 🐘 PostgreSQL - STAGING
+  maria-experiencia-postgres-staging:
+    image: postgres:16
+    container_name: maria-experiencia-postgres-staging
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Admin123!
+      POSTGRES_DB: backend_staging
+    ports:
+      - "5437:5432"
+    volumes:
+      - postgres_data_staging:/var/lib/postgresql/data
+      - ./backups/staging:/backups/postgres
+    networks:
+      - network_experiencesig
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    labels:
+      - com.maria-experiencia.group=experiencia
+      - com.maria-experiencia.environment=staging
+
+  # 🐘 PostgreSQL - PROD
+  maria-experiencia-postgres-prod:
+    image: postgres:16
+    container_name: maria-experiencia-postgres-prod
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Admin123!
+      POSTGRES_DB: backend_prod
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+      - ./backups/prod:/backups/postgres
+    networks:
+      - network_experiencesig
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    labels:
+      - com.maria-experiencia.group=experiencia
+      - com.maria-experiencia.environment=prod
+
+volumes:
+  postgres_data_develop:
+  postgres_data_qa:
+  postgres_data_staging:
+  postgres_data_prod:
+
+networks:
+ network_experiencesig:
+    name: network_experiencesig
+    driver: bridge
+    external: false
