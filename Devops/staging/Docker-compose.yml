@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   # 🌐 API principal - STAGING
-  Exp-api-staging:
+  exp-api-staging:
     container_name: experiencia-api-staging
     build:
       context: ../..
