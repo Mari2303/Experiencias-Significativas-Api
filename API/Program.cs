@@ -103,13 +103,13 @@ using (var scope = app.Services.CreateScope())
     sqlServerContext.Database.Migrate();
 
     // Si deseas aplicar también las migraciones de otros motores, descomenta:
-    /*
+    
     var postgresContext = scope.ServiceProvider.GetRequiredService<ApplicationContextPostgres>();
     postgresContext.Database.Migrate();
 
     var mySqlContext = scope.ServiceProvider.GetRequiredService<ApplicationContextMySQL>();
     mySqlContext.Database.Migrate();
-    */
+    
 }
 
 
