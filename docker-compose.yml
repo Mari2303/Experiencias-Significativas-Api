@@ -17,14 +17,8 @@ services:
       - ./backups/develop:/backups/postgres
     networks:
       - network_experiencesig
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    labels:
-      - com.maria-experiencia.group=experiencia
-      - com.maria-experiencia.environment=develop
+    
+   
 
   # 🐘 PostgreSQL - QA
   maria-experiencia-postgres-qa:
@@ -42,14 +36,8 @@ services:
       - ./backups/qa:/backups/postgres
     networks:
       - network_experiencesig
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    labels:
-      - com.maria-experiencia.group=experiencia
-      - com.maria-experiencia.environment=qa
+   
+    
 
   # 🐘 PostgreSQL - STAGING
   maria-experiencia-postgres-staging:
@@ -67,14 +55,8 @@ services:
       - ./backups/staging:/backups/postgres
     networks:
       - network_experiencesig
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    labels:
-      - com.maria-experiencia.group=experiencia
-      - com.maria-experiencia.environment=staging
+  
+ 
 
   # 🐘 PostgreSQL - PROD
   maria-experiencia-postgres-prod:
@@ -92,14 +74,8 @@ services:
       - ./backups/prod:/backups/postgres
     networks:
       - network_experiencesig
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    labels:
-      - com.maria-experiencia.group=experiencia
-      - com.maria-experiencia.environment=prod
+  
+    
 
 volumes:
   postgres_data_develop:
