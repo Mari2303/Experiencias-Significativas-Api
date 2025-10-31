@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   postgres-qa:
-    container_name: experiencia-significativa-postgres-qa
+    container_name: experiencia-significativa-API-qa
     build:
       context: ../..     
       dockerfile: Dockerfile 
