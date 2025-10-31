@@ -12,23 +12,14 @@ services:
     ports:
       - "5436:5432"
     networks:
-      - network_develop
-    volumes:
-      - postgres_data_develop:/var/lib/postgresql/data
-      - "./backups/dev:/backups/postgres"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+      - network_experiencesig
+ 
     labels:
-      - com.experienciasig.group=experienciasig
       - com.experienciasig.environment=develop
 
 networks:
-  network_develop:
-    driver: bridge
+  network_experiencesig:
+    external: true
 
-volumes:
-  postgres_data_develop:
+
 

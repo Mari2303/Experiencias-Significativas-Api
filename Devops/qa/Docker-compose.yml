@@ -12,22 +12,13 @@ services:
     ports:
       - "5433:5432"
     networks:
-      - network_qa
-    volumes:
-      - postgres_data_qa:/var/lib/postgresql/data
-      - "./backups/qa:/backups/postgres"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+      - network_experiencesig
+   
     labels:
-      - com.experienciasig.group=experienciasig
       - com.experienciasig.environment=qa
 
 networks:
-  network_qa:
-    driver: bridge
+ network_experiencesig:
+    external: true
 
-volumes:
-  postgres_data_qa:
+
