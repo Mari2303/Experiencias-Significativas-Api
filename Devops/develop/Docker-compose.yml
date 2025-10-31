@@ -10,7 +10,7 @@ services:
     env_file:
       - .env.dev
     ports:
-      - "5436:5432"
+      - "5000:5000"
     networks:
       - network_experiencesig
  
