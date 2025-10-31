@@ -1,21 +1,23 @@
-version: '3.9'
+version: '3.8'
 
 services:
-  postgres-qa:
-    container_name: experiencia-significativa-API-qa
+  # 🌐 API principal - QA
+  Exp-api-qa:
+    container_name: experiencia-api-qa
     build:
-      context: ../..     
-      dockerfile: Dockerfile 
+      context: ../..
+      dockerfile: API/Dockerfile
     restart: always
     env_file:
       - .env.qa
     ports:
-      - "5001:5000"
+      - "5101:8080"
     networks:
       - network_experiencesig
-   
     labels:
-      - com.experienciasig.environment=qa
+      - com.experiencia.environment=qa
+
+
 
 networks:
  network_experiencesig:
