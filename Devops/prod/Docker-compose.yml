@@ -1,25 +1,27 @@
-version: '3.9'
+version: "3.8"
 
 services:
-  postgres-prod:
-    container_name: experiencia-significativa-API-prod
+  # 🌐 API principal - PROD
+  Exp-api-prod:
+    container_name: experiencia-api-prod
     build:
-      context: ../..     
-      dockerfile: Dockerfile 
+      context: ../..
+      dockerfile: API/Dockerfile
     restart: always
     env_file:
       - .env.prod
     ports:
-      - "5003:5000"
+      - "5103:8080"
     networks:
-      - network_experiencesig
-   
-   
+      -  network_experiencesig
     labels:
-      - com.experienciasig.environment=prod
+      - com.gescomph.environment=prod
+
+volumes:
+  sqldata_prod:
 
 networks:
-  network_experiencesig: 
+  network_experiencesig:
     external: true
 
 
