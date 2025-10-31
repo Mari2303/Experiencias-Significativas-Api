@@ -24,37 +24,38 @@ pipeline {
         // =======================================================
         // 2️⃣ DETECTAR ENTORNO SEGÚN RAMA
         // =======================================================
-        stage('Detectar entorno') {
-            steps {
-                script {
-                    def branch = env.GIT_BRANCH?.replace('origin/', '')
-                    echo """
+ stage('Detectar entorno') {
+    steps {
+        script {
+            def branch = env.GIT_BRANCH?.replace('origin/', '')?.trim()
+            echo "✅ Rama detectada: ${branch}"
 
-                    ✅ Rama detectada: ${branch}
-                    """
-
-                    if (branch == "dev") {
-                        env.ENVIRONMENT = "develop"
-                    } else if (branch == "qa") {
-                        env.ENVIRONMENT = "qa"
-                    } else if (branch == "staging") {
-                        env.ENVIRONMENT = "staging"
-                    } else {
-                        env.ENVIRONMENT = "prod"
-                    }
-
-                    env.COMPOSE_FILE = "Devops/${env.ENVIRONMENT}/Docker-compose.yml"
-                  env.ENV_FILE = "Devops/${env.ENVIRONMENT}/.env.${env.ENVIRONMENT}"
-
-                    env.DB_COMPOSE_FILE = "docker-compose.yml"
-                    echo """
-                    🌎 Entorno asignado: ${env.ENVIRONMENT}
-                    📄 Compose file: ${env.COMPOSE_FILE}
-                    📁 Env file: ${env.ENV_FILE}
-                    """
-                }
+            // Asignar entorno según la rama
+            if (branch == "develop" || branch == "dev") {
+                env.ENVIRONMENT = "develop"
+            } else if (branch == "qa") {
+                env.ENVIRONMENT = "qa"
+            } else if (branch == "staging") {
+                env.ENVIRONMENT = "staging"
+            } else if (branch == "prod" || branch == "main") {
+                env.ENVIRONMENT = "prod"
+            } else {
+                error("❌ Rama no reconocida: ${branch}")
             }
+
+            env.COMPOSE_FILE = "Devops/${env.ENVIRONMENT}/Docker-compose.yml"
+            env.ENV_FILE = "Devops/${env.ENVIRONMENT}/.env.${env.ENVIRONMENT}"
+            env.DB_COMPOSE_FILE = "docker-compose.yml"
+
+            echo """
+            🌎 Entorno asignado: ${env.ENVIRONMENT}
+            📄 Compose file: ${env.COMPOSE_FILE}
+            📁 Env file: ${env.ENV_FILE}
+            """
         }
+    }
+}
+
 
         // =======================================================
         //  COMPILAR .NET EN CONTENEDOR
@@ -104,6 +105,19 @@ pipeline {
                 }
             }
         }
+
+        stage('Limpiar contenedores anteriores') {
+    steps {
+        script {
+            echo "🧹 Eliminando contenedores antiguos del entorno ${env.ENVIRONMENT}..."
+            sh '''
+                docker compose -f ${DB_COMPOSE_FILE} down --remove-orphans || true
+                docker compose -f ${COMPOSE_FILE} down --remove-orphans || true
+            '''
+        }
+    }
+}
+
 
         // =======================================================
         // DESPLEGAR CON DOCKER COMPOSE
