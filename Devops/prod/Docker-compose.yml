@@ -4,8 +4,8 @@ services:
   postgres-prod:
     container_name: experiencia-significativa-postgres-prod
     build:
-      context: ../../API       
-      dockerfile: ../../API/Dockerfile 
+      context: ../..     
+      dockerfile: Dockerfile 
     restart: always
     env_file:
       - .env.prod

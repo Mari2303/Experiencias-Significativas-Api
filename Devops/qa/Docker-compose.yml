@@ -4,8 +4,8 @@ services:
   postgres-qa:
     container_name: experiencia-significativa-postgres-qa
     build:
-      context: ../../API       
-      dockerfile: ../../API/Dockerfile 
+      context: ../..     
+      dockerfile: Dockerfile 
     restart: always
     env_file:
       - .env.qa
