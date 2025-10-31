@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   # 🌐 API principal - PROD
-  Exp-api-prod:
+  exp-api-prod:
     container_name: experiencia-api-prod
     build:
       context: ../..

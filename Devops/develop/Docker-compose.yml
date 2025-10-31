@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   # 🌐 API principal - DEVELOP
-  Exp-api-develop:
+  exp-api-develop:
     container_name: experiencia-api-develop
     build:
       context: ../..
