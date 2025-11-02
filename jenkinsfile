@@ -5,6 +5,7 @@ pipeline {
         DOTNET_CLI_HOME = '/var/jenkins_home/.dotnet'
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE = '1'
         DOTNET_NOLOGO = '1'
+
     }
 
     stages {
@@ -16,102 +17,145 @@ pipeline {
             steps {
                 echo "📥 Clonando repositorio desde GitHub..."
                 checkout scm
-                sh 'ls -R Devops || true'
+                sh 'ls -R Devops'
             }
         }
 
         // =======================================================
-        // 2️⃣ DETECTAR ENTORNO SEGÚN LA RAMA
+        // 2️⃣ DETECTAR ENTORNO SEGÚN RAMA
         // =======================================================
-        stage('Detectar entorno') {
-            steps {
-                script {
-                    switch (env.BRANCH_NAME) {
-                        case 'main':
-                            env.ENVIRONMENT = 'prod'
-                            break
-                        case 'staging':
-                            env.ENVIRONMENT = 'staging'
-                            break
-                        case 'qa':
-                            env.ENVIRONMENT = 'qa'
-                            break
-                        default:
-                            env.ENVIRONMENT = 'develop'
-                            break
-                    }
+ stage('Detectar entorno') {
+    steps {
+        script {
+            def branch = env.GIT_BRANCH?.replace('origin/', '')?.trim()
+            echo "✅ Rama detectada: ${branch}"
 
-                    env.ENV_DIR      = "Devops/${env.ENVIRONMENT}"
-                    env.COMPOSE_FILE = "${env.ENV_DIR}/docker-compose.yml"
-                    env.ENV_FILE     = "${env.ENV_DIR}/.env"
-
-                    echo """
-                    ✅ Rama detectada: ${env.BRANCH_NAME}
-                    🌎 Entorno asignado: ${env.ENVIRONMENT}
-                    📄 Compose file: ${env.COMPOSE_FILE}
-                    📁 Env file: ${env.ENV_FILE}
-                    """
-
-                    if (!fileExists(env.COMPOSE_FILE)) {
-                        error "❌ No se encontró ${env.COMPOSE_FILE}"
-                    }
-                }
+            // Asignar entorno según la rama
+            if (branch == "develop" || branch == "dev") {
+                env.ENVIRONMENT = "develop"
+            } else if (branch == "qa") {
+                env.ENVIRONMENT = "qa"
+            } else if (branch == "staging") {
+                env.ENVIRONMENT = "staging"
+            } else if (branch == "prod" || branch == "main") {
+                env.ENVIRONMENT = "prod"
+            } else {
+                error("❌ Rama no reconocida: ${branch}")
             }
+
+            env.COMPOSE_FILE = "Devops/${env.ENVIRONMENT}/Docker-compose.yml"
+            env.ENV_FILE = "Devops/${env.ENVIRONMENT}/.env.${env.ENVIRONMENT}"
+            env.DB_COMPOSE_FILE = "docker-compose.yml"
+
+            echo """
+            🌎 Entorno asignado: ${env.ENVIRONMENT}
+            📄 Compose file: ${env.COMPOSE_FILE}
+            📁 Env file: ${env.ENV_FILE}
+            """
         }
+    }
+}
+
 
         // =======================================================
-        // 3️⃣ COMPILAR Y PUBLICAR .NET
+        //  COMPILAR .NET EN CONTENEDOR
         // =======================================================
         stage('Compilar .NET dentro de contenedor SDK') {
-            steps {
-                script {
-                    docker.image('mcr.microsoft.com/dotnet/sdk:9.0')
-                        .inside('-v /var/run/docker.sock:/var/run/docker.sock -u root:root') {
-                        sh '''
-                            echo "🔧 Restaurando dependencias .NET..."
-                            dotnet restore API/API.csproj
-                            dotnet build API/API.csproj --configuration Release
-                            dotnet publish API/API.csproj -c Release -o ./publish
-                        '''
-                    }
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:9.0'    
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
+            }
+            steps {
+                echo "🧱 Compilando proyecto .NET..."
+                sh 'dotnet restore'
+                sh 'dotnet build --configuration Release'
             }
         }
 
         // =======================================================
-        // 4️⃣ CONSTRUIR IMAGEN DOCKER
+        // CONSTRUIR IMAGEN DOCKER
         // =======================================================
         stage('Construir imagen Docker') {
             steps {
-                sh """
-                    echo "🐳 Construyendo imagen Docker para Experiencias Significativas (${env.ENVIRONMENT})"
-                    docker build -t experiencias-significativas-api-${env.ENVIRONMENT}:latest -f API/Dockerfile .
-                """
+                script {
+                    echo "🐳 Construyendo imagen Docker..."
+                    sh """
+                   docker build -t experiencias-api:${env.ENVIRONMENT} -f API/Dockerfile .
+
+                    """
+                }
             }
         }
 
         // =======================================================
-        // 5️⃣ DESPLEGAR CON DOCKER COMPOSE
+        // 5️⃣ PREPARAR RED Y BASES DE DATOS
         // =======================================================
-        stage('Desplegar') {
+        stage('Preparar red y base de datos') {
             steps {
-                sh """
-                    echo "🚀 Desplegando entorno: ${env.ENVIRONMENT}"
-                    docker compose -f ${env.COMPOSE_FILE} --env-file ${env.ENV_FILE} up -d --build
-                """
+                script {
+                    sh """
+                        echo "🌐 Creando red externa compartida (si no existe)..."
+                        docker network create network_experiencesig || true
+
+                        echo "🗄️ Levantando stack de bases de datos..."
+                        docker compose -f ${env.DB_COMPOSE_FILE} up -d
+                    """
+                }
+            }
+        }
+
+        stage('Limpiar contenedores anteriores') {
+    steps {
+        script {
+            echo "🧹 Eliminando contenedores antiguos del entorno ${env.ENVIRONMENT}..."
+            sh '''
+                docker compose -f ${DB_COMPOSE_FILE} down --remove-orphans || true
+                docker compose -f ${COMPOSE_FILE} down --remove-orphans || true
+            '''
+        }
+    }
+}
+
+
+        // =======================================================
+        // DESPLEGAR CON DOCKER COMPOSE
+        // =======================================================
+   stage('Desplegar') {
+    steps {
+        script {
+            echo "🚀 Desplegando entorno ${env.ENVIRONMENT}..."
+
+            def envFile = ""
+            if (env.ENVIRONMENT == "develop") {
+                envFile = ".env.dev"
+            } else if (env.ENVIRONMENT == "qa") {
+                envFile = ".env.qa"
+            } else if (env.ENVIRONMENT == "staging") {
+                envFile = ".env.staging"
+            } else if (env.ENVIRONMENT == "prod") {
+                envFile = ".env.prod"
+            }
+
+            sh """
+              cd Devops/${env.ENVIRONMENT}
+              docker compose -f Docker-compose.yml --env-file ${envFile} up -d --build
+            """
+                }
             }
         }
     }
 
     post {
-        success {
-            echo "🎉 Despliegue completado correctamente para ${env.ENVIRONMENT}"
+        always {
+            echo "🧹 Limpieza final del pipeline completada."
         }
         failure {
             echo "💥 Error durante el despliegue en ${env.ENVIRONMENT}"
         }
-        always {
-            echo "🧹 Limpieza final del pipeline completada."
+        success {
+            echo "✅ Despliegue exitoso en ${env.ENVIRONMENT}"
         }
     }
 }
