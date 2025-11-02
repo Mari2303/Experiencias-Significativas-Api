@@ -27,7 +27,7 @@ namespace Service.Interfaces
         Task SendRecoveryCodeAsync(string email);
         Task ResetPasswordAsync(string email, string code, string newPassword);
 
-
+        Task<UserDTO> ActivateAccountAsync(int userId);
 
 
     }

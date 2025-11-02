@@ -1,12 +1,16 @@
 ﻿using API;
-using Microsoft.EntityFrameworkCore;
 using Entity.Context;
-using System.Text.Json.Serialization;
-using Utilities.JwtAuthentication;
-using Service.Implementations;
-using Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using QuestPDF.Infrastructure;
 using Repository.Implementations;
 using Repository.Interfaces;
+using Service.Implementations;
+using Service.Interfaces;
+using System.Text.Json.Serialization;
+using Utilities.Email.Implement;
+using Utilities.Email.Interfaces;
+using Utilities.JwtAuthentication;
+
 
 
 
@@ -75,6 +79,12 @@ MapperExtension.ConfigureAutoMapper(builder.Services);
 
 builder.Services.AddTransient<Utilities.Email.Interfaces.IEmailService, Utilities.Email.Implements.EmailService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IBrevoEmailService, BrevoEmailService>();
+
+
+builder.Services.AddScoped<AccountNotificationService>();
+
+
 
 
 // CONFIGURACIÓN DE CORS (permite acceso desde frontend)
@@ -102,13 +112,13 @@ using (var scope = app.Services.CreateScope())
     sqlServerContext.Database.Migrate();
 
     // Si deseas aplicar también las migraciones de otros motores, descomenta:
-    /*
+    
     var postgresContext = scope.ServiceProvider.GetRequiredService<ApplicationContextPostgres>();
     postgresContext.Database.Migrate();
 
-    var mySqlContext = scope.ServiceProvider.GetRequiredService<ApplicationContextMySQL>();
-    mySqlContext.Database.Migrate();
-    */
+//    var mySqlContext = scope.ServiceProvider.GetRequiredService<ApplicationContextMySQL>();
+  //  mySqlContext.Database.Migrate();
+    
 }
 
 

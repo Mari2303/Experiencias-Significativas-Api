@@ -5,7 +5,7 @@ using Entity.Requests.EntityDetailRequest;
 using Entity.Requests.ModuleOperation;
 using Repository.Interfaces.IModuleOperationRepository;
 using Service.Interfaces.ModelOperationService;
-using Services.Pdf;
+using Utilities.Pdf;
 
 namespace Service.Implementations.ModelOperationService
 {

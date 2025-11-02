@@ -18,7 +18,7 @@ namespace Service.Implementations
         public JwtAuthenticationService(IJwtAuthentication jwtAuthentication)
         {
             _jwtAuthentication = jwtAuthentication;
-            _jwtAuthentication = jwtAuthentication; // ⚠️ Línea duplicada, no es necesaria.
+           
         }
 
         /// <summary>

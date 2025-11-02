@@ -12,7 +12,7 @@
         /// <summary>
         /// Indicates if the entity is currently active in the system
         /// </summary>
-    //    public bool State { get; set; }
+       public bool State { get; set; }
         /// <summary>
         /// Date and time when the entity was created
         /// </summary>

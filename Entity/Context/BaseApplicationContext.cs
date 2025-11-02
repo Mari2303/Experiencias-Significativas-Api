@@ -197,10 +197,9 @@ namespace Entity.Context
         public ApplicationContextPostgres(DbContextOptions<ApplicationContextPostgres> options, IConfiguration configuration)
             : base(options, configuration) { }
     }
-/*
     public class ApplicationContextMySQL : BaseApplicationContext
     {
         public ApplicationContextMySQL(DbContextOptions<ApplicationContextMySQL> options, IConfiguration configuration)
             : base(options, configuration) { }
-    } */
+    } 
 }

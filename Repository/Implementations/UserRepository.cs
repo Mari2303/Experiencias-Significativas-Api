@@ -233,6 +233,24 @@ namespace Repository.Implementations
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
+
+
+        public async Task<User?> GetByIdAsync(int id)
+        {
+            return await _context.Users
+                .AsNoTracking()               // 👈 Esto evita el tracking
+                .Include(u => u.Person)
+                .FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+
+
+
+
+
+
+
+
     }
 }
 
