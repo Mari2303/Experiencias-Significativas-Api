@@ -119,5 +119,15 @@ namespace Repository.Implementations
                 throw;
             }
         }
+
+
+        public async Task<User?> GetByIdAsync(int id)
+        {
+            return await _context.Users
+                .Include(u => u.Person) // Para poder acceder al correo
+                .FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+
     }
 }

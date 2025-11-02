@@ -75,6 +75,30 @@ namespace API.Controllers
             return Ok("Contraseña actualizada correctamente.");
         }
 
+        /// <summary>
+        /// Activa la cuenta de un usuario y envía un correo de notificación.
+        /// </summary>
+        /// <param name="userId">ID del usuario a activar</param>
+        /// <returns>Datos del usuario activado</returns>
+         [Authorize]
+        [HttpPut("activate/{userId}")]
+        public async Task<IActionResult> ActivateAccount(int userId)
+        {
+            try
+            {
+                var result = await _userService.ActivateAccountAsync(userId);
+
+                return Ok(new
+                {
+                    message = "Cuenta activada correctamente. Se ha enviado una notificación al correo asociado.",
+                    user = result
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
 
 
     }
