@@ -66,10 +66,15 @@ namespace Repository.Implementations
                 throw new Exception("El usuario no existe.");
             }
 
+
             if (user.Password.ToUpper() != encodePassword.ToUpper())
             {
                 throw new Exception("Contraseña incorrecta.");
             }
+
+            // ?? Validar estado del usuario (activo/inactivo)
+            if (!user.State)
+                throw new Exception("La cuenta está inactiva. Contacte con el administrador.");
 
             // Generar el token JWT
             var token = _jwtAuthentication.Authenticate(username, encodePassword, roles.FirstOrDefault(), user.Id);

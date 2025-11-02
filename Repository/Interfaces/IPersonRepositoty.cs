@@ -7,6 +7,6 @@ namespace Repository.Interfaces
   
     public interface IPersonRepository : IBaseModelRepository<Person, PersonDTO, PersonRequest>
     {
-       
+        Task<User?> GetByIdAsync(int id);
     }
 }

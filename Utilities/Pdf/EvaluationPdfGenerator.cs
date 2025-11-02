@@ -1,7 +1,7 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
-namespace Services.Pdf
+namespace Utilities.Pdf
 {
     public static class EvaluationPdfGenerator
     {

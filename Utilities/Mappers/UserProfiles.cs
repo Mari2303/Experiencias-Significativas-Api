@@ -27,7 +27,10 @@ namespace Utilities.Mappers
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => _jwtAuthentication.EncryptMD5(src.Password)));
 
             // Mapeo de User a UserDTO
-            CreateMap<User, UserDTO>();
+            CreateMap<User, UserDTO>()
+            .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Person.Email))
+            .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src =>
+                src.Person.FirstName + " " + src.Person.FirstLastName));
 
             // Mapeo de UserRequest a User con cifrado de contraseña
             CreateMap<UserRequest, User>()
