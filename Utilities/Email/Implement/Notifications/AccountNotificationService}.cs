@@ -18,7 +18,7 @@ public class AccountNotificationService
             { "userName", fullName }
         };
 
-        int templateId = 1; // el ID de tu plantilla Brevo
+        int templateId = 1; // el ID de la plantilla de Brevo
 
         await _brevoEmailService.SendEmailAsync(
             to: email,
