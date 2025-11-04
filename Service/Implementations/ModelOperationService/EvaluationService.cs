@@ -2,8 +2,11 @@
 using Entity.Models.ModuleOperation;
 using Entity.Requests.EntityCreateRequest;
 using Entity.Requests.EntityDetailRequest;
+using Entity.Requests.EntityUpdateRequest;
 using Entity.Requests.ModuleOperation;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces.IModuleOperationRepository;
+using Service.Extensions;
 using Service.Interfaces.ModelOperationService;
 using Utilities.Pdf;
 
@@ -21,30 +24,23 @@ namespace Service.Implementations.ModelOperationService
         }
 
 
-
         public async Task<EvaluationDetailRequest> CreateEvaluationAsync(EvaluationCreateRequest request)
         {
-            // 1. Validar que la experiencia exista
             var experience = await _evaluationRepository.GetExperienceWithInstitutionAsync(request.ExperienceId)
                 ?? throw new KeyNotFoundException("La experiencia no existe");
 
-            // 2. Construir evaluación con Builder (suma los scores) y obtener criterios sin EvaluationId
             var builder = new EvaluationBuilder(request)
                 .AddCriteriaScores(request.EvaluationCriteriaDetail);
 
-            var (evaluation, criteriaList) = builder.Build(); // ahora devuelve evaluación y lista de criterios
-
-            // 3. Guardar evaluación para obtener Id generado
+            var (evaluation, criteriaList) = builder.Build();
             evaluation = await _evaluationRepository.AddEvaluationAsync(evaluation);
 
-            // 4. Asignar EvaluationId a cada criterio y guardarlos
             foreach (var c in criteriaList)
             {
-                c.EvaluationId = evaluation.Id; // asignamos Id recién generado
+                c.EvaluationId = evaluation.Id;
                 await _evaluationRepository.AddEvaluationCriteriaAsync(c);
             }
 
-            // 5. Actualizar campos adicionales de Criteria si es necesario
             foreach (var c in request.EvaluationCriteriaDetail)
             {
                 var criteria = await _evaluationRepository.GetCriteriaByIdAsync(c.CriteriaId);
@@ -55,20 +51,49 @@ namespace Service.Implementations.ModelOperationService
                 }
             }
 
-            // 6. Obtener DTO final usando el mapper del repository
-            var evaluationDto = await _evaluationRepository.GetEvaluationDetailAsync(evaluation.Id);
+            return await _evaluationRepository.GetEvaluationDetailAsync(evaluation.Id);
+        }
+
+        // -------------------------------
+        // UPDATE
+        // -------------------------------
+        public async Task<EvaluationDetailRequest> UpdateEvaluationAsync(int evaluationId, EvaluationUpdateRequest request)
+        {
+            // 1️⃣ Obtener entidad desde el repositorio
+            var evaluationEntity = await _evaluationRepository.GetById(evaluationId);
+            if (evaluationEntity == null)
+                throw new KeyNotFoundException("La evaluación no existe.");
+
+            // 2️⃣ Aplicar cambios y recalcular resultado final
+            evaluationEntity.ApplyPatch(request);
+
+            // 3️⃣ Guardar cambios
+            await _evaluationRepository.Update(evaluationEntity);
+
+            // 4️⃣ Retornar DTO actualizado
+            var updated = await _evaluationRepository.GetEvaluationDetailAsync(evaluationId);
+            return updated;
+        }
+
+
+
+        // -------------------------------
+        // PDF (flujo separado)
+        // -------------------------------
+        public async Task<string> GenerateAndAttachPdfAsync(int evaluationId)
+        {
+            var evaluationDto = await _evaluationRepository.GetEvaluationDetailAsync(evaluationId)
+                ?? throw new KeyNotFoundException("La evaluación no existe.");
 
             var pdfBytes = EvaluationPdfGenerator.Generate(
-                    TypeEvaluation: evaluationDto.TypeEvaluation,   
-                    comments: evaluationDto.Comments              
-                );
-            // 7. Subir PDF a Supabase
-                 string pdfUrl = await _storage.UploadEvaluationPdfToSupabase(pdfBytes, evaluation.Id);
+                TypeEvaluation: evaluationDto.TypeEvaluation,
+                comments: evaluationDto.Comments
+            );
 
-            // 8. Guardar URL en la evaluación y actualizar en BD
-            await _evaluationRepository.UpdateEvaluationPdfUrlAsync(evaluation.Id, pdfUrl);
+            string pdfUrl = await _storage.UploadEvaluationPdfToSupabase(pdfBytes, evaluationId);
+            await _evaluationRepository.UpdateEvaluationPdfUrlAsync(evaluationId, pdfUrl);
 
-            return evaluationDto;
+            return pdfUrl;
         }
 
     }
