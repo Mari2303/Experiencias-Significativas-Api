@@ -4,7 +4,7 @@ services:
   # 🗄️ SQL Server - DEVELOP
   exp-sqlserver-develop:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: experiencia-sqlserver-develop-01
+    container_name: experiencia-sqlserver-develop
 
     restart: always
     environment:
