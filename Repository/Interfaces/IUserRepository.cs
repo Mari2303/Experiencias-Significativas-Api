@@ -49,6 +49,9 @@ namespace Repository.Interfaces
         /// </summary>
         /// <param name="user">La entidad de usuario con los datos actualizados.</param>
         Task UpdateAsync(User user);
+
+        
+        Task<User?> GetByIdAsync(int id);
     }
 }
 

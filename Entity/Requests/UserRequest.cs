@@ -16,5 +16,6 @@ namespace Entity.Requests
         public int PersonId { get; set; }
     
         public string? Person { get; set; } = null!;
+        public bool State { get; set; }
     }
 }

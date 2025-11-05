@@ -3,6 +3,7 @@ using Entity.Models;
 using Entity.Requests;
 using Repository.Interfaces;
 using Service.Interfaces;
+using System;
 using Utilities.Email.Interfaces;
 
 namespace Service.Implementations
@@ -13,13 +14,17 @@ namespace Service.Implementations
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IEmailService _emailService;
+        private readonly IPersonRepository _personRepository;
+        private readonly AccountNotificationService _accountNotificationService;
 
 
-        public UserService(IUserRepository userRepository, IRoleRepository roleRepository, IEmailService emailService) : base(userRepository)
+        public UserService(IUserRepository userRepository, IRoleRepository roleRepository, IEmailService emailService, AccountNotificationService accountNotification, IPersonRepository personRepository) : base(userRepository)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _emailService = emailService;
+            _accountNotificationService = accountNotification;
+            _personRepository = personRepository;
         }
 
 
@@ -79,6 +84,10 @@ namespace Service.Implementations
             await _emailService.SendExperiencesEmail(user.Person.Email, code);
         }
 
+
+
+
+
         public async Task ResetPasswordAsync(string email, string code, string newPassword)
         {
             var user = await _userRepository.GetByEmailAsync(email);
@@ -106,7 +115,45 @@ namespace Service.Implementations
 
 
 
+
+
+        public async Task<UserDTO> ActivateAccountAsync(int userId)
+        {
+            //  Obtener el usuario
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+                throw new Exception("Usuario no encontrado.");
+
+            //  Validar si ya está activo
+            if (user.State)
+                throw new Exception("La cuenta ya se encuentra activada.");
+
+            //  Obtener la persona asociada (porque el email está allí)
+            var person = await _personRepository.GetById(user.PersonId);
+            if (person == null)
+                throw new Exception("No se encontró la persona asociada al usuario.");
+
+            // 4 Activar usuario
+            await _userRepository.Restore(userId);
+
+            // Enviar correo con la plantilla Brevo
+            var fullName = $"{person.FirstName} {person.FirstLastName}";
+            await _accountNotificationService.NotifyAccountActivatedAsync(person.Email, fullName);
+
+            // Devolver respuesta limpia
+            return new UserDTO
+            {
+                Id = user.Id,
+                Username = user.Username,
+                State = user.State,
+                Code = user.Code
+            };
+        }
+
+
     }
+
 }
+
 
 

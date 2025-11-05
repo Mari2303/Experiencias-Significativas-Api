@@ -5,6 +5,7 @@ using Entity.Requests;
 using Microsoft.IdentityModel.Tokens.Experimental;
 using Repository.Interfaces;
 using Service.Interfaces;
+using Utilities.Email.Interfaces;
 using Utilities.Helper.Implementation;
 
 namespace Service.Implementations
@@ -16,13 +17,15 @@ namespace Service.Implementations
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailService _emailService;
 
-        public PersonService(IPersonRepository personRepository, IUserRepository userRepository, IRoleRepository roleRepository, IUnitOfWork unitOfWork) : base(personRepository)
+        public PersonService(IPersonRepository personRepository, IUserRepository userRepository, IRoleRepository roleRepository, IUnitOfWork unitOfWork, IEmailService emailService) : base(personRepository)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
 
 
@@ -64,7 +67,7 @@ namespace Service.Implementations
                     Username = request.Username,
                     Password = EncryptMD5(request.Password),
                     PersonId = savedPerson.Id,
-                    State = true,
+                    State = false,
                     CreatedAt = DateTime.UtcNow,
                     UserRoles = new List<UserRole>()
                 };
@@ -94,6 +97,17 @@ namespace Service.Implementations
                 throw;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
 
 
         private string EncryptMD5(string input)

@@ -226,15 +226,15 @@ namespace Repository.Implementations
         /// <returns>Una tarea que representa la operación asincrónica.</returns>
         public override async Task Restore(int id)
         {
-            T entity = await GetById(id);
+            T userId = await GetById(id);
 
-            if (entity == null)
+            if (userId == null)
                 throw new Exception("Entidad no encontrada");
 
-            entity.DeletedAt = null;  // Se limpia la fecha de eliminación
-            entity.State = true;      // Se vuelve a marcar como activa
+            userId.DeletedAt = null;  // Se limpia la fecha de eliminación
+            userId.State = true;      // Se vuelve a marcar como activa
 
-            await Update(entity);
+            await Update(userId);
         }
     }
 }
