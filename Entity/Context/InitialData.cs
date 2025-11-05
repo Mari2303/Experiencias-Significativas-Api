@@ -64,8 +64,8 @@ namespace Entity.Context
                 MiddleName = "CARLOS",
                 FirstLastName = "PEREZ",
                 SecondLastName = "GOMEZ",
-                Email = "juan.perez@correo.com",
-                EmailInstitutional = "juan_perez@soy.sena.com",
+                Email = "catalina2005cometa@gmail.com",
+                EmailInstitutional = "catalina@soy.sena.com",
                 CodeDane = "441001004840",
                 CreatedAt = currentDate,
                 Phone = 3123456789,
@@ -138,7 +138,16 @@ namespace Entity.Context
                 CreatedAt = currentDate,
                 DeletedAt = null!
             };
-            modelBuilder.Entity<Module>().HasData(moduleSecurity, moduleOperational);
+            var moduleParameter = new Module()
+            {
+                Id = 3,
+                Name = "Parametrización",
+                Description = "El módulo de parametrización gestiona los formularios que controlan el comportamiento general del sistema.",
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+            modelBuilder.Entity<Module>().HasData(moduleSecurity, moduleOperational, moduleParameter);
 
             // Forms
             var formInicio = new Form()
@@ -303,8 +312,74 @@ namespace Entity.Context
                 DeletedAt = null!
             };
 
+            var formCriteria = new Form()
+            {
+                Id = 14,
+                Name = "Asignación de Criterios",
+                Path = "criteria",
+                Description = "Formulario de Criterios",
+                Icon = "fa-solid fa-window-restore",
+                Order = 14,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
 
-            modelBuilder.Entity<Form>().HasData(formInicio, formExperiencia, formEvaluacion, formRoles, formUsers, formPersons, formSeguimiento, forms, formModules, formPermissions, formUsersRol, formFormModule, formRolFormPermission);
+            var formGrade = new Form()
+            {
+                Id = 15,
+                Name = "Asignación de Grados",
+                Path = "grade",
+                Description = "Formulario de Grados",
+                Icon = "fa-solid fa-window-restore",
+                Order = 15,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+
+            var formLineThematic = new Form()
+            {
+                Id = 16,
+                Name = "Asignación de Líneas Temáticas",
+                Path = "lineThematic",
+                Description = "Formulario de Líenas Temáticas",
+                Icon = "fa-solid fa-window-restore",
+                Order = 16,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+
+            var formPopulationGrade = new Form()
+            {
+                Id = 17,
+                Name = "Asignación de Grupo Poblacional",
+                Path = "populationGrade",
+                Description = "Formulario de grupo poblacional",
+                Icon = "fa-solid fa-window-restore",
+                Order = 17,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+
+            var formState = new Form
+            {
+                Id = 18,
+                Name = "Asignación de Estado",
+                Path = "state",
+                Description = "Formulario del estado",
+                Icon = "fa-solid fa-window-restore",
+                Order = 18,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+
+
+            modelBuilder.Entity<Form>().HasData(formInicio, formExperiencia, formEvaluacion, formRoles, formUsers, formPersons, formSeguimiento, forms, formModules,
+                formPermissions, formUsersRol, formFormModule, formRolFormPermission, formCriteria, formGrade, formLineThematic, formPopulationGrade, formState);
 
             // Form - Modules
             var formModuleInicio = new FormModule()
@@ -426,7 +501,55 @@ namespace Entity.Context
                 CreatedAt = currentDate,
                 DeletedAt = null!
             };
-            modelBuilder.Entity<FormModule>().HasData(formModuleInicio, formModuleExperiencia, formModuleEvaluacion, formModuleRoles, formModuleUsers, formModulePersons, formModuleSeguimiento, formModulePermissions, formModuleForms, formModuleModules, formModuleUsersRol, formModuleFormModule, formModuleRolFormPermissions);
+
+            var formModuleCriteria = new FormModule()
+            {
+                Id = 14,
+                FormId = 14,
+                ModuleId = 3,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+            var formModuleGrade = new FormModule()
+            {
+                Id = 15,
+                FormId = 15,
+                ModuleId = 3,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+            var formModuleLineThematic = new FormModule()
+            {
+                Id = 16,
+                FormId = 16,
+                ModuleId = 3,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+            var formModulePopulationGrade = new FormModule()
+            {
+                Id = 17,
+                FormId = 17,
+                ModuleId = 3,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+            var formModuleState = new FormModule()
+            {
+                Id = 18,
+                FormId = 18,
+                ModuleId = 3,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+            modelBuilder.Entity<FormModule>().HasData(formModuleInicio, formModuleExperiencia, formModuleEvaluacion, formModuleRoles, formModuleUsers, formModulePersons,
+                formModuleSeguimiento, formModulePermissions, formModuleForms, formModuleModules, formModuleUsersRol, formModuleFormModule, formModuleRolFormPermissions,
+                formModuleCriteria, formModuleGrade, formModuleLineThematic, formModulePopulationGrade, formModuleState);
 
             // Permission
             var permissionReadWrite = new Permission()
@@ -587,6 +710,61 @@ namespace Entity.Context
                 PermissionId = 1,
             };
 
+            var RoleFormPermissionCriteria = new RoleFormPermission()
+            {
+                Id = 16,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!,
+                RoleId = 1,
+                FormId = 14,
+                PermissionId = 1,
+            };
+
+            var RoleFormPermissionGrade = new RoleFormPermission()
+            {
+                Id = 17,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!,
+                RoleId = 1,
+                FormId = 15,
+                PermissionId = 1,
+            };
+
+            var RoleFormPermissionLineThematic = new RoleFormPermission()
+            {
+                Id = 18,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!,
+                RoleId = 1,
+                FormId = 16,
+                PermissionId = 1,
+            };
+
+            var RoleFormPermissionPopulationGrade = new RoleFormPermission()
+            {
+                Id = 19,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!,
+                RoleId = 1,
+                FormId = 17,
+                PermissionId = 1,
+            };
+
+            var RoleFormPermissionState = new RoleFormPermission()
+            {
+                Id = 20,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!,
+                RoleId = 1,
+                FormId = 18,
+                PermissionId = 1,
+            };
+
 
             // Roles - Forms - Permissions (PROFESOR: solo Inicio y Experiencia)
             var RoleFormPermissionTeacherInicio = new RoleFormPermission()
@@ -629,7 +807,12 @@ namespace Entity.Context
       RoleFormPermissionTeacherExperiencia,
       RoleFormPermissionUsersRol,
       RoleFormPermissionFormModule,
-      RoleFormPermissionRolFormPermission
+      RoleFormPermissionRolFormPermission,
+      RoleFormPermissionCriteria,
+      RoleFormPermissionGrade,
+      RoleFormPermissionLineThematic,
+      RoleFormPermissionPopulationGrade,
+      RoleFormPermissionState
   );
 
         }
