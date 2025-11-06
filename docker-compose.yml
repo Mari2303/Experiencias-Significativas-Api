@@ -1,8 +1,10 @@
+version: "3.8"
+
 services:
   # 🗄️ SQL Server - DEVELOP
   exp-sqlserver-develop:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: exp-sqlserver-develop-db
+    container_name: exp-sqlserver-develop
     restart: always
     environment:
       ACCEPT_EULA: "Y"
@@ -14,14 +16,11 @@ services:
       - sqldata_develop:/var/opt/mssql
     networks:
       - network_experiencesig
-    
-   
 
   # 🗄️ SQL Server - QA
   exp-sqlserver-qa:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: exp-sqlserver-qa-db
-    
+    container_name: exp-sqlserver-qa
     restart: always
     environment:
       ACCEPT_EULA: "Y"
@@ -33,13 +32,11 @@ services:
       - sqldata_qa:/var/opt/mssql
     networks:
       - network_experiencesig
-   
-    
 
   # 🗄️ SQL Server - STAGING
   exp-sqlserver-staging:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: exp-sqlserver-staging-db
+    container_name: exp-sqlserver-staging
     restart: always
     environment:
       ACCEPT_EULA: "Y"
@@ -51,13 +48,11 @@ services:
       - sqldata_staging:/var/opt/mssql
     networks:
       - network_experiencesig
-  
- 
 
-   # 🗄️ SQL Server - PROD
+  # 🗄️ SQL Server - PROD
   exp-sqlserver-prod:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: exp-sqlserver-prod-db
+    container_name: exp-sqlserver-prod
     restart: always
     environment:
       ACCEPT_EULA: "Y"
@@ -69,8 +64,6 @@ services:
       - sqldata_prod:/var/opt/mssql
     networks:
       - network_experiencesig
-  
-    
 
 volumes:
   sqldata_develop:
@@ -82,5 +75,4 @@ networks:
   network_experiencesig:
     name: network_experiencesig
     driver: bridge
-    external: false
-
+    external: true
