@@ -58,6 +58,10 @@ namespace Service.Implementations
 
 
 
+
+
+
+
         public async Task SendRecoveryCodeAsync(string email)
         {
             var user = await _userRepository.GetByEmailAsync(email);
@@ -93,6 +97,8 @@ namespace Service.Implementations
             // Validar código y expiración
             if (user.RecoveryCode != code || user.RecoveryCodeExpiration == null || user.RecoveryCodeExpiration < DateTime.UtcNow)
                 throw new Exception("Código inválido o expirado");
+
+
 
             // Encriptar la contraseña con MD5
             user.Password = EncryptMD5(newPassword);
