@@ -9,13 +9,11 @@ services:
       dockerfile: API/Dockerfile
     restart: always
     env_file:
-      - .env.develop
+      - .env.dev
     ports:
       - "5100:8080"
     networks:
       - network_experiencesig
-    depends_on:
-      - exp-sqlserver-develop
     labels:
       - com.exp.environment=develop
 
