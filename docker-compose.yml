@@ -4,8 +4,7 @@ services:
   # 🗄️ SQL Server - DEVELOP
   exp-sqlserver-develop:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    
-
+    container_name: exp-sqlserver-develop-db
     restart: always
     environment:
       ACCEPT_EULA: "Y"
@@ -23,7 +22,8 @@ services:
   # 🗄️ SQL Server - QA
   exp-sqlserver-qa:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: experiencia-sqlserver-qa-01
+    container_name: exp-sqlserver-qa-db
+    
     restart: always
     environment:
       ACCEPT_EULA: "Y"
@@ -41,7 +41,7 @@ services:
   # 🗄️ SQL Server - STAGING
   exp-sqlserver-staging:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: experiencia-sqlserver-staging-01
+    container_name: exp-sqlserver-staging-db
     restart: always
     environment:
       ACCEPT_EULA: "Y"
@@ -59,7 +59,7 @@ services:
    # 🗄️ SQL Server - PROD
   exp-sqlserver-prod:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: experiencia-sqlserver-prod-01
+    container_name: exp-sqlserver-prod-db
     restart: always
     environment:
       ACCEPT_EULA: "Y"
