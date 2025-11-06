@@ -56,21 +56,9 @@ pipeline {
     }
 }
 
-        // =======================================================
-        // 3️⃣ LIMPIEZA DE CONTENEDORES ANTERIORES
-        // =======================================================
-        stage('Limpiar contenedores anteriores') {
-            steps {
-                script {
-                    echo "🧹 Eliminando contenedores antiguos del entorno ${env.ENVIRONMENT}..."
-                    sh '''
-                        docker compose -f ${COMPOSE_FILE} down --remove-orphans || true
-                    '''
-                }
-            }
-        }
 
         // =======================================================
+        //  COMPILAR .NET EN CONTENEDOR
         // =======================================================
         stage('Compilar .NET dentro de contenedor SDK') {
             agent {
@@ -87,6 +75,7 @@ pipeline {
         }
 
         // =======================================================
+        // CONSTRUIR IMAGEN DOCKER
         // =======================================================
         stage('Construir imagen Docker') {
             steps {
@@ -101,6 +90,7 @@ pipeline {
         }
 
         // =======================================================
+        // 5️⃣ PREPARAR RED Y BASES DE DATOS
         // =======================================================
         stage('Preparar red y base de datos') {
             steps {
@@ -130,6 +120,7 @@ pipeline {
 
 
         // =======================================================
+        // DESPLEGAR CON DOCKER COMPOSE
         // =======================================================
    stage('Desplegar') {
     steps {
