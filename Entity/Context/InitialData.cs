@@ -426,7 +426,7 @@ namespace Entity.Context
                 CreatedAt = currentDate,
                 DeletedAt = null!
             };
-            modelBuilder.Entity<FormModule>().HasData(formModuleInicio, formModuleExperiencia, formModuleEvaluacion, formModuleRoles, formModuleUsers, formModulePersons, formModuleSeguimiento, formModulePermissions, formModuleForms, formModuleModules, formModuleUsersRol, formModuleFormModule, formModuleRolFormPermissions);
+           
 
             // Permission
             var permissionReadWrite = new Permission()

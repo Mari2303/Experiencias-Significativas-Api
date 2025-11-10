@@ -10,8 +10,7 @@ namespace Entity.Dtos.ModelosParametro
     {
         public string Name { get; set; } = string.Empty;
         public string Code { get; set; } = string.Empty;
-        public string DescriptionContribution { get; set; } = string.Empty;
-        public string DescruotionType { get; set; } = string.Empty;
+      
         public string? EvaluationValue { get; set; }
     }
 }

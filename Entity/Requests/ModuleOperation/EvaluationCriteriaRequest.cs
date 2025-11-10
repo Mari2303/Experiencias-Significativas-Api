@@ -16,6 +16,9 @@ namespace Entity.Requests.ModuleOperation
         public string? Evaluation { get; set; } = null!;
         public string? Criteria { get; set; } = null!;
 
+        public string? DescriptionContribution { get; set; }
+
+
 
 
     }

@@ -121,15 +121,13 @@ namespace Repository.Implementations.ModuleOperationRepository
         }
 
 
-
-
-
-
-
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
+
+
+
 
         public async Task UpdateEvaluationPdfUrlAsync(int evaluationId, string pdfUrl)
         {
@@ -145,6 +143,31 @@ namespace Repository.Implementations.ModuleOperationRepository
             // Guardar cambios
             await _context.SaveChangesAsync();
         }
+
+
+
+
+        public async Task<Evaluation?> GetEvaluationByIdTrackedAsync(int evaluationId)
+        {
+            try
+            {
+                return await _context.Evaluations
+                    .Include(e => e.EvaluationCriterias)
+                        .ThenInclude(ec => ec.Criteria)
+                    .Include(e => e.Experience)
+                        .ThenInclude(ex => ex.Institution)
+                    .Include(e => e.Experience)
+                        .ThenInclude(ex => ex.ExperienceLineThematics)
+                            .ThenInclude(elt => elt.LineThematic)
+                    .FirstOrDefaultAsync(e => e.Id == evaluationId); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error al recuperar la evaluación con tracking: {ex.Message}");
+                throw;
+            }
+        }
+
 
 
 

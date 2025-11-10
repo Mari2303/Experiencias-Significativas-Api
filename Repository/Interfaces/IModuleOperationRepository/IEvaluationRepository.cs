@@ -19,5 +19,7 @@ namespace Repository.Interfaces.IModuleOperationRepository
 
         Task<Evaluation?> GetByExperienceAndTypeAsync(int experienceId, string typeEvaluation);
         Task<Evaluation> UpdateEvaluationAsync(Evaluation evaluation, List<EvaluationCriteria> newCriteria);
+
+        Task<Evaluation?> GetEvaluationByIdTrackedAsync(int evaluationId);
     }
 }

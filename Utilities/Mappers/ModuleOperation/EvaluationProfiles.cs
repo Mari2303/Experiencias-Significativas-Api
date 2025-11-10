@@ -13,6 +13,8 @@ namespace Utilities.Mappers.ModuleOperation
             CreateMap<EvaluationDTO, Evaluation>().ReverseMap();
             CreateMap<EvaluationRequest, Evaluation>().ReverseMap();
             CreateMap<Evaluation, EvaluationDetailRequest>()
+
+
                 
 
     .ForMember(dest => dest.CriteriaEvaluations,
@@ -25,6 +27,24 @@ namespace Utilities.Mappers.ModuleOperation
                opt => opt.MapFrom(src => src.Experience.ExperienceLineThematics
                                            .Where(x => x.LineThematic != null)
                                            .Select(x => x.LineThematic.Name).ToList()));
+
+
+
+
+            CreateMap<Evaluation, EvaluationDetailRequest>()
+    .ForMember(dest => dest.CriteriaEvaluations,
+               opt => opt.MapFrom(src => src.EvaluationCriterias))
+    .ForMember(dest => dest.ExperienceName,
+               opt => opt.MapFrom(src => src.Experience.NameExperiences))
+    .ForMember(dest => dest.InstitutionName,
+               opt => opt.MapFrom(src => src.Experience.Institution != null ? src.Experience.Institution.Name : string.Empty))
+    .ForMember(dest => dest.ThematicLineNames,
+               opt => opt.MapFrom(src => src.Experience.ExperienceLineThematics
+                                       .Where(x => x.LineThematic != null)
+                                       .Select(x => x.LineThematic.Name).ToList()));
+
+         
+
 
         }
     }
