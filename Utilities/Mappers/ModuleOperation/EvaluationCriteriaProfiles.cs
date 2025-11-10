@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
+using Entity.Requests.EntityDetailRequest;
 using Entity.Requests.ModuleOperation;
 
 namespace Utilities.Mappers.ModuleOperation
@@ -13,7 +14,15 @@ namespace Utilities.Mappers.ModuleOperation
             CreateMap<EvaluationCriteriaRequest, EvaluationCriteria>().ReverseMap();
             CreateMap<EvaluationCriteria, EvaluationCriteriaRequest>()
     .ForMember(dest => dest.Criteria, opt => opt.MapFrom(src => src.Criteria.Name))
-    .ForMember(dest => dest.Evaluation, opt => opt.Ignore()); 
+    .ForMember(dest => dest.Evaluation, opt => opt.Ignore());
+
+
+          
+
+
+
+
+
         }
     }
 }
