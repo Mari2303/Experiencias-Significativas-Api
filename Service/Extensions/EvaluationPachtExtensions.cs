@@ -7,14 +7,15 @@ namespace Service.Extensions
     {
         /// <summary>
         /// Aplica los cambios enviados en el request a la evaluación existente
-        /// y recalcula el resultado final con base en los nuevos criterios.
+        /// y recalcula el resultado final con base en los nuevos criterios,
+        /// siguiendo la misma lógica del EvaluationBuilder.
         /// </summary>
         public static void ApplyPatch(this Evaluation evaluation, EvaluationUpdateRequest request)
         {
             if (evaluation == null || request == null)
                 return;
 
-            // 🔹 Actualizar campos principales
+            // 🔹 1️⃣ Actualizar campos base (igual que en el builder)
             if (!string.IsNullOrWhiteSpace(request.TypeEvaluation))
                 evaluation.TypeEvaluation = request.TypeEvaluation;
 
@@ -30,55 +31,56 @@ namespace Service.Extensions
             if (request.UserId > 0)
                 evaluation.UserId = request.UserId;
 
-            // 🔹 Actualizar criterios asociados
+            
+
+            // 🔹 2️⃣ Limpiar y volver a llenar los criterios
             if (request.EvaluationCriteriaDetailRequest != null && request.EvaluationCriteriaDetailRequest.Any())
             {
+                // Reiniciar lista de criterios
                 evaluation.EvaluationCriterias ??= new List<EvaluationCriteria>();
+                evaluation.EvaluationCriterias.Clear();
 
+                int totalScore = 0;
+
+                // Volver a construir cada criterio igual que el builder
                 foreach (var c in request.EvaluationCriteriaDetailRequest)
                 {
-                    // Buscar criterio existente
-                    var existingCriteria = evaluation.EvaluationCriterias
-                        .FirstOrDefault(ec => ec.CriteriaId == c.CriteriaId);
+                    int scoreSum = (c.Scores != null && c.Scores.Any()) ? c.Scores.Sum() : 0;
+                    totalScore += scoreSum;
 
-                    int totalScore = (c.Scores != null && c.Scores.Any()) ? c.Scores.Sum() : 0;
+                    var newCriteria = new EvaluationCriteria
+                    {
+                        EvaluationId = evaluation.Id,
+                        CriteriaId = c.CriteriaId,
+                        Score = scoreSum,
+                        DescriptionContribution = c.DescriptionContribution
+                       
+                    };
 
-                    if (existingCriteria != null)
-                    {
-                        // Actualizar valores
-                        existingCriteria.Score = totalScore;
-                        if (!string.IsNullOrWhiteSpace(c.DescriptionContribution)) ;
-                            
-                    }
-                    else
-                    {
-                        // Agregar nuevo criterio
-                        evaluation.EvaluationCriterias.Add(new EvaluationCriteria
-                        {
-                            EvaluationId = evaluation.Id,
-                            CriteriaId = c.CriteriaId,
-                            Score = totalScore,
-                          
-                        });
-                    }
+
+
+                    evaluation.EvaluationCriterias.Add(newCriteria);
                 }
-            }
 
-            // 🔹 Recalcular el resultado final con base en los puntajes
-            if (evaluation.EvaluationCriterias != null && evaluation.EvaluationCriterias.Any())
-            {
-                double averageScore = evaluation.EvaluationCriterias.Average(c => c.Score);
-
-                // Puedes ajustar esta lógica según tu modelo de negocio
-                if (averageScore < 50)
-                    evaluation.EvaluationResult = "Naciente";
-                else if (averageScore < 70)
-                    evaluation.EvaluationResult = "Creciente";
-                else if (averageScore < 90)
-                    evaluation.EvaluationResult = "Inspiradora";
-              
+                // 🔹 3️⃣ Recalcular resultado final (igual que en el builder)
+                evaluation.EvaluationResult = CalcularResultadoFinal(totalScore);
             }
+        }
+
+        /// <summary>
+        /// Calcula el resultado final igual que en el EvaluationBuilder.
+        /// </summary>
+        private static string CalcularResultadoFinal(int totalScore)
+        {
+            if (totalScore <= 45)
+                return "Naciente";
+            else if (totalScore <= 79)
+                return "Creciente";
+            else
+                return "Inspiradora";
         }
     }
 }
+
+
 
