@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Utilities.Email.Interfaces
 {
-    public interface IBrevoEmailService
+    public interface IEmailEvaluationBrevoService
     {
-        Task<bool> SendEmailAsync(string to, int templateId, Dictionary<string, object>? parameters = null);
-    
+        Task SendEvaluationResultEmailAsync(string toEmail, string userName, string evaluationResult);
     }
 }

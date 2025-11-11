@@ -83,6 +83,8 @@ builder.Services.AddScoped<IBrevoEmailService, BrevoEmailService>();
 
 
 builder.Services.AddScoped<AccountNotificationService>();
+builder.Services.AddScoped<IEmailEvaluationBrevoService, EmailEvaluationBrevoService>();
+
 
 
 
