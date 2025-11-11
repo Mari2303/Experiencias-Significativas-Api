@@ -69,8 +69,10 @@ namespace Repository.Implementations.ModuleOperationRepository
         public async Task<EvaluationDetailRequest> GetEvaluationDetailAsync(int evaluationId)
         {
             var evaluation = await _context.Evaluations
-                  .Include(e => e.EvaluationCriterias)
-                  .ThenInclude(ec => ec.Criteria)
+                .Include(e => e.User)
+                    .ThenInclude(u => u.Person)
+                .Include(e => e.EvaluationCriterias)
+                    .ThenInclude(ec => ec.Criteria)
                 .Include(e => e.Experience)
                     .ThenInclude(ex => ex.Institution)
                 .Include(e => e.Experience)
@@ -81,8 +83,16 @@ namespace Repository.Implementations.ModuleOperationRepository
             if (evaluation == null)
                 throw new KeyNotFoundException("La evaluación no existe");
 
-            return _mapper.Map<EvaluationDetailRequest>(evaluation);
+            // Mapear la entidad al request
+            var request = _mapper.Map<EvaluationDetailRequest>(evaluation);
+
+            // Asignar los datos del usuario
+            request.UserName = evaluation.User?.Username ?? "Usuario desconocido";
+            request.Email = evaluation.User?.Person?.Email ?? "";
+
+            return request;
         }
+
 
 
 
