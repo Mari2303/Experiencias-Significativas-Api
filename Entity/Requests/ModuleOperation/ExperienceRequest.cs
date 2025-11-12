@@ -1,4 +1,5 @@
-﻿using Entity.Requests.EntityCreateRequest;
+﻿using Entity.Requests.EntityData.EntityCreateRequest;
+using Entity.Requests.ModuleBase;
 using Entity.Requests.ModuleGeographic;
 using Entity.Requests.ModulesParamer;
 

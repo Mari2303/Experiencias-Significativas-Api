@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Entity.Context;
-using Entity.Dtos;
 using Entity.Models;
-using Entity.Requests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -12,6 +10,9 @@ using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Repository.Implementations.ModuleBaseRepository;
+using Entity.Dtos.ModuleSegurity;
+using Entity.Requests.ModuleSegurity;
 
 public class BaseModelRepositoryNegativeTests
 {

@@ -1,6 +1,6 @@
 ﻿using Entity.Models.ModuleGeographic;
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityUpdateRequest;
+using Entity.Requests.EntityData.EntityUpdateRequest;
 
 namespace Service.Extensions 
 {

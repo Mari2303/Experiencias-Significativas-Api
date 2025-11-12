@@ -1,5 +1,5 @@
-﻿using Entity.Context.Seed;
-using Entity.Models;
+﻿using Entity.Models;
+using Entity.Models.ModuleSegurity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Entity.Context

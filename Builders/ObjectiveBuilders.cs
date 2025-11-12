@@ -1,7 +1,7 @@
 ﻿
 
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityCreateRequest;
+using Entity.Requests.EntityData.EntityCreateRequest;
 using Entity.Requests.ModuleOperation;
 
 namespace Builders

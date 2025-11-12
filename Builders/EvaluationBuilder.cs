@@ -1,6 +1,6 @@
 ﻿using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityCreateRequest;
-using Entity.Requests.EntityDetailRequest;
+using Entity.Requests.EntityData.EntityCreateRequest;
+using Entity.Requests.EntityData.EntityDetailRequest;
 using Entity.Requests.ModuleOperation;
 
 /// <summary>

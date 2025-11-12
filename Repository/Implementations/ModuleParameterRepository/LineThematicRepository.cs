@@ -9,6 +9,7 @@ using Entity.Dtos.ModelosParametro;
 using Entity.Models.ModelosParametros;
 using Entity.Requests.ModulesParamer;
 using Microsoft.Extensions.Configuration;
+using Repository.Implementations.ModuleBaseRepository;
 using Repository.Interfaces.ModuleParamer;
 using Utilities.Helper;
 

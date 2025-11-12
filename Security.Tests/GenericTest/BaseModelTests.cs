@@ -1,11 +1,12 @@
 ﻿using API.Controllers;
+using API.Controllers.ModuleBaseController;
 using AutoMapper;
-using Entity.Dtos;
+using Entity.Dtos.ModuleSegurity;
 using Entity.Models;
-using Entity.Requests;
+using Entity.Requests.ModuleSegurity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Service.Interfaces;
+using Service.Interfaces.IModuleBaseService;
 
 
 /// Pruebas unitarias para un controlador genérico 

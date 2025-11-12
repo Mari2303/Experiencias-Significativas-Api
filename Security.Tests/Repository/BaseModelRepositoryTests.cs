@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Entity.Context;
-using Entity.Dtos;
+using Entity.Dtos.ModuleSegurity;
 using Entity.Models;
-using Entity.Requests;
+using Entity.Requests.ModuleSegurity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Repository.Implementations;
+using Repository.Implementations.ModuleBaseRepository;
 using Utilities.Helper;
 
 public class BaseModelRepositoryTests

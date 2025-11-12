@@ -1,4 +1,5 @@
-﻿using Entity.Requests.ModuleGeographic;
+﻿using Entity.Requests.ModuleBase;
+using Entity.Requests.ModuleGeographic;
 
 namespace Entity.Requests.ModuleOperation
 {
