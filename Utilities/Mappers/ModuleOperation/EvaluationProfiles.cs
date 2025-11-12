@@ -15,7 +15,7 @@ namespace Utilities.Mappers.ModuleOperation
             CreateMap<Evaluation, EvaluationDetailRequest>()
 
 
-                
+
 
     .ForMember(dest => dest.CriteriaEvaluations,
                opt => opt.MapFrom(src => src.EvaluationCriterias))
@@ -43,9 +43,10 @@ namespace Utilities.Mappers.ModuleOperation
                                        .Where(x => x.LineThematic != null)
                                        .Select(x => x.LineThematic.Name).ToList()));
 
-         
+
 
 
         }
     }
 }
+

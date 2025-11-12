@@ -14,18 +14,17 @@ namespace Entity.Requests.EntityDetailRequest
         public string AccompanimentRole { get; set; } = string.Empty;
         public string Comments { get; set; } = string.Empty;
         public string EvaluationResult { get; set; } = string.Empty;
-
         // Traídos de Experience
         public string ExperienceName { get; set; } = string.Empty;
-
-
         //  Traído de Institution
         public string InstitutionName { get; set; } = string.Empty;
-
-
         //  Lista de criterios y linea tematica
         public List<EvaluationCriteriaRequest> CriteriaEvaluations { get; set; } = new();
         public List<string> ThematicLineNames { get; set; } = new();
+
+        public string? UserName { get; set; }
+        public string? Email { get; set; }
+
 
 
 
