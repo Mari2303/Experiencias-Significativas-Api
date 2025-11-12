@@ -51,25 +51,38 @@ namespace Service.Implementations.ModelOperationService
                 var criteria = await _evaluationRepository.GetCriteriaByIdAsync(c.CriteriaId);
                 if (criteria != null)
                 {
-                 
                     await _evaluationRepository.UpdateCriteriaAsync(criteria);
                 }
             }
 
+            // ✅ Primero obtenemos todo el detalle completo
             var evaluationDetail = await _evaluationRepository.GetEvaluationDetailAsync(evaluation.Id);
 
-            // ✅ Enviar correo con el resultado
-            if (!string.IsNullOrEmpty(evaluationDetail.Email))
+            // ✅ Luego enviamos el correo *después*, sin afectar el contexto de datos
+            _ = Task.Run(async () =>
             {
-                await _brevoEmailService.SendEvaluationResultEmailAsync(
-                    evaluationDetail.Email,
-                    evaluationDetail.UserName,
-                    evaluationDetail.EvaluationResult
-                );
-            }
+                try
+                {
+                    if (!string.IsNullOrEmpty(evaluationDetail.Email))
+                    {
+                        await _brevoEmailService.SendEvaluationResultEmailAsync(
+                            evaluationDetail.Email,
+                            evaluationDetail.UserName,
+                            evaluationDetail.EvaluationResult
+                        );
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Puedes registrar el error en logs pero no afectar la creación
+                    Console.WriteLine($"Error enviando correo: {ex.Message}");
+                }
+            });
 
+            // ✅ Finalmente retornamos la evaluación como antes (sin afectar los criterios)
             return evaluationDetail;
         }
+
 
         public async Task<EvaluationDetailRequest> UpdateEvaluationAsync(int evaluationId, EvaluationUpdateRequest request)
         {
@@ -81,13 +94,13 @@ namespace Service.Implementations.ModelOperationService
             // 2️⃣ Aplicar los cambios
             evaluationEntity.ApplyPatch(request);
 
-            // 3️⃣ Guardar en base de datos
+            //  Guardar en base de datos
             await _evaluationRepository.SaveChangesAsync();
 
-            // 4️⃣ Retornar la versión actualizada mapeada
+            // Retornar la versión actualizada mapeada
             var evaluationDetail = await _evaluationRepository.GetEvaluationDetailAsync(evaluationId);
 
-            // ✅ Enviar correo con el resultado actualizado
+            // Enviar correo con el resultado actualizado
             if (!string.IsNullOrEmpty(evaluationDetail.Email))
             {
                 await _brevoEmailService.SendEvaluationResultEmailAsync(
