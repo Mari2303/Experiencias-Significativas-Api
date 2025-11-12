@@ -7,6 +7,7 @@ using Entity.Dtos.ModuleGeographic;
 using Entity.Models.ModuleGeographic;
 using Entity.Requests.ModuleGeographic;
 using Repository.Interfaces.IModuleGeographicRepository;
+using Service.Implementations.ModuleBaseService;
 using Service.Interfaces.IModuleGeographicService;
 
 namespace Service.Implementations.ModuleGeographicService

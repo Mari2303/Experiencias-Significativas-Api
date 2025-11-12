@@ -1,5 +1,6 @@
 ﻿
 
+using Entity.Models.ModuleBase;
 using System.Text.Json.Serialization;
 
 namespace Entity.Models.ModuleOperation

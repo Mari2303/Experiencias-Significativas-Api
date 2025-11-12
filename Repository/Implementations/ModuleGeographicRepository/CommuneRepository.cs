@@ -4,6 +4,7 @@ using Entity.Dtos.ModuleGeographic;
 using Entity.Models.ModuleGeographic;
 using Entity.Requests.ModuleGeographic;
 using Microsoft.Extensions.Configuration;
+using Repository.Implementations.ModuleBaseRepository;
 using Repository.Interfaces.IModuleGeographicRepository;
 using Utilities.Helper;
 

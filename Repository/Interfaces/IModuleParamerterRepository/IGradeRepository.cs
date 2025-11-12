@@ -9,6 +9,7 @@ using Entity.Models;
 using Entity.Models.ModelosParametros;
 using Entity.Requests;
 using Entity.Requests.ModulesParamer;
+using Repository.Interfaces.IModuleBaseRepository;
 
 namespace Repository.Interfaces.ModuleParamer
 {

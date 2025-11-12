@@ -1,11 +1,11 @@
 ﻿using Moq;
 using Xunit;
-using Repository.Interfaces;
 using Entity.Models;
-using Entity.Requests;
 using Utilities.JwtAuthentication;
 using Microsoft.Extensions.Configuration;
-using Repository.Implementations;
+using Repository.Implementations.ModuleSegurityRepository;
+using Repository.Interfaces.IModuleSegurityRepository;
+using Entity.Requests.ModuleSegurity;
 
 public class AuthRepositoryTests
 {

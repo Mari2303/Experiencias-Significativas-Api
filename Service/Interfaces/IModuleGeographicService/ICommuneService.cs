@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Entity.Dtos.ModuleGeographic;
 using Entity.Models.ModuleGeographic;
 using Entity.Requests.ModuleGeographic;
+using Service.Interfaces.IModuleBaseService;
 
 namespace Service.Interfaces.IModuleGeographicService
 {

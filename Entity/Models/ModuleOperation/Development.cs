@@ -1,5 +1,7 @@
 ﻿
 
+using Entity.Models.ModuleBase;
+
 namespace Entity.Models.ModuleOperation
 {
     public class Development : BaseModel

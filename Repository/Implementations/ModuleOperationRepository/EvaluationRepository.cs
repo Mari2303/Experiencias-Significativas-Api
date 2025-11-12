@@ -3,10 +3,11 @@ using Entity.Context;
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModelosParametros;
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityDetailRequest;
+using Entity.Requests.EntityData.EntityDetailRequest;
 using Entity.Requests.ModuleOperation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Repository.Implementations.ModuleBaseRepository;
 using Repository.Interfaces.IModuleOperationRepository;
 using Utilities.Helper;
 

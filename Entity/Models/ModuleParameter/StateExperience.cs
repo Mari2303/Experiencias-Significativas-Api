@@ -1,4 +1,5 @@
 ﻿
+using Entity.Models.ModuleBase;
 using Entity.Models.ModuleOperation;
 
 namespace Entity.Models.ModelosParametros

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityDataRequest;
+using Entity.Requests.EntityData.EntityDataRequest;
 using Entity.Requests.ModuleOperation;
 
 namespace Utilities.Mappers.ModuleOperation

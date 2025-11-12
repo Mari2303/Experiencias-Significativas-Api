@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Entity.Models.ModuleGeographic;
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityCreateRequest;
-using Entity.Requests.EntityDataRequest;
+using Entity.Requests.EntityData.EntityCreateRequest;
+using Entity.Requests.EntityData.EntityDataRequest;
 using Entity.Requests.ModuleGeographic;
 using Entity.Requests.ModuleOperation;
 

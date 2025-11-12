@@ -5,6 +5,7 @@ using Entity.Models.ModuleOperation;
 using Entity.Requests.ModuleOperation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Repository.Implementations.ModuleBaseRepository;
 using Repository.Interfaces.IModuleOperationRepository;
 using Utilities.Helper;
  
