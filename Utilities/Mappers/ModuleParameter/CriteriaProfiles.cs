@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Entity.Dtos.ModelosParametro;
 using Entity.Models.ModelosParametros;
-using Entity.Requests.ModulesParamer;
+using Entity.Requests.ModuleParameter;
 
 namespace Utilities.Mappers.ModulesParamer
 {

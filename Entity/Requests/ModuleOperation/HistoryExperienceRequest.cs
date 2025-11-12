@@ -2,6 +2,7 @@
 using Entity.Models.ModelosParametros;
 using Entity.Models.ModuleOperation;
 using Entity.Models;
+using Entity.Requests.ModuleBase;
 
 namespace Entity.Requests.ModuleOperation
 {

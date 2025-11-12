@@ -1,6 +1,6 @@
-﻿using Entity.Dtos;
-using Entity.Models;
-using Entity.Requests;
+﻿using Entity.Dtos.ModuleBase;
+using Entity.Models.ModuleBase;
+using Entity.Requests.ModuleSegurity;
 
 namespace Utilities.Helper
 {

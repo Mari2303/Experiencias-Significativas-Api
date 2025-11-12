@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Entity.Requests.ModuleBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entity.Requests.ModulesParamer
+namespace Entity.Requests.ModuleParameter
 {
     public class CriteriaRequest : BaseRequest
     {

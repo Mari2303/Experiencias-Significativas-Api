@@ -1,8 +1,9 @@
 ﻿using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModelosParametros;
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityDetailRequest;
+using Entity.Requests.EntityData.EntityDetailRequest;
 using Entity.Requests.ModuleOperation;
+using Repository.Interfaces.IModuleBaseRepository;
 
 namespace Repository.Interfaces.IModuleOperationRepository
 {

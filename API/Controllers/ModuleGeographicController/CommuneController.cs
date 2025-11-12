@@ -1,8 +1,9 @@
-﻿using AutoMapper;
+﻿using API.Controllers.ModuleBaseController;
+using AutoMapper;
 using Entity.Dtos.ModuleGeographic;
 using Entity.Models.ModuleGeographic;
 using Entity.Requests.ModuleGeographic;
-using Service.Interfaces;
+using Service.Interfaces.IModuleBaseService;
 using Service.Interfaces.IModuleGeographicService;
 
 namespace API.Controllers.ModuleGeographicController

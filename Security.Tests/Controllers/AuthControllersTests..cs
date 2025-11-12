@@ -1,14 +1,13 @@
-﻿
-using API.Controllers;
+﻿using API.Controllers.ModuleSegurityController;
 using AutoMapper;
 using Entity.Models;
-using Entity.Requests;
-using Entity.Resquest;
+using Entity.Requests.ModuleBase;
+using Entity.Requests.ModuleSegurity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Service.Implementations;
-using Service.Interfaces;
+using Service.Interfaces.IModuleSegurityService;
 using Assert = Xunit.Assert;
 
 
