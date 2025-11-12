@@ -43,7 +43,7 @@ public class EmailEvaluationBrevoService : IEmailEvaluationBrevoService
             _ => $"Tu resultado de evaluación es: <strong>{evaluationResult}</strong>."
         };
 
-        // 💌 Plantilla HTML elegante
+        // Plantilla HTML elegante
         string html = $@"
         <div style='background-color:#f4f6f8; padding:40px 0; font-family:Arial, sans-serif;'>
             <div style='max-width:600px; margin:auto; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.1);'>

@@ -20,9 +20,7 @@ namespace Utilities.Pdf
 
             var pdf = Document.Create(container =>
             {
-                // =============================
-                // PORTADA (según tu ejemplo)
-                // =============================
+              
                 container.Page(page =>
                 {
                     page.Margin(60);
@@ -212,7 +210,7 @@ namespace Utilities.Pdf
             return pdf.GeneratePdf();
         }
 
-        // === Opacidad de imagen simple ===
+        // Opacidad de imagen simple 
         public static byte[] ApplyImageOpacitySimple(byte[] imageBytes, float opacity)
         {
             using var image = SixLabors.ImageSharp.Image.Load<Rgba32>(imageBytes);
@@ -222,7 +220,7 @@ namespace Utilities.Pdf
             return ms.ToArray();
         }
 
-        // === Cargar logo desde URL ===
+        //  Cargar logo desde URL 
         public static async Task<byte[]?> LoadImageFromUrlAsync(string imageUrl)
         {
             using var http = new HttpClient();

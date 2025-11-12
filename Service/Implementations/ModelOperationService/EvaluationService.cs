@@ -55,10 +55,10 @@ namespace Service.Implementations.ModelOperationService
                 }
             }
 
-            // ✅ Primero obtenemos todo el detalle completo
+          
             var evaluationDetail = await _evaluationRepository.GetEvaluationDetailAsync(evaluation.Id);
 
-            // ✅ Luego enviamos el correo *después*, sin afectar el contexto de datos
+            //  Luego enviamos el correo después, sin afectar el contexto de datos
             _ = Task.Run(async () =>
             {
                 try
@@ -74,12 +74,12 @@ namespace Service.Implementations.ModelOperationService
                 }
                 catch (Exception ex)
                 {
-                    // Puedes registrar el error en logs pero no afectar la creación
+                   
                     Console.WriteLine($"Error enviando correo: {ex.Message}");
                 }
             });
 
-            // ✅ Finalmente retornamos la evaluación como antes (sin afectar los criterios)
+         
             return evaluationDetail;
         }
 
@@ -91,13 +91,12 @@ namespace Service.Implementations.ModelOperationService
             if (evaluationEntity == null)
                 throw new KeyNotFoundException("No se encontró la evaluación.");
 
-            // 2️⃣ Aplicar los cambios
             evaluationEntity.ApplyPatch(request);
 
             //  Guardar en base de datos
             await _evaluationRepository.SaveChangesAsync();
 
-            // Retornar la versión actualizada mapeada
+          
             var evaluationDetail = await _evaluationRepository.GetEvaluationDetailAsync(evaluationId);
 
             // Enviar correo con el resultado actualizado
