@@ -1,12 +1,13 @@
 ﻿using System.Security.Claims;
+using API.Controllers.ModuleBaseController;
 using AutoMapper;
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
-using Entity.Requests;
 using Entity.Requests.ModuleOperation;
+using Entity.Requests.ModuleSegurity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Service.Interfaces;
+using Service.Interfaces.IModuleBaseService;
 using Service.Interfaces.ModelOperationService;
 
 namespace API.Controllers.ModuleOperationController

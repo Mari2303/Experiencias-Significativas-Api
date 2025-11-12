@@ -1,8 +1,9 @@
-﻿using AutoMapper;
+﻿using API.Controllers.ModuleBaseController;
+using AutoMapper;
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
 using Entity.Requests.ModuleOperation;
-using Service.Interfaces;
+using Service.Interfaces.IModuleBaseService;
 using Service.Interfaces.ModelOperationService;
 
 namespace API.Controllers.ModuleOperationController

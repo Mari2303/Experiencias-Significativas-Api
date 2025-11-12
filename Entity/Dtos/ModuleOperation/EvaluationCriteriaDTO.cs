@@ -1,5 +1,7 @@
 ﻿
 
+using Entity.Dtos.ModuleBase;
+
 namespace Entity.Dtos.ModuleOperational
 {
     public class EvaluationCriteriaDTO : BaseDTO

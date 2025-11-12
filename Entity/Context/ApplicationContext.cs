@@ -3,6 +3,7 @@ using Entity.Models;
 using Entity.Models.ModelosParametros;
 using Entity.Models.ModuleGeographic;
 using Entity.Models.ModuleOperation;
+using Entity.Models.ModuleSegurity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -50,7 +51,7 @@ namespace Entity.Context
             modelBuilder.ApplyConfiguration<Role>(configuration);
             modelBuilder.ApplyConfiguration<Permission>(configuration);
             modelBuilder.ApplyConfiguration<Form>(configuration);
-            modelBuilder.ApplyConfiguration<Models.Module>(configuration);
+            modelBuilder.ApplyConfiguration<Models.ModuleSegurity.Module>(configuration);
             modelBuilder.ApplyConfiguration<UserRole>(configuration);
             modelBuilder.ApplyConfiguration<FormModule>(configuration);
             modelBuilder.ApplyConfiguration<RoleFormPermission>(configuration);
@@ -91,8 +92,8 @@ namespace Entity.Context
                 entity.Property(e => e.Active).IsRequired();
             });
 
-            // Carga de datos iniciales
-            InitialData.Data(modelBuilder);
+            // Carga de datos
+             InitialData.Data(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -194,7 +195,7 @@ namespace Entity.Context
         public DbSet<FormModule> FormModules { get; set; }
         public DbSet<RoleFormPermission> RoleFormPermissions { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<Models.Module> Modules { get; set; }
+        public DbSet<Models.ModuleSegurity.Module> Modules { get; set; }
 
         public DbSet<StateExperience> StateExperiences { get; set; }
         public DbSet<Criteria> Criteria { get; set; }

@@ -1,8 +1,9 @@
 ﻿
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
-using Entity.Requests;
 using Entity.Requests.ModuleOperation;
+using Entity.Requests.ModuleSegurity;
+using Service.Interfaces.IModuleBaseService;
 
 namespace Service.Interfaces.ModelOperationService
 {

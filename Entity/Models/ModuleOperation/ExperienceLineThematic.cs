@@ -1,6 +1,7 @@
 ﻿
 
 using Entity.Models.ModelosParametros;
+using Entity.Models.ModuleBase;
 
 namespace Entity.Models.ModuleOperation
 {

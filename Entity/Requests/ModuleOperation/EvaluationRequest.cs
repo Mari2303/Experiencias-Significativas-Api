@@ -1,5 +1,6 @@
 ﻿
-using Entity.Requests.EntityDetailRequest;
+using Entity.Requests.EntityData.EntityDetailRequest;
+using Entity.Requests.ModuleBase;
 
 namespace Entity.Requests.ModuleOperation
 {

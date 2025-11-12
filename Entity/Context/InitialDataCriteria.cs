@@ -3,7 +3,7 @@ using Entity.Models.ModelosParametros;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Entity.Context.Seed
+namespace Entity.Context
 {
     internal static class InitialDataCriteria   
     {

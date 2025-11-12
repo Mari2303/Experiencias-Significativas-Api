@@ -1,11 +1,12 @@
 ﻿using API;
 using Entity.Context;
+using Entity.Requests.ModuleBase;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
-using Repository.Implementations;
-using Repository.Interfaces;
-using Service.Implementations;
-using Service.Interfaces;
+using Repository.Implementations.ModuleBaseRepository;
+using Repository.Interfaces.IModuleBaseRepository;
+using Service.Implementations.ModuleSegurityService;
+using Service.Interfaces.IModuleSegurityService;
 using System.Text.Json.Serialization;
 using Utilities.Email.Implement;
 using Utilities.Email.Interfaces;
@@ -85,6 +86,7 @@ builder.Services.AddScoped<IBrevoEmailService, BrevoEmailService>();
 builder.Services.AddScoped<AccountNotificationService>();
 builder.Services.AddScoped<IEmailEvaluationBrevoService, EmailEvaluationBrevoService>();
 
+builder.Services.Configure<PdfSettingsRequest>(builder.Configuration.GetSection("PdfSettings"));
 
 
 

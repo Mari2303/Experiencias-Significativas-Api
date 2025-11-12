@@ -1,8 +1,8 @@
 ﻿
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityDataRequest;
-using Entity.Requests.EntityDetailRequest;
-using Entity.Requests.EntityUpdateRequest;
+using Entity.Requests.EntityData.EntityDataRequest;
+using Entity.Requests.EntityData.EntityDetailRequest;
+using Entity.Requests.EntityData.EntityUpdateRequest;
 
 namespace Service.Extensions
 {

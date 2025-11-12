@@ -1,5 +1,7 @@
 ﻿
 
+using Entity.Requests.ModuleBase;
+
 namespace Entity.Requests.ModuleOperation
 {
     public class ExperienceLineThematicRequest : BaseRequest
