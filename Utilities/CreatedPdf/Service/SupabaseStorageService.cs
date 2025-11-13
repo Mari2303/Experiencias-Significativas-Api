@@ -27,7 +27,7 @@ public class SupabaseStorageService
         if (!uploadResponse.IsSuccessStatusCode)
         {
             var error = await uploadResponse.Content.ReadAsStringAsync();
-            throw new Exception($"❌ Error subiendo PDF a Supabase: {error}");
+            throw new Exception($" Error subiendo PDF a Supabase: {error}");
         }
 
         // Generar URL firmada válida por 7 días
@@ -39,7 +39,7 @@ public class SupabaseStorageService
         if (!signResponse.IsSuccessStatusCode)
         {
             var error = await signResponse.Content.ReadAsStringAsync();
-            throw new Exception($"❌ Error generando URL firmada: {error}");
+            throw new Exception($" Error generando URL firmada: {error}");
         }
 
         var json = await signResponse.Content.ReadAsStringAsync();
