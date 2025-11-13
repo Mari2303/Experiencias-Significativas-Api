@@ -80,6 +80,8 @@ namespace Repository.Implementations.ModuleSegurityRepository
                             person.SecondLastName,
                             CONCAT(person.FirstName, ' ', person.MiddleName, ' ', person.FirstLastName, ' ', person.SecondLastName) AS FullName,
                             person.Email,
+                            person.EmailInstitutional,
+                            person.CodeDane,
                             person.Phone,
                             person.State,
                             person.CreatedAt,
