@@ -17,6 +17,7 @@ namespace Entity.Requests.EntityData.EntityCreateRequest
         public string Recognition { get; set; } = string.Empty;
         public string Socialization { get; set; } = string.Empty;
         public int UserId { get; set; }
+       
 
         public int StateExperienceId { get; set; }
  
