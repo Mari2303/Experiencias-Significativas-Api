@@ -5,6 +5,7 @@ using Entity.Requests.EntityData.EntityDetailRequest;
 using Entity.Requests.EntityData.EntityUpdateRequest;
 using Entity.Requests.ModuleBase;
 using Entity.Requests.ModuleOperation;
+using Microsoft.Extensions.Options;
 using Repository.Interfaces.IModuleOperationRepository;
 using Service.Extensions;
 using Service.Implementations.ModuleBaseService;
@@ -21,12 +22,12 @@ namespace Service.Implementations.ModelOperationService
         private readonly IEmailEvaluationBrevoService _brevoEmailService;
         private readonly PdfSettingsRequest _pdfSettings;
 
-        public EvaluationService(IEvaluationRepository evaluationRepository, SupabaseStorageService storage, IEmailEvaluationBrevoService brevoEmailService, PdfSettingsRequest pdfSettings) : base(evaluationRepository)
+        public EvaluationService(IEvaluationRepository evaluationRepository, SupabaseStorageService storage, IEmailEvaluationBrevoService brevoEmailService, IOptions<PdfSettingsRequest> pdfSettings) : base(evaluationRepository)
         {
             _evaluationRepository = evaluationRepository;
             _storage = storage;
             _brevoEmailService = brevoEmailService;
-            _pdfSettings = pdfSettings;
+            _pdfSettings = pdfSettings.Value;
         }
 
 
