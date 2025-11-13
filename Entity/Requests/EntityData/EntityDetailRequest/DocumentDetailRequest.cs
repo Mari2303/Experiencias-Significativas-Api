@@ -10,8 +10,7 @@ namespace Entity.Requests.EntityData.EntityDetailRequest
     public class DocumentDetailRequest
     {
 
-        [Url(ErrorMessage = "La URL del PDF no es válida")]
-        public string UrlPdf { get; set; } = string.Empty;
+        
 
         [Url(ErrorMessage = "La URL del enlace no es válida")]
         public string UrlLink { get; set; } = string.Empty;
