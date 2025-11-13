@@ -1,14 +1,11 @@
 ﻿using API;
 using Entity.Context;
+using Entity.Requests.ModuleBase;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
-using Repository.Implementations;
 using Repository.Implementations.ModuleBaseRepository;
-using Repository.Interfaces;
 using Repository.Interfaces.IModuleBaseRepository;
-using Service.Implementations;
 using Service.Implementations.ModuleSegurityService;
-using Service.Interfaces;
 using Service.Interfaces.IModuleSegurityService;
 using System.Text.Json.Serialization;
 using Utilities.Email.Implement;
@@ -87,6 +84,9 @@ builder.Services.AddScoped<IBrevoEmailService, BrevoEmailService>();
 
 
 builder.Services.AddScoped<AccountNotificationService>();
+builder.Services.AddScoped<IEmailEvaluationBrevoService, EmailEvaluationBrevoService>();
+
+builder.Services.Configure<PdfSettingsRequest>(builder.Configuration.GetSection("PdfSettings"));
 
 
 
@@ -116,13 +116,13 @@ using (var scope = app.Services.CreateScope())
     sqlServerContext.Database.Migrate();
 
     // Si deseas aplicar también las migraciones de otros motores, descomenta:
-    
-   // var postgresContext = scope.ServiceProvider.GetRequiredService<ApplicationContextPostgres>();
-  //  postgresContext.Database.Migrate();
 
-//    var mySqlContext = scope.ServiceProvider.GetRequiredService<ApplicationContextMySQL>();
-  //  mySqlContext.Database.Migrate();
-    
+    //   var postgresContext = scope.ServiceProvider.GetRequiredService<ApplicationContextPostgres>();
+    // postgresContext.Database.Migrate();
+
+    //    var mySqlContext = scope.ServiceProvider.GetRequiredService<ApplicationContextMySQL>();
+    //  mySqlContext.Database.Migrate();
+
 }
 
 
