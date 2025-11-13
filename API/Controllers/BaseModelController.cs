@@ -1,10 +1,15 @@
 ﻿using AutoMapper;
 using Entity.Dtos;
+using Entity.Dtos.ModuleBase;
 using Entity.Models;
+using Entity.Models.ModuleBase;
 using Entity.Requests;
+using Entity.Requests.ModuleBase;
+using Entity.Requests.ModuleSegurity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
+using Service.Interfaces.IModuleBaseService;
 
 namespace API.Controllers
 {

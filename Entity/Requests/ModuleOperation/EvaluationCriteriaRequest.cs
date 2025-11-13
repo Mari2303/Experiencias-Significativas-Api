@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entity.Models.ModelosParametros;
 using Entity.Models.ModuleOperation;
+using Entity.Requests.ModuleBase;
 
 namespace Entity.Requests.ModuleOperation
 {
@@ -15,6 +16,9 @@ namespace Entity.Requests.ModuleOperation
         public int CriteriaId { get; set; }
         public string? Evaluation { get; set; } = null!;
         public string? Criteria { get; set; } = null!;
+
+        public string? DescriptionContribution { get; set; }
+
 
 
 

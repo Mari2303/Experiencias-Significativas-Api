@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entity.Models.ModuleBase;
 using Entity.Models.ModuleGeographic;
 
 namespace Entity.Models.ModuleOperation

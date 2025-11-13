@@ -1,8 +1,7 @@
 ﻿
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityCreateRequest;
-using Entity.Requests.EntityDetailRequest;
-using Entity.Requests.ModuleOperation;
+using Entity.Requests.EntityData.EntityCreateRequest;
+using Entity.Requests.EntityData.EntityDetailRequest;
 
 /// <summary>
 /// Builder para construir una evaluación junto con sus criterios asociados.
