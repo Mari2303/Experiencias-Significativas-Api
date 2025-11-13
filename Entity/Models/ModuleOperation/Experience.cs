@@ -22,6 +22,8 @@ namespace Entity.Models.ModuleOperation
         public int InstitucionId { get; set; }
         public virtual Institution Institution {  set; get; } = null!;
 
+        public string UrlPdf {  get; set; } = string.Empty;
+
         public ICollection<Document> Documents { get; set; } = new List<Document>();
         public ICollection<ExperienceLineThematic> ExperienceLineThematics { get; set; } = new List<ExperienceLineThematic>();
         public ICollection<ExperienceGrade> ExperienceGrades { get; set; } = new List<ExperienceGrade>();

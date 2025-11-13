@@ -50,6 +50,7 @@ namespace Builders
             _experience.ThematicLocation = request.ThematicLocation;
             _experience.UserId = request.UserId;
             _experience.StateExperienceId = request.StateExperienceId;
+           
 
             return this;
         }
@@ -116,7 +117,6 @@ namespace Builders
             _experience.Documents = request.Select(R => new Document
             {
                 Name = R.Name,
-                UrlPdf = R.UrlPdf,
                 UrlLink = R.UrlLink,
                
             }).ToList();

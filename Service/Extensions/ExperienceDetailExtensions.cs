@@ -37,6 +37,7 @@ namespace Service.Extensions
                 InstitutionInfo = experience.Institution?.ToInstitutionRequest() ?? new InstitutionInfoRequest(),
                 DocumentInfo = experience.Documents?.ToDocumentDTOs() ?? new List<DocumentDetailRequest>(),
                 CriteriasDetail = experience.Evaluations.ToCriteriaDTOs()
+
             };
         }
 
@@ -53,6 +54,7 @@ namespace Service.Extensions
                 NameExperiences = experience.NameExperiences,
                 Developmenttime = experience.Developmenttime,
                 StateExperienceId= experience.StateExperienceId,
+                UrlPdf = experience.UrlPdf,
 
 
                 Leaders = experience.Leaders?
@@ -106,7 +108,7 @@ namespace Service.Extensions
         {
             return documents.Select(d => new DocumentDetailRequest
             {
-                UrlPdf = d.UrlPdf,
+             
                 UrlLink = d.UrlLink,
             }).ToList();
         }

@@ -14,6 +14,8 @@ namespace Entity.Requests.EntityData.EntityDataRequest
         public DateTime Developmenttime { get; set; }
         public int StateExperienceId { get; set; }
         public string EvaluationResult { get; set; }
+
+        public string UrlPdf { get; set; } = string.Empty;
         public List<LeaderUpdateRequest> Leaders { get; set; }
        
     }
