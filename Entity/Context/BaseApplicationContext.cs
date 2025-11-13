@@ -9,6 +9,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore.Storage;
 using Entity.Models.ModuleOperation;
 using Entity.Models.ModuleGeographic;
+using Entity.Models.ModuleSegurity;
 
 namespace Entity.Context
 {
@@ -35,7 +36,7 @@ namespace Entity.Context
             modelBuilder.ApplyConfiguration<Role>(configuration);
             modelBuilder.ApplyConfiguration<Permission>(configuration);
             modelBuilder.ApplyConfiguration<Form>(configuration);
-            modelBuilder.ApplyConfiguration<Models.Module>(configuration);
+            modelBuilder.ApplyConfiguration<Models.ModuleSegurity.Module>(configuration);
             modelBuilder.ApplyConfiguration<UserRole>(configuration);
             modelBuilder.ApplyConfiguration<FormModule>(configuration);
             modelBuilder.ApplyConfiguration<RoleFormPermission>(configuration);
@@ -152,7 +153,7 @@ namespace Entity.Context
         public DbSet<FormModule> FormModules { get; set; }
         public DbSet<RoleFormPermission> RoleFormPermissions { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<Models.Module> Modules { get; set; }
+        public DbSet<Models.ModuleSegurity.Module> Modules { get; set; }
         public DbSet<StateExperience> StateExperiences { get; set; }
         public DbSet<Criteria> Criteria { get; set; }
         public DbSet<Grade> Grade { get; set; }

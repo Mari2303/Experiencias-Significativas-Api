@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using Entity.Enums;
-using Entity.Requests;
+using Entity.Requests.ModuleSegurity;
 
 namespace Utilities.Helper.Implementation
 {

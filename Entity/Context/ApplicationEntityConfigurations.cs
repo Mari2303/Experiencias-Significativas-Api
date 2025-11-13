@@ -3,6 +3,7 @@ using Entity.Models;
 using Entity.Models.ModelosParametros;
 using Entity.Models.ModuleGeographic;
 using Entity.Models.ModuleOperation;
+using Entity.Models.ModuleSegurity;
 using Entity.Requests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

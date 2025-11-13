@@ -1,6 +1,9 @@
-﻿using Entity.Dtos;     
-using Entity.Models;    
-using Entity.Requests;   
+﻿using Entity.Dtos;
+using Entity.Dtos.ModuleBase;
+using Entity.Models;
+using Entity.Models.ModuleBase;
+using Entity.Requests;
+using Entity.Requests.ModuleBase;
 using Microsoft.AspNetCore.Mvc; 
 
 namespace API.Controllers

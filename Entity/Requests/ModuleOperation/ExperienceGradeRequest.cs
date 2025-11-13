@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entity.Models.ModelosParametros;
 using Entity.Models.ModuleOperation;
+using Entity.Requests.ModuleBase;
 
 namespace Entity.Requests.ModuleOperation
 {

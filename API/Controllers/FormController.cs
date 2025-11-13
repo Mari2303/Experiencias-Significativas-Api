@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using Entity.Dtos;
+using Entity.Dtos.ModuleSegurity;
 using Entity.Models;
 using Entity.Requests;
+using Entity.Requests.ModuleSegurity;
 using Service.Interfaces;
+using Service.Interfaces.IModuleBaseService;
+using Service.Interfaces.IModuleSegurityService;
 
 namespace API.Controllers
 {

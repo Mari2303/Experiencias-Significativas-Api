@@ -2,9 +2,10 @@
 using Entity.Context;
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
-using Entity.Requests;
 using Entity.Requests.ModuleOperation;
+using Entity.Requests.ModuleSegurity;
 using Microsoft.Extensions.Configuration;
+using Repository.Implementations.ModuleBaseRepository;
 using Repository.Interfaces.IModuleOperationRepository;
 using Utilities.Helper;
 using static Repository.Implementations.ModuleOperationRepository.HistoryExperienceRepository;

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
 using Entity.Models.ModelosParametros;
+using Entity.Models.ModuleBase;
 
 
 namespace Entity.Models.ModuleOperation

@@ -3,6 +3,7 @@ using AutoMapper;
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
 using Entity.Requests.EntityCreateRequest;
+using Entity.Requests.EntityData.EntityCreateRequest;
 using Entity.Requests.EntityUpdateRequest;
 using Entity.Requests.ModuleOperation;
 using Microsoft.AspNetCore.Authorization;

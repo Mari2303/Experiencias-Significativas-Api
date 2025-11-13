@@ -1,11 +1,11 @@
 ﻿
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityCreateRequest;
-using Entity.Requests.EntityDataRequest;
-using Entity.Requests.EntityDetailRequest;
-using Entity.Requests.EntityUpdateRequest;
+using Entity.Requests.EntityData.EntityCreateRequest;
+using Entity.Requests.EntityData.EntityDetailRequest;
+using Entity.Requests.EntityData.EntityUpdateRequest;
 using Entity.Requests.ModuleOperation;
+using Service.Interfaces.IModuleBaseService;
 
 namespace Service.Interfaces.ModelOperationService
 {

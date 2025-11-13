@@ -2,6 +2,7 @@
 using Entity.Models;
 using Entity.Models.ModuleOperation;
 using Entity.Requests;
+using Entity.Requests.ModuleSegurity;
 using Entity.Resquest;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

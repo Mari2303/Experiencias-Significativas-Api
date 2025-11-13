@@ -13,7 +13,15 @@ namespace Utilities.Mappers.ModuleOperation
             CreateMap<EvaluationCriteriaRequest, EvaluationCriteria>().ReverseMap();
             CreateMap<EvaluationCriteria, EvaluationCriteriaRequest>()
     .ForMember(dest => dest.Criteria, opt => opt.MapFrom(src => src.Criteria.Name))
-    .ForMember(dest => dest.Evaluation, opt => opt.Ignore()); 
+    .ForMember(dest => dest.Evaluation, opt => opt.Ignore());
+
+
+          
+
+
+
+
+
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModelosParametros;
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityDetailRequest;
+using Entity.Requests.EntityData.EntityDetailRequest;
 using Entity.Requests.ModuleOperation;
+using Repository.Interfaces.IModuleBaseRepository;
 
 namespace Repository.Interfaces.IModuleOperationRepository
 {
@@ -16,5 +17,10 @@ namespace Repository.Interfaces.IModuleOperationRepository
         Task<Criteria?> GetCriteriaByIdAsync(int id);
         Task<EvaluationDetailRequest> GetEvaluationDetailAsync(int id);
         Task UpdateEvaluationPdfUrlAsync(int evaluationId, string pdfUrl);
+
+        Task<Evaluation?> GetByExperienceAndTypeAsync(int experienceId, string typeEvaluation);
+        Task<Evaluation> UpdateEvaluationAsync(Evaluation evaluation, List<EvaluationCriteria> newCriteria);
+
+        Task<Evaluation?> GetEvaluationByIdTrackedAsync(int evaluationId);
     }
 }

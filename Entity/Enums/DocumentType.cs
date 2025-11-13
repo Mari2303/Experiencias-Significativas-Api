@@ -10,14 +10,10 @@ namespace Entity.Enums
         [Description("Cédula de ciudadanía")]
         CitizenshipId = 1,
 
-        [Description("Tarjeta de identidad")]
-        MinorIdCard = 2,
-
         [Description("Cédula de extranjería")]
-        ForeignerId = 3,
+        ForeignerId = 2,
 
-        [Description("Pasaporte")]
-        Passport = 4,
+       
 
     }
 

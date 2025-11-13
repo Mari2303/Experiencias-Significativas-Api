@@ -1,6 +1,7 @@
 using Entity.Dtos;
 using Entity.Models;
 using Entity.Requests;
+using Entity.Requests.ModuleSegurity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
