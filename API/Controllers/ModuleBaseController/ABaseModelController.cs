@@ -1,12 +1,10 @@
-﻿using Entity.Dtos;
-using Entity.Dtos.ModuleBase;
-using Entity.Models;
+﻿using Entity.Dtos.ModuleBase;
 using Entity.Models.ModuleBase;
-using Entity.Requests;
 using Entity.Requests.ModuleBase;
-using Microsoft.AspNetCore.Mvc; 
+using Entity.Requests.ModuleSegurity;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers.ModuleBaseController
 {
     /// <summary>
     /// Controlador base abstracto que define endpoints REST genéricos para manejar entidades.

@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using API.Controllers.ModuleBaseController;
+using AutoMapper;
 using Entity.Dtos;
-using Entity.Models;
-using Entity.Requests;
-using Service.Interfaces;
+using Entity.Models.ModuleSegurity;
+using Entity.Requests.ModuleSegurity;
+using Service.Interfaces.IModuleBaseService;
+using Service.Interfaces.IModuleSegurityService;
 
-namespace API.Controllers
+namespace API.Controllers.ModuleSegurityController
 {
     public class RoleController : BaseModelController<Role, RoleDTO, RoleRequest>
     {

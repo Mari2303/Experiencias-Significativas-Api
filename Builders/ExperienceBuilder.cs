@@ -1,5 +1,8 @@
-﻿using Entity.Models.ModuleOperation;
+﻿using Entity.Models.ModelosParametros;
+using Entity.Models.ModuleOperation;
 using Entity.Requests.EntityData.EntityCreateRequest;
+using Entity.Requests.ModuleOperation;
+using Entity.Requests.ModulesParamer;
 
 
 namespace Builders

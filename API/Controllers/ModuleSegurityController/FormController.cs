@@ -1,14 +1,12 @@
-﻿using AutoMapper;
-using Entity.Dtos;
+﻿using API.Controllers.ModuleBaseController;
+using AutoMapper;
 using Entity.Dtos.ModuleSegurity;
 using Entity.Models;
-using Entity.Requests;
 using Entity.Requests.ModuleSegurity;
-using Service.Interfaces;
 using Service.Interfaces.IModuleBaseService;
 using Service.Interfaces.IModuleSegurityService;
 
-namespace API.Controllers
+namespace API.Controllers.ModuleSegurityController
 {
     public class FormController : BaseModelController<Form, FormDTO, FormRequest>
     {

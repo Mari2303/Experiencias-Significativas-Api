@@ -1,12 +1,13 @@
-﻿using AutoMapper;
+﻿using API.Controllers.ModuleBaseController;
+using AutoMapper;
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
-using Entity.Requests.EntityCreateRequest;
 using Entity.Requests.EntityData.EntityCreateRequest;
+using Entity.Requests.EntityData.EntityUpdateRequest;
 using Entity.Requests.ModuleOperation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Service.Interfaces;
+using Service.Interfaces.IModuleBaseService;
 using Service.Interfaces.ModelOperationService;
 
 namespace API.Controllers.ModuleOperationController
@@ -21,8 +22,8 @@ namespace API.Controllers.ModuleOperationController
             _mapper = mapper;
         }
 
-
-        [Authorize(Roles = "SUPERADMIN")] // Solo admin crea evaluaciones
+        // ✅ Crear una nueva evaluación
+        [Authorize(Roles = "SUPERADMIN")]
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] EvaluationCreateRequest request)
         {
@@ -33,8 +34,32 @@ namespace API.Controllers.ModuleOperationController
             return Ok(result);
         }
 
+        // ♻️ Actualizar una evaluación existente
+        [Authorize(Roles = "SUPERADMIN")]
+        [HttpPut("update/{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] EvaluationUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
+            var result = await _evaluationService.UpdateEvaluationAsync(id, request);
+            return Ok(result);
+        }
 
+      
 
+        // 🔄 Regenerar PDF manualmente (opcional)
+        [Authorize(Roles = "SUPERADMIN")]
+        [HttpPost("{id:int}/generate-pdf")]
+        public async Task<IActionResult> GeneratePdf(int id)
+        {
+            var result = await _evaluationService.GenerateAndAttachPdfAsync(id);
+            return Ok(result);
+        }
     }
+
+
+
+
 }
+

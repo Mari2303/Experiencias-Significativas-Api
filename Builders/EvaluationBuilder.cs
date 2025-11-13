@@ -1,7 +1,7 @@
-﻿
-using Entity.Models.ModuleOperation;
+﻿using Entity.Models.ModuleOperation;
 using Entity.Requests.EntityData.EntityCreateRequest;
 using Entity.Requests.EntityData.EntityDetailRequest;
+using Entity.Requests.ModuleOperation;
 
 /// <summary>
 /// Builder para construir una evaluación junto con sus criterios asociados.
@@ -56,10 +56,12 @@ public class EvaluationBuilder
             int scoreSum = c.Scores.Sum(); // Suma los 3 números de cada criterio
             _totalScore += scoreSum;
 
+
             var criterEval = new EvaluationCriteria
             {
                 CriteriaId = c.CriteriaId,
                 Score = scoreSum,
+                DescriptionContribution = c.DescriptionContribution,
                
             };
 

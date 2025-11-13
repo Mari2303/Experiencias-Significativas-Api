@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using Entity.Models;
 using Entity.Models.ModuleOperation;
-using Entity.Requests;
+using Entity.Requests.ModuleBase;
 using Entity.Requests.ModuleSegurity;
-using Entity.Resquest;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Service.Interfaces;
+using Service.Interfaces.IModuleSegurityService;
 
-namespace API.Controllers
+namespace API.Controllers.ModuleSegurityController
 {
     /// <summary>
     /// Controlador encargado de la autenticación de usuarios.
