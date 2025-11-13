@@ -2,6 +2,7 @@ using Utilities.JwtAuthentication;
 using Utilities.Mappers;
 using Utilities.Mappers.ModuleGeographic;
 using Utilities.Mappers.ModuleOperation;
+using Utilities.Mappers.ModuleSegurity;
 using Utilities.Mappers.ModulesParamer;
 
 namespace API

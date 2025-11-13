@@ -1,11 +1,12 @@
-﻿using AutoMapper;
+﻿using API.Controllers.ModuleBaseController;
+using AutoMapper;
 using Entity.Dtos;
 using Entity.Dtos.ModelosParametro;
 using Entity.Models;
 using Entity.Models.ModelosParametros;
 using Entity.Requests;
-using Entity.Requests.ModulesParamer;
-using Service.Interfaces;
+using Entity.Requests.ModuleParameter;
+using Service.Interfaces.IModuleBaseService;
 using Service.Interfaces.ModuleParamer;
 
 namespace API.Controllers.ModuleParamer

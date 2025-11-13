@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
-using Entity.Dtos;
 using Entity.Models;
-using Entity.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Service.Interfaces;
 using ResetPasswordRequest = Entity.Requests.Email.ResetPasswordRequest;
 using ForgotPasswordRequest = Entity.Requests.Email.ForgotPasswordRequest;
+using Service.Interfaces.IModuleBaseService;
+using Service.Interfaces.IModuleSegurityService;
+using API.Controllers.ModuleBaseController;
+using Entity.Dtos.ModuleSegurity;
+using Entity.Requests.ModuleSegurity;
 
-namespace API.Controllers
+namespace API.Controllers.ModuleSegurityController
 {
     public class UserController : BaseModelController<User, UserDTO, UserRequest>
     {
