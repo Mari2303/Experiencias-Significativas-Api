@@ -15,7 +15,7 @@ namespace Entity.Requests.ModuleOperation
         public string Socialization { get; set; } = string.Empty;
         public int UserId { get; set; }
         public int StateExperienceId { get; set; }
-        public string UrlPdf { get; set; } = string.Empty;
+      
 
 
         public InstitutionCreateRequest Institution { get; set; } = null!;
