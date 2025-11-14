@@ -41,8 +41,6 @@ namespace Repository.Implementations.ModuleOperationRepository
                 SUM(CASE WHEN ec.TotalScore BETWEEN 46 AND 79 THEN 1 ELSE 0 END) AS ExperiencesCreciente,
                 SUM(CASE WHEN ec.TotalScore >= 80 THEN 1 ELSE 0 END) AS ExperiencesInspiradora,
                 COUNT(CASE WHEN e.CreatedAt IS NOT NULL THEN 1 END) AS TotalExperiencesRegistradas,
-                SUM(CASE WHEN e.StateId = 1 THEN 1 ELSE 0 END) AS ExperiencesRegistradas,
-                SUM(CASE WHEN e.StateId = 2 THEN 1 ELSE 0 END) AS ExperiencesCreadas,
                 COUNT(DISTINCT i.Id) AS TotalInstitutionsWithExperiences,
                 (SELECT COUNT(DISTINCT u2.Id)
                  FROM [Users] u2
