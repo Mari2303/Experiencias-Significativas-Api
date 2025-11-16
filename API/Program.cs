@@ -52,6 +52,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<SupabaseStorageService>();
 builder.Services.AddScoped<SubeBaseExperienceStorage>();
 
+
 AuthenticationExtensions.CustomSwagger(builder.Services);
 
 ServiceExtensions.AddCustomServices(builder.Services);

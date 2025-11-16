@@ -27,7 +27,7 @@ namespace Service.Implementations.ModelOperationService
         private readonly PdfSettingsRequest _pdfSettings;
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly IExperienceEditPermissionRepository _permissionRepo;
-
+      
         public ExperienceService(IExperienceRepository experienceRepository, SubeBaseExperienceStorage storage, IOptions<PdfSettingsRequest> pdfSettings, IHubContext<NotificationHub> hubContext, IExperienceEditPermissionRepository permissionRepo) : base(experienceRepository)
         {
             _experienceRepository = experienceRepository;
@@ -104,7 +104,7 @@ namespace Service.Implementations.ModelOperationService
 
             if (permission == null || permission.Approved == false)
                 throw new Exception("No tienes permiso para editar esta experiencia");
-
+            
             //  Aplicar patch a la experiencia
             experience.ApplyPatch(request);
 

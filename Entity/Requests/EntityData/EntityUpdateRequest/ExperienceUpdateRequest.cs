@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entity.Requests.EntityData.EntityDataRequest;
+using Entity.Requests.ModuleGeographic;
 
 namespace Entity.Requests.EntityData.EntityUpdateRequest
 {
@@ -31,7 +33,7 @@ namespace Entity.Requests.EntityData.EntityUpdateRequest
         public List<int> PopulationGradeIds { get; set; }
         public List<int> ThematicLineIds { get; set; }
         public List<GradeUpdateRequest> GradesUpdate { get; set; }
-
+     
 
 
     }

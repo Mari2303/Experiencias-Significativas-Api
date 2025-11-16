@@ -45,9 +45,9 @@ namespace Repository.Implementations.ModuleOperationRepository
                 // Datos base
                 .Include(e => e.StateExperience)
                 .Include(e => e.User)
-                    .ThenInclude(u => u.Person)
+                .ThenInclude(u => u.Person)
 
-                    .Include(e => e.Evaluations)
+                .Include(e => e.Evaluations)
                 .ThenInclude(ev => ev.EvaluationCriterias)
                 .ThenInclude(ec => ec.Criteria)
                 // Líder
@@ -55,9 +55,9 @@ namespace Repository.Implementations.ModuleOperationRepository
 
                 // Institución + subtablas
                 .Include(e => e.Institution)
-                    .ThenInclude(i => i.Departaments)
+                .ThenInclude(i => i.Departaments)
                 .Include(e => e.Institution)
-                    .ThenInclude(i => i.Municipalitis)
+                .ThenInclude(i => i.Municipalitis)
                 .Include(e => e.Institution)
                     .ThenInclude(i => i.Communes)
                 .Include(e => e.Institution)
@@ -92,7 +92,7 @@ namespace Repository.Implementations.ModuleOperationRepository
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-
+      
         public async Task<Experience?> GetDetailByIdAsync(int id)
         {
             return await _context.Experiences

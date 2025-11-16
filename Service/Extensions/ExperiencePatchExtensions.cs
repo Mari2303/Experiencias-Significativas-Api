@@ -3,10 +3,20 @@ using Entity.Models.ModuleOperation;
 using Entity.Requests.EntityData.EntityDataRequest;
 using Entity.Requests.EntityData.EntityUpdateRequest;
 
-namespace Service.Extensions
+namespace Service.Extensions 
 {
+    /// <summary>
+    /// Clase estática que contiene métodos de extensión para aplicar cambios parciales (PATCH) 
+    /// a la entidad <see cref="Experience"/> a partir de un objeto <see cref="ExperiencePatchDTO"/>.
+    /// </summary>
     public static class ExperiencePatchExtensions
     {
+        /// <summary>
+        /// Aplica los cambios enviados en un <see cref="ExperiencePatchDTO"/> sobre la entidad <see cref="Experience"/>.
+        /// Solo actualiza los valores que no son nulos o vacíos.
+        /// </summary>
+        /// <param name="experience">Entidad <see cref="Experience"/> existente en la base de datos.</param>
+        /// <param name="dto">Objeto con los nuevos valores a actualizar parcialmente.</param>
         public static void ApplyPatch(this Experience experience, ExperienceUpdateRequest request)
         {
             if (experience == null || request == null)
@@ -100,13 +110,13 @@ namespace Service.Extensions
 
 
 
-               
+
                 // Documentos
-               
+       
                 if (request.DocumentsUpdate != null && request.DocumentsUpdate.Any())
                 {
                     experience.Documents = request.DocumentsUpdate.Select(d => new Document
-                    {
+            {
                         Name = d.Name,
                         UrlLink = d.UrlLink,
                         UrlPdf = d.UrlPdf,
@@ -116,7 +126,7 @@ namespace Service.Extensions
 
                 
                 // Objectos y sus relaciones
-               
+
                 if (request.ObjectivesUpdate != null && request.ObjectivesUpdate.Any())
                 {
                     experience.Objectives = request.ObjectivesUpdate.Select(o =>
@@ -134,16 +144,16 @@ namespace Service.Extensions
                         };
 
                         if (o.SupportInformationsUpdate != null)
-                        {
+                {
                             obj.SupportInformations = o.SupportInformationsUpdate.Select(s => new SupportInformation
-                            {
-
+                        {
+                           
                                 MetaphoricalPhrase = s.MetaphoricalPhrase,
                                 Testimony = s.Testimony,
                                 FollowEvaluation = s.FollowEvaluation
                             }).ToList();
                         }
-
+                            
                         if (o.MonitoringsUpdate != null)
                         {
                             obj.Monitorings = o.MonitoringsUpdate.Select(m => new Monitoring
@@ -153,19 +163,19 @@ namespace Service.Extensions
                                 Tranfer = m.Tranfer,
                                 Result = m.Result
                             }).ToList();
-                        }
+                }
 
                         return obj;
 
                     }).ToList();
-                }
+            }
 
-
+           
               
                 //  Desarrollo
                
                 if (request.DevelopmentsUpdate != null && request.DevelopmentsUpdate.Any())
-                {
+            {
                     experience.Developments = request.DevelopmentsUpdate.Select(d => new Development
                     {
                         CrossCuttingProject = d.CrossCuttingProject,
@@ -176,9 +186,14 @@ namespace Service.Extensions
                     }).ToList();
                 }
 
-               
+                // Departamentos 
+                if (request.InstitutionInfo.Departamentes != null && request.InstitutionInfo.Departamentes.Any())
+                    experience.Institution.Departaments = request.InstitutionInfo.Departamentes
+                        .Select(d => new Departament { Name = d.Name })
+                        .ToList();
+
                 // Linea tematicas
-              
+
                 if (request.ThematicLineIds != null && request.ThematicLineIds.Any())
                 {
                     experience.ExperienceLineThematics = request.ThematicLineIds.Select(id =>
@@ -188,16 +203,16 @@ namespace Service.Extensions
                             State = true,
                             CreatedAt = DateTime.UtcNow
                         }).ToList();
-                }
+            }
 
                
                 // grados
-                
+          
                 if (request.GradesUpdate != null && request.GradesUpdate.Any())
-                {
+            {
                     experience.ExperienceGrades = request.GradesUpdate.Select(g =>
                         new ExperienceGrade
-                        {
+                {
                             GradeId = g.Id,
                             Description = g.Description
                         }).ToList();
@@ -205,17 +220,17 @@ namespace Service.Extensions
 
                
                 // poblacion
-             
+
                 if (request.PopulationGradeIds != null && request.PopulationGradeIds.Any())
                 {
                     experience.ExperiencePopulations = request.PopulationGradeIds.Select(id =>
                         new ExperiencePopulation
-                        {
+                    {
                             PopulationGradeId = id,
                             State = true,
                             CreatedAt = DateTime.UtcNow
                         }).ToList();
-                }
+                    }
 
                 
                 // historial
@@ -234,7 +249,7 @@ namespace Service.Extensions
             }
         }
     }
-    }
+}
 
 
 

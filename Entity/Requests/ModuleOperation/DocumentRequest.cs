@@ -13,6 +13,6 @@ namespace Entity.Requests.ModuleOperation
         public string UrlLink { get; set; } = string.Empty;
         public string UrlPdf { get; set; } = string.Empty;
         public string UrlPdfExperience { get; set; } = string.Empty;
-
+     
     }
 }
