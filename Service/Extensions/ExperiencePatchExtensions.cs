@@ -187,8 +187,8 @@ namespace Service.Extensions
                 }
 
                 // Departamentos 
-                if (request.InstitutionInfo.Departamentes != null && request.InstitutionInfo.Departamentes.Any())
-                    experience.Institution.Departaments = request.InstitutionInfo.Departamentes
+                if (request.InstitutionUpdate.Departaments != null && request.InstitutionUpdate.Departaments.Any())
+                    experience.Institution.Departaments = request.InstitutionUpdate.Departaments
                         .Select(d => new Departament { Name = d.Name })
                         .ToList();
 

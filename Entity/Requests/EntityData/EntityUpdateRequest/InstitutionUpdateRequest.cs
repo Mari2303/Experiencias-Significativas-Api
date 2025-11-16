@@ -24,7 +24,6 @@ namespace Entity.Requests.EntityData.EntityUpdateRequest
         public List<DepartamentInfoRequest> Departaments { get; set; }
         public  List<EEZoneInfoRequest> EEZones { get; set; }
         public  List<MunicipalityInfoRequest> Municipalities { get; set; }
-
-
+        public object Departamentes { get; set; }
     }
 }

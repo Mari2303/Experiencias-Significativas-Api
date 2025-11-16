@@ -417,7 +417,7 @@ public static class ExperiencePdfGenerator
                         col.Item().Row(r =>
                         {
                             r.RelativeColumn().Text("¿Durante el desarrollo de la Experiencia Significativa se evidencio reorganización y actualización permanente desde el análisis de la implementación, nuevos conocimientos, comprensiones, enfoques y métodos que contribuyen al mejoramiento de la práctica pedagógica?:").Bold();
-                            r.RelativeColumn().Text(support.MonitoringEvaluation ?? "—");
+                            r.RelativeColumn().Text(support.Summary ?? "—");
                         });
 
                         col.Item().Row(r =>
