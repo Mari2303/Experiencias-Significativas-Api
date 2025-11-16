@@ -15,6 +15,9 @@ namespace Entity.Models.ModuleOperation
         public DateTime Developmenttime { get; set; } = DateTime.Now;
         public string Recognition { get; set; } = string.Empty;
         public string Socialization { get; set; } = string.Empty;
+
+        public string? UrlPdf {  get; set; } = string.Empty;
+
         public int StateExperienceId { get; set; }
         public virtual StateExperience StateExperience { get; set; } = null!;
         public int UserId { get; set; }

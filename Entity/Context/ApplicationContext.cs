@@ -81,6 +81,8 @@ namespace Entity.Context
             modelBuilder.ApplyConfiguration<Municipality>(configuration);
             modelBuilder.ApplyConfiguration<EEZone>(configuration);
 
+            modelBuilder.ApplyConfiguration<ExperienceEditPermission>(configuration);
+
 
             // Configuración específica de PasswordRecovery
             modelBuilder.Entity<PasswordRecovery>(entity =>
@@ -189,6 +191,7 @@ namespace Entity.Context
 
         public DbSet<User> Users { get; set; }
         public DbSet<Person> Persons { get; set; }
+        public DbSet<ExperienceEditPermission> ExperienceEditPermissions { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Form> Forms { get; set; }

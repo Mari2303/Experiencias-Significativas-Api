@@ -41,22 +41,87 @@ namespace Repository.Implementations.ModuleOperationRepository
         public async Task<Experience?> GetByIdWithDetailsAsync(int id)
         {
             return await _context.Experiences
-                 .Include(e => e.Leaders)
-                .Include(e => e.Institution)
-                .Include(e => e.Documents)
+
+                // Datos base
+                .Include(e => e.StateExperience)
                 .Include(e => e.User)
-                .ThenInclude(u => u.Person)
-                .Include(e => e.Evaluations)
+                    .ThenInclude(u => u.Person)
+
+                    .Include(e => e.Evaluations)
                 .ThenInclude(ev => ev.EvaluationCriterias)
                 .ThenInclude(ec => ec.Criteria)
+                // Líder
+                .Include(e => e.Leaders)
+
+                // Institución + subtablas
                 .Include(e => e.Institution)
-                .ThenInclude(i => i.Departaments)
+                    .ThenInclude(i => i.Departaments)
                 .Include(e => e.Institution)
-                .ThenInclude(i => i.Municipalitis)
+                    .ThenInclude(i => i.Municipalitis)
+                .Include(e => e.Institution)
+                    .ThenInclude(i => i.Communes)
+                .Include(e => e.Institution)
+                    .ThenInclude(i => i.EEZones)
+                .Include(e => e.Institution)
+                    .ThenInclude(i => i.Addresss)
+
+                // Documentos
+                .Include(e => e.Documents)
+
+                // Líneas temáticas
+                .Include(e => e.ExperienceLineThematics)
+                    .ThenInclude(x => x.LineThematic)
+
+                // Grados
+                .Include(e => e.ExperienceGrades)
+                    .ThenInclude(x => x.Grade)
+
+                // Grupo poblacional
+                .Include(e => e.ExperiencePopulations)
+                    .ThenInclude(x => x.PopulationGrade)
+
+                // Desarrollo
+                .Include(e => e.Developments)
+
+                // Objetivos + soportes + monitoreos
+                .Include(e => e.Objectives)
+                    .ThenInclude(o => o.SupportInformations)
+                .Include(e => e.Objectives)
+                    .ThenInclude(o => o.Monitorings)
+
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-      
+
+        public async Task<Experience?> GetDetailByIdAsync(int id)
+        {
+            return await _context.Experiences
+                .Include(e => e.Institution)
+                    .ThenInclude(i => i.Departaments)
+                .Include(e => e.Institution)
+                    .ThenInclude(i => i.Municipalitis)
+                .Include(e => e.Institution)
+                    .ThenInclude(i => i.Communes)
+                .Include(e => e.Institution)
+                    .ThenInclude(i => i.EEZones)
+                .Include(e => e.Leaders)
+                .Include(e => e.Documents)
+                .Include(e => e.Objectives)
+                    .ThenInclude(o => o.SupportInformations)
+                .Include(e => e.Objectives)
+                    .ThenInclude(o => o.Monitorings)
+                .Include(e => e.ExperienceLineThematics)
+                .Include(e => e.ExperienceGrades)
+                    .ThenInclude(g => g.Grade)
+                .Include(e => e.ExperiencePopulations)
+                    .ThenInclude(p => p.PopulationGrade)
+                .Include(e => e.Developments)
+                .Include(e => e.HistoryExperiences)
+                .Include(e => e.User)
+                .FirstOrDefaultAsync(e => e.Id == id && e.State == true);
+        }
+
+
 
 
 

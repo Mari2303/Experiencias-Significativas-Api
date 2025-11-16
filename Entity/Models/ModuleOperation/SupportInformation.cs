@@ -6,7 +6,7 @@ namespace Entity.Models.ModuleOperation
 {
     public class SupportInformation : BaseModel
     {
-        public string Summary { get; set; } = string.Empty;
+        public string MonitoringEvaluation { get; set; } = string.Empty;
         public string MetaphoricalPhrase { get; set; } = string.Empty;
         public string Testimony {  get; set; } = string.Empty;
         public string FollowEvaluation {  get; set; } = string.Empty;

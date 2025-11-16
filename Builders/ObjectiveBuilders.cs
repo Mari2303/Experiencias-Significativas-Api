@@ -30,6 +30,8 @@ namespace Builders
             _objective.EnfoqueExperience = request.EnfoqueExperience;
             _objective.Methodologias = request.Methodologias;
             _objective.InnovationExperience = request.InnovationExperience;
+            _objective.Pmi = request.Pmi; 
+            _objective.Nnaj = request.Nnaj;
             
             return this;
         }
@@ -56,7 +58,7 @@ namespace Builders
             _objective.SupportInformations = request.Select(R => new SupportInformation
 
             {
-                Summary = R.Summary,
+                MonitoringEvaluation = R.Summary,
                 MetaphoricalPhrase = R.MetaphoricalPhrase,
                 Testimony = R.Testimony,
                 FollowEvaluation = R.FollowEvaluation,

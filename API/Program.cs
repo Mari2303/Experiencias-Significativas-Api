@@ -1,13 +1,17 @@
 ﻿using API;
 using Entity.Context;
+using Entity.Models.ModuleOperation;
 using Entity.Requests.ModuleBase;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
 using Repository.Implementations.ModuleBaseRepository;
+using Repository.Implementations.ModuleOperationRepository;
 using Repository.Interfaces.IModuleBaseRepository;
+using Repository.Interfaces.IModuleOperationRepository;
 using Service.Implementations.ModuleSegurityService;
 using Service.Interfaces.IModuleSegurityService;
 using System.Text.Json.Serialization;
+using Utilities.CreatedPdf.Service;
 using Utilities.Email.Implement;
 using Utilities.Email.Interfaces;
 using Utilities.JwtAuthentication;
@@ -46,7 +50,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<SupabaseStorageService>();
-
+builder.Services.AddScoped<SubeBaseExperienceStorage>();
 
 AuthenticationExtensions.CustomSwagger(builder.Services);
 
@@ -88,7 +92,9 @@ builder.Services.AddScoped<IEmailEvaluationBrevoService, EmailEvaluationBrevoSer
 
 builder.Services.Configure<PdfSettingsRequest>(builder.Configuration.GetSection("PdfSettings"));
 
+builder.Services.AddSignalR();
 
+builder.Services.AddScoped<IExperienceEditPermissionRepository, ExperienceEditPermissionRepository>();
 
 
 // CONFIGURACIÓN DE CORS (permite acceso desde frontend)
@@ -146,6 +152,6 @@ app.UseAuthorization();
 
 // Mapear controladores
 app.MapControllers();
-
+app.MapHub<NotificationHub>("/hubs/notifications");
 // Ejecutar aplicación
 app.Run();
