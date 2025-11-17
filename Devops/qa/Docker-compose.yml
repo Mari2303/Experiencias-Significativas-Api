@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # 🌐 API principal - QA
@@ -15,12 +15,8 @@ services:
     networks:
       - network_experiencesig
     labels:
-      - com.experiencia.environment=qa
-
-
+      - com.experienciasig.environment=qa
 
 networks:
- network_experiencesig:
+  network_experiencesig:
     external: true
-
-

@@ -1,4 +1,5 @@
 ﻿using API;
+using API.Extensions;
 using Entity.Context;
 using Entity.Models.ModuleOperation;
 using Entity.Requests.ModuleBase;
@@ -53,7 +54,7 @@ builder.Services.AddScoped<SupabaseStorageService>();
 builder.Services.AddScoped<SubeBaseExperienceStorage>();
 
 
-AuthenticationExtensions.CustomSwagger(builder.Services);
+builder.Services.AddCustomSwagger();
 
 ServiceExtensions.AddCustomServices(builder.Services);
 
@@ -74,7 +75,8 @@ builder.Services.AddSingleton<IJwtAuthenticationService, JwtAuthenticationServic
 
 
 // Añadir autenticación personalizada
-AuthenticationExtensions.AddCustomAuthentication(builder.Services, builder.Configuration);
+AuthenticationConfiguration.AddCustomAuthentication(builder.Services, builder.Configuration);
+
 MapperExtension.ConfigureAutoMapper(builder.Services);
 
 

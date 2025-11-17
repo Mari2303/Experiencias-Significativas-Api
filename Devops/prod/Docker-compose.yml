@@ -13,15 +13,10 @@ services:
     ports:
       - "5103:8080"
     networks:
-      -  network_experiencesig
+      - network_experiencesig
     labels:
-      - com.gescomph.environment=prod
-
-volumes:
-  sqldata_prod:
+      - com.experienciasig.environment=prod
 
 networks:
   network_experiencesig:
     external: true
-
-
