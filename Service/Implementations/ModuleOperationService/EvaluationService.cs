@@ -6,6 +6,7 @@ using Entity.Requests.EntityData.EntityUpdateRequest;
 using Entity.Requests.ModuleBase;
 using Entity.Requests.ModuleOperation;
 using Microsoft.Extensions.Options;
+using Repository.Implementations.ModuleOperationRepository;
 using Repository.Interfaces.IModuleOperationRepository;
 using Service.Extensions;
 using Service.Implementations.ModuleBaseService;
@@ -133,6 +134,31 @@ namespace Service.Implementations.ModelOperationService
 
             return pdfUrl;
         }
+
+
+
+
+        public async Task<IEnumerable<Experience>> FilterInitialEvaluationAsync()
+        {
+            return await _evaluationRepository.GetExperiencesWithInitialEvaluationAsync();
+        }
+
+        public async Task<IEnumerable<Experience>> FilterFinalEvaluationAsync()
+        {
+            return await _evaluationRepository.GetExperiencesWithFinalEvaluationAsync();
+        }
+
+        public async Task<IEnumerable<Experience>> FilterWithoutEvaluationAsync()
+        {
+            return await _evaluationRepository.GetExperiencesWithoutEvaluationAsync();
+        }
+
+
+
+
+
+
+
     }
 }
 

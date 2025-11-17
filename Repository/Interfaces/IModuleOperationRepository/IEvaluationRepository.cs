@@ -22,5 +22,11 @@ namespace Repository.Interfaces.IModuleOperationRepository
         Task<Evaluation> UpdateEvaluationAsync(Evaluation evaluation, List<EvaluationCriteria> newCriteria);
 
         Task<Evaluation?> GetEvaluationByIdTrackedAsync(int evaluationId);
+
+        Task<IEnumerable<Experience>> GetExperiencesWithInitialEvaluationAsync();
+
+        Task<IEnumerable<Experience>> GetExperiencesWithFinalEvaluationAsync();
+
+        Task<IEnumerable<Experience>> GetExperiencesWithoutEvaluationAsync();
     }
 }
