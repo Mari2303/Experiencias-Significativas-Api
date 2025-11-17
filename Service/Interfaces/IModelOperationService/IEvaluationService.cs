@@ -5,6 +5,7 @@ using Entity.Requests.EntityData.EntityDetailRequest;
 using Entity.Requests.EntityData.EntityUpdateRequest;
 using Entity.Requests.ModuleOperation;
 using Service.Interfaces.IModuleBaseService;
+using System.Threading.Tasks;
 
 namespace Service.Interfaces.ModelOperationService
 {
@@ -15,6 +16,13 @@ namespace Service.Interfaces.ModelOperationService
         Task<EvaluationDetailRequest> UpdateEvaluationAsync(int evaluationId, EvaluationUpdateRequest request);
 
         Task<string> GenerateAndAttachPdfAsync(int evaluationId);
+
+        Task<IEnumerable<Experience>> FilterInitialEvaluationAsync();
+
+        Task<IEnumerable<Experience>> FilterFinalEvaluationAsync();
+
+        Task<IEnumerable<Experience>> FilterWithoutEvaluationAsync();
+
 
     }
 }

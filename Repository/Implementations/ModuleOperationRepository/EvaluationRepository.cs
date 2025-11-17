@@ -174,10 +174,49 @@ namespace Repository.Implementations.ModuleOperationRepository
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error al recuperar la evaluación con tracking: {ex.Message}");
+                Console.WriteLine($" Error al recuperar la evaluación con tracking: {ex.Message}");
                 throw;
             }
         }
+
+
+
+
+
+
+
+        public async Task<IEnumerable<Experience>> GetExperiencesWithInitialEvaluationAsync()
+        {
+            return await _context.Experiences
+                .Include(e => e.Evaluations)
+                .Where(e => e.Evaluations.Any(ev => ev.TypeEvaluation == "Inicial"))
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Experience>> GetExperiencesWithFinalEvaluationAsync()
+        {
+            return await _context.Experiences
+                .Include(e => e.Evaluations)
+                .Where(e => e.Evaluations.Any(ev => ev.TypeEvaluation == "Final"))
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Experience>> GetExperiencesWithoutEvaluationAsync()
+        {
+            return await _context.Experiences
+                .Include(e => e.Evaluations)
+                .Where(e => !e.Evaluations.Any()) // no tiene evaluaciones
+                .ToListAsync();
+        }
+
+
+
+
+
+
+
+
+
 
 
 
