@@ -98,6 +98,9 @@ builder.Services.AddSignalR();
 builder.Services.AddScoped<IExperienceEditPermissionRepository, ExperienceEditPermissionRepository>();
 
 
+
+
+
 // CONFIGURACIÓN DE CORS (permite acceso desde frontend)
 
 builder.Services.AddCors(options =>

@@ -58,7 +58,7 @@ namespace Builders
             _objective.SupportInformations = request.Select(R => new SupportInformation
 
             {
-                MonitoringEvaluation = R.Summary,
+                Summary = R.Summary,
                 MetaphoricalPhrase = R.MetaphoricalPhrase,
                 Testimony = R.Testimony,
                 FollowEvaluation = R.FollowEvaluation,
