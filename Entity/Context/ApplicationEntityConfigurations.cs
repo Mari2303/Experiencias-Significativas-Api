@@ -48,13 +48,20 @@ namespace Entity.Context
         IEntityTypeConfiguration<Municipality>,
         IEntityTypeConfiguration<Commune>,
         IEntityTypeConfiguration<EEZone>,
-        IEntityTypeConfiguration<Address>
+        IEntityTypeConfiguration<Address>,
+
+        IEntityTypeConfiguration<ExperienceEditPermission>
 
 
 
 
 
     {
+
+        public void Configure(EntityTypeBuilder<ExperienceEditPermission> builder)
+        {
+            builder.HasKey(s => s.Id); // Primary key
+        }
 
         public void Configure(EntityTypeBuilder<User> builder)
         {

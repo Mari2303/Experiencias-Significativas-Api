@@ -10,6 +10,8 @@ namespace Entity.Models.ModuleOperation
         public string ObjectiveExperience { get; set; } = string.Empty;
         public string EnfoqueExperience { get; set; } = string.Empty;
         public string Methodologias { get; set; } = string.Empty;
+        public string Pmi { get; set; }
+        public string Nnaj { get; set; }
         public string InnovationExperience { get; set; } = string.Empty;
         public int ExperienceId { get; set; }
         public virtual Experience Experience { get; set; } = null!;
