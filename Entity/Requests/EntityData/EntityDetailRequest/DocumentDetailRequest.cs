@@ -14,6 +14,8 @@ namespace Entity.Requests.EntityData.EntityDetailRequest
 
         [Url(ErrorMessage = "La URL del enlace no es válida")]
         public string UrlLink { get; set; } = string.Empty;
+
+     
     }
 }
 

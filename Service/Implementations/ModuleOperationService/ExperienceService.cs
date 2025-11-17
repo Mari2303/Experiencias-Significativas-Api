@@ -1,15 +1,21 @@
 ﻿using Builders;
+using Entity.Dtos.ModuleOperation;
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
 using Entity.Requests.EntityData.EntityCreateRequest;
 using Entity.Requests.EntityData.EntityDetailRequest;
 using Entity.Requests.EntityData.EntityUpdateRequest;
+using Entity.Requests.ModuleBase;
 using Entity.Requests.ModuleOperation;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Repository.Implementations.ModuleOperationRepository;
 using Repository.Interfaces.IModuleOperationRepository;
 using Service.Extensions;
 using Service.Implementations.ModuleBaseService;
 using Service.Interfaces.ModelOperationService;
+using Utilities.CreatedPdf.Service;
 
 
 namespace Service.Implementations.ModelOperationService
@@ -17,11 +23,18 @@ namespace Service.Implementations.ModelOperationService
     public class ExperienceService : BaseModelService<Experience, ExperienceDTO, ExperienceRequest>, IExperienceService
     {
         private readonly IExperienceRepository _experienceRepository;
+        private readonly SubeBaseExperienceStorage _storage;
+        private readonly PdfSettingsRequest _pdfSettings;
+        private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly IExperienceEditPermissionRepository _permissionRepo;
       
-        public ExperienceService(IExperienceRepository experienceRepository) : base(experienceRepository)
+        public ExperienceService(IExperienceRepository experienceRepository, SubeBaseExperienceStorage storage, IOptions<PdfSettingsRequest> pdfSettings, IHubContext<NotificationHub> hubContext, IExperienceEditPermissionRepository permissionRepo) : base(experienceRepository)
         {
             _experienceRepository = experienceRepository;
-        
+            _storage = storage;
+            _pdfSettings = pdfSettings.Value;
+            _hubContext = hubContext;
+            _permissionRepo = permissionRepo;
         }
 
  
@@ -44,6 +57,19 @@ namespace Service.Implementations.ModelOperationService
                     .Build();
 
                 await _experienceRepository.AddAsync(experience);
+
+                // 🔔 ENVIAR NOTIFICACIÓN AL ADMIN VÍA SIGNALR
+                await _hubContext.Clients.All.SendAsync("ReceiveNotification", new
+                {
+                    Title = "Nueva experiencia registrada",
+                    ExperienceName = experience.NameExperiences,
+                    CreatedBy = experience.User?.Person?.FirstName
+                                ?? experience.User?.Username
+                                ?? "Usuario no identificado",
+                    Date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                });
+
+               
                 return experience;
             }
             catch (DbUpdateException dbEx)
@@ -66,17 +92,38 @@ namespace Service.Implementations.ModelOperationService
 
 
 
-        public async Task<bool> PatchAsync(ExperienceUpdateRequest Request)
+        public async Task<bool> PatchAsync(ExperienceUpdateRequest request)
         {
-            var experience = await _experienceRepository.GetByIdWithDetailsAsync(Request.ExperienceId);
-            if (experience == null) return false;
+            //  Cargar la experiencia completa con todas sus relaciones
+            var experience = await _experienceRepository.GetByIdWithDetailsAsync(request.ExperienceId);
+            if (experience == null)
+                return false;
 
+            //  Validar si tiene permiso aprobado para editar
+            var permission = await _permissionRepo.GetByExperienceIdAsync(request.ExperienceId);
+
+            if (permission == null || permission.Approved == false)
+                throw new Exception("No tienes permiso para editar esta experiencia");
             
-            experience.ApplyPatch(Request);
+            //  Aplicar patch a la experiencia
+            experience.ApplyPatch(request);
 
+            //  Actualizar en BD
             await _experienceRepository.UpdateAsync(experience);
+
+            //  Opcional: notificación al admin (solo aviso)
+            await _hubContext.Clients.Group("Admins").SendAsync("ExperienceUpdated", new
+            {
+                Message = "Una experiencia ha sido actualizada por un usuario",
+                ExperienceId = experience.Id,
+                Name = experience.NameExperiences,
+                User = experience.User?.Username ?? "Desconocido",
+                UpdatedAt = DateTime.UtcNow
+            });
+
             return true;
         }
+
 
 
         public async Task<IEnumerable<Experience>> GetExperiencesAsync(string role, int userId)
@@ -87,6 +134,99 @@ namespace Service.Implementations.ModelOperationService
             
             return await _experienceRepository.GetAllAsync();
         }
+
+
+
+
+
+
+
+        public async Task<string> GeneratePdfAndUploadAsync(int experienceId)
+        {
+            // Obtener experiencia con relaciones
+            var experience = await _experienceRepository.GetByIdWithDetailsAsync(experienceId);
+
+            if (experience == null)
+                throw new Exception("La experiencia no existe");
+
+            //  Generar PDF
+            var pdfBytes = ExperiencePdfGenerator.Generate(experience, null);
+
+            //  Subir a Supabase usando TU servicio existente
+            var url = await _storage.UploadExperiencePdfToSupabase(pdfBytes, experienceId);
+
+            //  Guardar URL en BD
+            experience.UrlPdf = url;
+            await _experienceRepository.UpdateAsync(experience);
+
+            return url;
+        }
+
+
+
+
+
+
+        //metodo  solicita edicion
+        public async Task RequestEditAsync(int experienceId, int userId)
+        {
+            var existing = await _permissionRepo.GetByExperienceIdAsync(experienceId);
+
+            if (existing != null)
+                throw new Exception("Ya existe una solicitud para esta experiencia.");
+
+            var permission = new ExperienceEditPermission
+            {
+                ExperienceId = experienceId,
+                UserId = userId,
+                CreatedAt = DateTime.UtcNow,
+                Approved = false
+            };
+
+            await _permissionRepo.AddAsync(permission);
+        }
+
+
+
+
+        //Un método para aprobar la edición
+        public async Task ApproveEditAsync(int experienceId)
+        {
+            var permission = await _permissionRepo.GetByExperienceIdAsync(experienceId)
+                ?? throw new Exception("No existe solicitud de edición");
+
+            permission.Approved = true;
+            permission.CreatedAt = DateTime.UtcNow;
+
+            await _permissionRepo.UpdateAsync(permission);
+        }
+
+
+
+
+        public async Task<List<ExperienceEditPermissionDTO>> GetAllAsync()
+        {
+            var list = await _permissionRepo.GetAllAsync();
+
+            return list.Select(p => new ExperienceEditPermissionDTO
+            {
+                Id = p.Id,
+                ExperienceId = p.ExperienceId,
+                ExperienceName = p.Experience?.NameExperiences ?? "",
+                UserId = p.UserId,
+                UserName = p.User?.Username ?? "",
+                Approved = p.Approved
+            }).ToList();
+        }
+
+
+        public async Task<Experience?> GetDetailAsync(int id)
+        {
+            return await _experienceRepository.GetDetailByIdAsync(id);
+        }
+
+
+
 
 
     }

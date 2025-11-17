@@ -14,6 +14,8 @@ namespace Entity.Requests.EntityData.EntityCreateRequest
         public string EnfoqueExperience { get; set; } = string.Empty;
         public string Methodologias { get; set; } = string.Empty;
         public string InnovationExperience { get; set; } = string.Empty;
+        public string Pmi { get; set; }
+        public string Nnaj { get; set; }
 
 
         public List<SupportInformationCreateRequest> SupportInformations { get; set; }

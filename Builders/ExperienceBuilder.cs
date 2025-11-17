@@ -118,6 +118,9 @@ namespace Builders
             {
                 Name = R.Name,
                 UrlLink = R.UrlLink,
+                UrlPdf = R.UrlPdf,
+                UrlPdfExperience = R.UrlPdfExperience,
+
                
             }).ToList();
             return this;

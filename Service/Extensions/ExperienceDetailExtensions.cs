@@ -54,12 +54,13 @@ namespace Service.Extensions
                 NameExperiences = experience.NameExperiences,
                 Developmenttime = experience.Developmenttime,
                 StateExperienceId= experience.StateExperienceId,
+                UrlPdf = experience.UrlPdf,
               
 
 
                 Leaders = experience.Leaders?
-                .Select(l => new LeaderUpdateRequest {  NameLeaders = l.NameLeaders}) 
-                .ToList() ?? new List<LeaderUpdateRequest>(),
+                .Select(l => new LeaderDetailRequest {  NameLeaders = l.NameLeaders}) 
+                .ToList() ?? new List<LeaderDetailRequest>(),
 
 
                 // Se toma el resultado de la última evaluación si existe,.
@@ -110,6 +111,8 @@ namespace Service.Extensions
             {
              
                 UrlLink = d.UrlLink,
+              
+
             }).ToList();
         }
 

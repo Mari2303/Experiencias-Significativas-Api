@@ -30,6 +30,8 @@ namespace Builders
             _objective.EnfoqueExperience = request.EnfoqueExperience;
             _objective.Methodologias = request.Methodologias;
             _objective.InnovationExperience = request.InnovationExperience;
+            _objective.Pmi = request.Pmi; 
+            _objective.Nnaj = request.Nnaj;
             
             return this;
         }

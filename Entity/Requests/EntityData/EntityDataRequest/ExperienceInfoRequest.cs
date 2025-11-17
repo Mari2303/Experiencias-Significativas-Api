@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Entity.Requests.EntityData.EntityDetailRequest;
+using Entity.Requests.EntityData.EntityUpdateRequest;
+using Entity.Requests.ModuleOperation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +19,7 @@ namespace Entity.Requests.EntityData.EntityDataRequest
         public string EvaluationResult { get; set; }
 
         public string UrlPdf { get; set; } = string.Empty;
-        public List<LeaderUpdateRequest> Leaders { get; set; }
+        public List<LeaderDetailRequest> Leaders { get; set; }
        
     }
 }

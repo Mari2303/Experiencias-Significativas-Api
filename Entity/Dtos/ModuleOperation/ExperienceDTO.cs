@@ -17,6 +17,7 @@ namespace Entity.Dtos.ModuleOperational
         public string Recognition { get; set; } = string.Empty;
         public string Socialization { get; set; } = string.Empty;
         public int UserId { get; set; }
+        public string? UrlPdf { get; set; }
         public int StateExperienceId { get; set; }
         public int InstitucionId { get; set; }
     }
