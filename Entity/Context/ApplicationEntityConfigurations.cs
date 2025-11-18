@@ -60,7 +60,17 @@ namespace Entity.Context
 
         public void Configure(EntityTypeBuilder<ExperienceEditPermission> builder)
         {
-            builder.HasKey(s => s.Id); // Primary key
+            builder.HasKey(s => s.Id);
+
+            builder.HasOne(e => e.Experience)
+                   .WithMany()
+                   .HasForeignKey(e => e.ExperienceId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(e => e.User)
+                   .WithMany()
+                   .HasForeignKey(e => e.UserId)
+                   .OnDelete(DeleteBehavior.Restrict); 
         }
 
         public void Configure(EntityTypeBuilder<User> builder)
