@@ -8,10 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="MigrationsSqlServer\**" />
+    <Compile Remove="MigrationsSqlServe\**" />
     <Compile Remove="Migrations\**" />
     <EmbeddedResource Remove="MigrationsSqlServer\**" />
+    <EmbeddedResource Remove="MigrationsSqlServe\**" />
     <EmbeddedResource Remove="Migrations\**" />
     <None Remove="MigrationsSqlServer\**" />
+    <None Remove="MigrationsSqlServe\**" />
     <None Remove="Migrations\**" />
   </ItemGroup>
 
@@ -37,7 +40,6 @@
 
   <ItemGroup>
     <Folder Include="MigrationsPostgres\" />
-    <Folder Include="MigrationsSqlServe\" />
   </ItemGroup>
 
 </Project>

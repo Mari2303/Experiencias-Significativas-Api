@@ -31,7 +31,7 @@ namespace Utilities.CreatedPdf.Service
             if (!uploadResponse.IsSuccessStatusCode)
             {
                 var error = await uploadResponse.Content.ReadAsStringAsync();
-                throw new Exception($"❌ Error subiendo PDF a Supabase: {error}");
+                throw new Exception($" Error subiendo PDF a Supabase: {error}");
             }
 
             // Genera la firma  por 1 año
@@ -43,7 +43,7 @@ namespace Utilities.CreatedPdf.Service
             if (!signResponse.IsSuccessStatusCode)
             {
                 var error = await signResponse.Content.ReadAsStringAsync();
-                throw new Exception($"❌ Error generando URL firmada: {error}");
+                throw new Exception($" Error generando URL firmada: {error}");
             }
 
             dynamic json = JsonConvert.DeserializeObject(await signResponse.Content.ReadAsStringAsync());

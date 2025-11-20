@@ -457,7 +457,7 @@ public static class ExperiencePdfGenerator
                     }
 
                     // Documentos
-                    col.Item().Text("7. Documentos solicitados")
+                    col.Item().Text("7. Enalaces solicitados")
                         .FontSize(16).Bold().FontColor(primaryColor);
 
                     foreach (var d in data.Documents ?? Enumerable.Empty<Entity.Models.ModuleOperation.Document>())
@@ -472,18 +472,6 @@ public static class ExperiencePdfGenerator
                         {
                             r.RelativeColumn().Text("Enlaces:").Bold();
                             r.RelativeColumn().Text(d.UrlLink ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Proyecto Experiencia Significativa:").Bold();
-                            r.RelativeColumn().Text(d.UrlPdfExperience ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Membrete de la IE y firma del Rector(a):").Bold();
-                            r.RelativeColumn().Text(d.UrlPdf ?? "—");
                         });
                     }
                 });
