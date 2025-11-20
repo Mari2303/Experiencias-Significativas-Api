@@ -104,7 +104,7 @@ public static class ExperiencePdfGenerator
                 {
                     col.Spacing(18);
 
-                    // INTRODUCCIÓN -------------------------
+                    // INTRODUCCIÓN 
                     // SectionTitle equivalent
                     col.Item().Text("1. Introducción")
                         .FontSize(16).Bold().FontColor(primaryColor);
@@ -113,7 +113,7 @@ public static class ExperiencePdfGenerator
                         .FontSize(11)
                         .LineHeight(1.4f);
 
-                    // 1. DATOS GENERALES (Experiencia Significativa)
+                    // DATOS GENERALES (Experiencia Significativa)
                     col.Item().Text("2. Experiencia Significativa")
                         .FontSize(16).Bold().FontColor(primaryColor);
 

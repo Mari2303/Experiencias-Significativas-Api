@@ -186,25 +186,33 @@ namespace Service.Implementations.ModelOperationService
 
 
 
-
-        //metodo  solicita edicion
         public async Task RequestEditAsync(int experienceId, int userId)
         {
-            var existing = await _permissionRepo.GetByExperienceIdAsync(experienceId);
+            //  Verificar si existe la experiencia
+            var experience = await _experienceRepository.GetByIdAsync(experienceId);
+            if (experience == null)
+                throw new Exception("La experiencia no existe.");
 
+            //  Verificar si ya tiene una solicitud
+            var existing = await _permissionRepo.GetByExperienceIdAsync(experienceId);
             if (existing != null)
                 throw new Exception("Ya existe una solicitud para esta experiencia.");
 
+            //  Crear solicitud
             var permission = new ExperienceEditPermission
             {
                 ExperienceId = experienceId,
                 UserId = userId,
                 CreatedAt = DateTime.UtcNow,
-                Approved = false
+                Approved = false,
+               
             };
 
             await _permissionRepo.AddAsync(permission);
         }
+
+
+
 
 
 
