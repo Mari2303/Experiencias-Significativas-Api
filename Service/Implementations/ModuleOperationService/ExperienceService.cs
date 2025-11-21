@@ -164,18 +164,26 @@ namespace Service.Implementations.ModelOperationService
         public async Task<string> GeneratePdfAndUploadAsync(int experienceId)
         {
             // Obtener experiencia con relaciones
-            var experience = await _experienceRepository.GetByIdWithDetailsAsync(experienceId);
+            var experience = await _experienceRepository.GetByIdWithDetailsAsync(experienceId)
+                ?? throw new Exception("La experiencia no existe");
 
-            if (experience == null)
-                throw new Exception("La experiencia no existe");
+            // === Cargar logo de PdfSettings ===
+            var logoUrl = _pdfSettings.LogoUrl;
+            if (string.IsNullOrWhiteSpace(logoUrl))
+                throw new Exception("No se ha configurado la URL del logo en PdfSettings.");
 
-            //  Generar PDF
-            var pdfBytes = ExperiencePdfGenerator.Generate(experience, null);
+            var logoBytes = await ExperiencePdfGenerator.LoadImageFromUrlSafeAsync(logoUrl);
 
-            //  Subir a Supabase usando TU servicio existente
+            if (logoBytes == null)
+                throw new Exception("No se pudo cargar el logo desde la URL configurada.");
+
+            // === Generar PDF enviando el logo ===
+            var pdfBytes = ExperiencePdfGenerator.Generate(experience, logoBytes);
+
+            // === Subir PDF a Supabase ===
             var url = await _storage.UploadExperiencePdfToSupabase(pdfBytes, experienceId);
 
-            //  Guardar URL en BD
+            // === Guardar URL en BD ===
             experience.UrlPdf = url;
             await _experienceRepository.UpdateAsync(experience);
 

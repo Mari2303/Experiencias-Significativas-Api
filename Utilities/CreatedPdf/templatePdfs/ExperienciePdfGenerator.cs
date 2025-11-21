@@ -5,6 +5,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Processing;
 using Entity.Models.ModuleOperation;
+using Document = QuestPDF.Fluent.Document;
 
 public static class ExperiencePdfGenerator
 {
@@ -12,499 +13,321 @@ public static class ExperiencePdfGenerator
     {
         QuestPDF.Settings.License = LicenseType.Community;
 
-        var primaryColor = Colors.Blue.Medium;
-        var accentColor = Colors.Grey.Lighten3;
+        var mainColor = "#333333";
+        var softGray = "#555555";
+        var lineGray = "#DDDDDD";
 
-        var pdf = QuestPDF.Fluent.Document.Create(container =>
+        // Si watermarkBytes viene null → usar arreglo vacío
+        watermarkBytes ??= Array.Empty<byte>();
 
+        // Intentar aplicar opacidad solo si hay bytes
+        byte[] fadedLogo = Array.Empty<byte>();
+        if (watermarkBytes.Length > 0)
         {
-            // PORTADA  
+            fadedLogo = ApplyImageOpacitySimple(watermarkBytes, 0.08f);
+        }
+
+        var pdf = Document.Create(container =>
+        {
+          
+            // PORTADA PROFESIONAL
+           
             container.Page(page =>
             {
                 page.Size(PageSizes.A4);
                 page.Margin(0);
 
-              
-                // --- Marca de agua en todas las páginas ---
-                if (watermarkBytes != null)
+                // Marca de agua grande y suave
+                if (fadedLogo.Length > 0)
                 {
-                    var fadedLogo = ApplyImageOpacitySimple(watermarkBytes, 0.08f);
-
                     page.Background().Element(e =>
                     {
                         e.AlignCenter()
                          .AlignMiddle()
-                         .Width(300)
-                         .Height(300)
                          .Image(fadedLogo)
-                         .WithCompressionQuality(ImageCompressionQuality.Medium);
+                         .FitWidth();
                     });
                 }
 
+                page.Content().Padding(40).Column(col =>
+                {
+                    col.Spacing(30);
 
-                // --- CONTENIDO CENTRADO ---
-                page.Content()
-                    .Padding(20)
-                    .AlignCenter()
-                    .AlignMiddle()
-                    .Column(col =>
+                    // LOGO SUPERIOR CENTRADO
+                    if (watermarkBytes.Length > 0)
                     {
-                        col.Spacing(25);
+                        col.Item()
+                           .AlignCenter()
+                           .Width(150)
+                           .Image(watermarkBytes)
+                           .FitWidth();
+                    }
 
-                        col.Item().Text(data.NameExperiences ?? "")
-                            .FontSize(34)
-                            .Bold()
-                            .FontColor(primaryColor)
-                            .AlignCenter();
+                    // TÍTULO GRANDE
+                    col.Item().Text(data.NameExperiences ?? "")
+                        .FontSize(36).Bold()
+                        .FontColor(mainColor)
+                        .AlignCenter();
 
-                        col.Item().Text(data.Institution?.Name ?? "")
-                            .FontSize(22)
-                            .AlignCenter();
+                    // SUBTÍTULO INSTITUCIÓN
+                    col.Item().Text(data.Institution?.Name ?? "")
+                        .FontSize(20)
+                        .FontColor(softGray)
+                        .AlignCenter();
 
-                        col.Item().Text(data.User?.Person?.FirstName ?? data.User?.Username ?? "")
-                            .FontSize(18)
-                            .AlignCenter();
+                    // USUARIO / AUTOR
+                    col.Item().Text(data.User?.Person?.FirstName ?? data.User?.Username ?? "")
+                        .FontSize(18)
+                        .FontColor(softGray)
+                        .AlignCenter();
 
-                        col.Item().Text(data.CreatedAt.ToString("yyyy-MM-dd"))
-                            .FontSize(18)
-                            .AlignCenter();
-                    });
+                    // FECHA
+                    col.Item().Text(data.CreatedAt.ToString("yyyy-MM-dd"))
+                        .FontSize(16)
+                        .FontColor(softGray)
+                        .AlignCenter();
+                });
             });
 
-
-
-            // CONTENIDO 
+           
             container.Page(page =>
             {
                 page.Margin(40);
-                page.Header().Element(e =>
+
+                // Header
+                page.Header().PaddingBottom(15).Row(r =>
                 {
-                    e.Row(row =>
-                    {
-                        row.ConstantColumn(1).Background(Colors.Grey.Lighten2);
-                        row.RelativeColumn().Padding(4).AlignCenter()
-                            .Text("Registro").FontSize(10);
+                    r.RelativeColumn().Text("Sistema de Experiencias Significativas")
+                        .FontSize(10).FontColor(softGray);
 
-                        row.ConstantColumn(1).Background(Colors.Grey.Lighten2);
-
-                        row.RelativeColumn().PaddingLeft(10).PaddingRight(10)
-                            .Text(" Experiencia Significativa")
-                            .Bold().FontSize(12);
-
-                        row.ConstantColumn(1).Background(Colors.Grey.Lighten2);
-
-                        row.RelativeColumn().AlignRight()
-                            .Text("Versión 2\n11/Agosto/2025")
-                            .FontSize(10);
-                    });
+                    r.RelativeColumn().AlignRight().Text("Versión 2 - 2025")
+                        .FontSize(10).FontColor(softGray);
                 });
 
-
-                page.Content().PaddingTop(20).Column(col =>
+                page.Content().Column(col =>
                 {
-                    col.Spacing(18);
+                col.Spacing(20);
 
-                    // INTRODUCCIÓN 
-                    // SectionTitle equivalent
-                    col.Item().Text("1. Introducción")
-                        .FontSize(16).Bold().FontColor(primaryColor);
 
-                    col.Item().Text("La presente guía tiene como propósito orientar el proceso de sistematización de la experiencia significativa, permitiendo registrar, organizar y analizar la información relevante para fortalecer las prácticas pedagógicas y promover la reflexión crítica en la comunidad educativa.")
-                        .FontSize(11)
-                        .LineHeight(1.4f);
+                SectionTitle(col, "1. Introducción");
 
-                    // DATOS GENERALES (Experiencia Significativa)
-                    col.Item().Text("2. Experiencia Significativa")
-                        .FontSize(16).Bold().FontColor(primaryColor);
+                col.Item().Text(
+                    "La presente guía tiene como propósito orientar el proceso de sistematización..."
+                ).FontSize(11).LineHeight(1.4f);
 
-                    // Field("Nombre", data.NameExperiences);
-                    col.Item().Row(r =>
-                    {
-                        r.RelativeColumn().Text("Nombre de la Experiencia Significativa:").Bold();
-                        r.RelativeColumn().Text(data.NameExperiences ?? "—");
-                    });
 
-                    // Field("Estado de desarrollo", data.StateExperience != null ? data.StateExperience.Name : "No disponible");
-                    col.Item().Row(r =>
-                    {
-                        r.RelativeColumn().Text("Estado de desarrollo en el que se encuentra la Experiencia Significativa:").Bold();
-                        r.RelativeColumn().Text(data.StateExperience != null ? data.StateExperience.Name : "No disponible");
-                    });
+                SectionTitle(col, "2. Experiencia Significativa");
 
-                    // Field("Área principal que se desarrolla", data.ThematicLocation);
-                    col.Item().Row(r =>
-                    {
-                        r.RelativeColumn().Text("Área principal que se desarrolla:").Bold();
-                        r.RelativeColumn().Text(data.ThematicLocation ?? "—");
-                    });
+                Field(col, "Nombre de la Experiencia Significativa", data.NameExperiences);
+                Field(col, "Estado de desarrollo en el que se encuentra la Experiencia Significativa", data.StateExperience?.Name);
+                Field(col, "Área principal que se desarrolla", data.ThematicLocation);
+                Field(col, "Tiempo de desarrollo", data.Developmenttime.ToString("yyyy-MM-dd"));
 
-                    // Field("Fecha desarrollo", data.Developmenttime.ToString("yyyy-MM-dd"));
-                    col.Item().Row(r =>
-                    {
-                        r.RelativeColumn().Text("Tiempo de desarrollo:").Bold();
-                        r.RelativeColumn().Text(data.Developmenttime != null ? data.Developmenttime.ToString("yyyy-MM-dd") : "—");
-                    });
 
-                    // ENFOQUE TEMÁTICO (líneas temáticas)
-                    var enfoques = data.ExperienceLineThematics?
-                        .Select(x => x.LineThematic?.Name)
-                        .Where(x => !string.IsNullOrWhiteSpace(x))
-                        .ToList();
+                // ENFOQUE TEMÁTICO
+                var enfoques = data.ExperienceLineThematics?
+                    .Select(x => x.LineThematic?.Name)
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .ToList();
 
-                    col.Item().Row(r =>
-                    {
-                        r.RelativeColumn().Text("Enfoque temático de la Experiencia Significativa:").Bold();
-                        r.RelativeColumn().Text(
-                            enfoques != null && enfoques.Count > 0
-                                ? string.Join(", ", enfoques)
-                                : "No disponible"
-                        );
-                    });
+                Field(col, "Enfoque temático de la Experiencia Significativa",
+                    enfoques != null && enfoques.Count > 0
+                    ? string.Join(", ", enfoques)
+                    : "No disponible");
 
-                    // GRADOS (Description (pivot) + Grade.Name)
-                    var grados = data.ExperienceGrades?
-                        .Select(x =>
-                            $"{(x.Description ?? "").Trim()}" +
-                            (x.Grade != null && !string.IsNullOrWhiteSpace(x.Grade.Name) ? $" ({x.Grade.Name})" : "")
-                        )
-                        .Where(x => !string.IsNullOrWhiteSpace(x))
-                        .ToList();
 
-                    col.Item().Row(r =>
-                    {
-                        r.RelativeColumn().Text("Grados:").Bold();
-                        r.RelativeColumn().Text(
-                            grados != null && grados.Count > 0
-                                ? string.Join(", ", grados)
-                                : "No registrados"
-                        );
-                    });
+                // GRADOS
+                var grados = data.ExperienceGrades?
+                    .Select(x => $"{x.Description} {(x.Grade != null ? $"({x.Grade.Name})" : "")}")
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .ToList();
 
-                    // GRUPO POBLACIONAL
-                    var poblaciones = data.ExperiencePopulations?
-                        .Select(x => x.PopulationGrade?.Name)
-                        .Where(x => !string.IsNullOrWhiteSpace(x))
-                        .ToList();
+                Field(col, "Grados",
+                    grados != null && grados.Count > 0
+                    ? string.Join(", ", grados)
+                    : "No registrados");
 
-                    col.Item().Row(r =>
-                    {
-                        r.RelativeColumn().Text("Grupo poblacional:").Bold();
-                        r.RelativeColumn().Text(
-                            poblaciones != null && poblaciones.Count > 0
-                                ? string.Join(", ", poblaciones)
-                                : "No registrado"
-                        );
-                    });
 
-                    // 3. DESARROLLO
+                // GRUPO POBLACIONAL
+                var poblaciones = data.ExperiencePopulations?
+                    .Select(x => x.PopulationGrade?.Name)
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .ToList();
+
+                Field(col, "Grupo poblacional",
+                    poblaciones != null && poblaciones.Count > 0
+                    ? string.Join(", ", poblaciones)
+                    : "No registrado");
+
+
+
+                SectionTitle(col, "3. Desarrollo de la Experiencia");
                     var dev = data.Developments?.FirstOrDefault();
-                    col.Item().Text("3. Desarrollo de la experiencia")
-                        .FontSize(16).Bold().FontColor(primaryColor);
-
-                    if (dev != null)
-                    {
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Técnicas en articulación con el SENA vinculadas:").Bold();
-                            r.RelativeColumn().Text(string.IsNullOrWhiteSpace(dev.CrossCuttingProject) ? "No registrado" : dev.CrossCuttingProject);
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("El modelo educativo en el que se enmarca  el desarrollo:").Bold();
-                            r.RelativeColumn().Text(string.IsNullOrWhiteSpace(dev.Population) ? "No registrado" : dev.Population);
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text(" Recibió apoyo para la formulación, fundamentación y/o desarrollo:").Bold();
-                            r.RelativeColumn().Text(string.IsNullOrWhiteSpace(dev.PedagogicalStrategies) ? "No registrado" : dev.PedagogicalStrategies);
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text(" Vinculada en el Proyecto Educativo Institucional:").Bold();
-                            r.RelativeColumn().Text(string.IsNullOrWhiteSpace(dev.Coverage) ? "No registrado" : dev.Coverage);
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Reconocimiento de la Experiencia Significativo:").Bold();
-                            r.RelativeColumn().Text(data.Recognition ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("La Experiencia Significativa cuenta con:").Bold();
-                            r.RelativeColumn().Text(data.Socialization ?? "—");
-                        });
+                if (dev != null)
+                {
+                    Field(col, "Técnicas en articulación con el SENA vinculadas", dev.CrossCuttingProject);
+                    Field(col, "El modelo educativo en el que se enmarca  el desarrollo", dev.Population);
+                    Field(col, "Recibió apoyo para la formulación, fundamentación y/o desarrollo", dev.PedagogicalStrategies);
+                    Field(col, "Vinculada en el Proyecto Educativo Institucional", dev.Coverage);
+                   
                     }
+                    Field(col, "Reconocimiento de la Experiencia Significativo", data.Recognition);
+                    Field(col, "La Experiencia Significativa cuenta con", data.Socialization);
 
 
-                    // 4. Identificación Institucional
+
+
+
+                    SectionTitle(col, "4. Identificación Institucional");
+
                     var inst = data.Institution;
-                    col.Item().Text("4. Identificación Institucional")
-                        .FontSize(16).Bold().FontColor(primaryColor);
-
                     if (inst != null)
                     {
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Nombre:").Bold();
-                            r.RelativeColumn().Text(inst.Name ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Dirección:").Bold();
-                            r.RelativeColumn().Text(inst.Address ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Teléfono:").Bold();
-                            r.RelativeColumn().Text(inst.Phone != null ? inst.Phone.ToString() : "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Email:").Bold();
-                            r.RelativeColumn().Text(inst.EmailInstitucional ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Código DANE:").Bold();
-                            r.RelativeColumn().Text(inst.CodeDane ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Rector(a):").Bold();
-                            r.RelativeColumn().Text(inst.NameRector ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Características del EE:").Bold();
-                            r.RelativeColumn().Text(inst.TerritorialEntity ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Entidad Territorial Certificada (ETC):").Bold();
-                            r.RelativeColumn().Text(inst.TestsKnow ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Departamento:").Bold();
-                            r.RelativeColumn().Text(inst.Departaments?.FirstOrDefault()?.Name ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Municipio:").Bold();
-                            r.RelativeColumn().Text(inst.Municipalitis?.FirstOrDefault()?.Name ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Comuna:").Bold();
-                            r.RelativeColumn().Text(inst.Communes?.FirstOrDefault()?.Name ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Zona:").Bold();
-                            r.RelativeColumn().Text(inst.EEZones?.FirstOrDefault()?.Name ?? "—");
-                        });
+                        Field(col, "Nombre", inst.Name);
+                        Field(col, "Dirección", inst.Address);
+                        Field(col, "Teléfono", inst.Phone.ToString());
+                        Field(col, "Email", inst.EmailInstitucional);
+                        Field(col, "Código DANE", inst.CodeDane);
+                        Field(col, "Rector(a)", inst.NameRector);
+                        Field(col, "Características del EE", inst.TerritorialEntity);
+                        Field(col, "Entidad Territorial Certificada (ETC)", inst.TestsKnow);
+                        Field(col, "Departamento", inst.Departaments?.FirstOrDefault()?.Name ??"");
+                        Field(col, "Municipio", inst.Municipalitis?.FirstOrDefault()?.Name ?? "");
+                        Field(col, "Zona", inst.EEZones?.FirstOrDefault()?.Name ?? "");
                     }
 
-                    // 5. Datos líder
-                    var leader = data.Leaders?.FirstOrDefault();
-                    col.Item().Text("5. Datos Líder de la Experiencia Significativa")
-                        .FontSize(16).Bold().FontColor(primaryColor);
 
+                    // datos del lider 
+                    SectionTitle(col, "5. Datos Líder de la Experiencia Significativa ");
+                    var leader = data.Leaders?.FirstOrDefault();
                     if (leader != null)
                     {
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Líder de la Experiencia Significativa:").Bold();
-                            r.RelativeColumn().Text(leader.NameLeaders ?? "—");
-                        });
 
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Número de identificación del Docente líder:").Bold();
-                            r.RelativeColumn().Text(leader.IdentityDocument ?? "—");
-                        });
+                        Field(col,"Líder de la Experiencia Significativa", leader.NameLeaders);
+                        Field(col, "Número de identificación del Docente líder", leader.IdentityDocument);
+                        Field(col, "Correo electrónico en minúscula", leader.Email);
+                        Field(col, "Número de Contacto", leader.Phone.ToString());
+                        Field(col, "Tipo de vinculación", leader.Position);
 
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Correo electrónico en minúscula:").Bold();
-                            r.RelativeColumn().Text(leader.Email ?? "—");
-                        });
 
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Número de Contacto:").Bold();
-                            r.RelativeColumn().Text(leader.Phone != null ? leader.Phone.ToString() : "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Tipo de vinculación:").Bold();
-                            r.RelativeColumn().Text(leader.Position ?? "—");
-                        });
                     }
 
-                    // 6. Identificación de la experiencia (Objetivos)
+                    // identificacion de la experiencia (objectivos)
+                    SectionTitle(col, "6. Fundamentación Teórica y Metodológica ");
                     var obj = data.Objectives?.FirstOrDefault();
-                    col.Item().Text("6.Fundamentación Teórica y Metodológica.")
-                        .FontSize(16).Bold().FontColor(primaryColor);
-
                     if (obj != null)
                     {
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Descripción del problema:").Bold();
-                            r.RelativeColumn().Text(obj.DescriptionProblem ?? "—");
-                        });
 
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Objetivo propuesto:").Bold();
-                            r.RelativeColumn().Text(obj.ObjectiveExperience ?? "—");
-                        });
+                        Field(col, "Descripción del problema", obj.DescriptionProblem);
+                        Field(col, "Objetivo propuesto", obj.ObjectiveExperience);
+                        Field(col, "Logros obtenidos de acuerdo con el (o los) objetivo (s) planteado (s)", obj.EnfoqueExperience);
+                        Field(col, "Productos que ha generado la Experiencia Significativa", obj.Methodologias);
+                        Field(col, "¿Existe una articulación de los referentes pedagógicos , conceptuales y metodológicos que guían la Experiencia Significativa con los componentes del PEI y su proyección en el PMI?", obj.Pmi);
+                        Field(col, "¿Existe coherencia de la Experiencia Significativa con el contexto donde se desarrolla y se evidencia acciones que ofrecen respuesta a las necesidades y al desarrollo integral de los NNAJ?", obj.Nnaj);
+                        Field(col, "¿Cuenta con resultados a nivel de logros obtenidos  de acuerdo con los objetivos propuestos, al impacto y alternativas de solución a las problemáticas identificadas?", obj.InnovationExperience);
 
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Logros obtenidos de acuerdo con el (o los) objetivo (s) planteado (s) :").Bold();
-                            r.RelativeColumn().Text(obj.EnfoqueExperience ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Productos que ha generado la Experiencia Significativa:").Bold();
-                            r.RelativeColumn().Text(obj.Methodologias ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("¿Existe una articulación de los referentes pedagógicos , conceptuales y metodológicos que guían la Experiencia Significativa con los componentes del PEI y su proyección en el PMI?:").Bold();
-                            r.RelativeColumn().Text(obj.Pmi ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("¿Existe coherencia de la Experiencia Significativa con el contexto donde se desarrolla y se evidencia acciones que ofrecen respuesta a las necesidades y al desarrollo integral de los NNAJ?:").Bold();
-                            r.RelativeColumn().Text(obj.Nnaj ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("¿Cuenta con resultados a nivel de logros obtenidos  de acuerdo con los objetivos propuestos, al impacto y alternativas de solución a las problemáticas identificadas?:").Bold();
-                            r.RelativeColumn().Text(obj.InnovationExperience ?? "—");
-                        });
                     }
 
-                    // Testimonios / Soportes
-                    var support = obj?.SupportInformations?.FirstOrDefault();
-                    if (support != null)
+                    // Testimonios / soporte
+                    SectionTitle(col, " ");
+                    var support = obj.SupportInformations?.FirstOrDefault();
+                    if (obj != null)
+                     {
+                        Field(col, "¿Durante el desarrollo de la Experiencia Significativa se evidencio reorganización y actualización permanente desde el análisis de la implementación, nuevos conocimientos, comprensiones, enfoques y métodos que contribuyen al mejoramiento de la práctica pedagógica?", support.Summary);
+                        Field(col, "¿Existe un nivel alto de empoderamiento, participación y apropiación por parte de toda la comunidad educativa?", support.MetaphoricalPhrase);
+                        Field(col, "¿Cuenta con acciones, recursos tecnológicos o no tecnológicos, materiales, métodos, contenidos entre otros novedosos para su desarrollo?", support.Testimony);
+                        Field(col, "¿La Experiencia Significativa cuenta con estrategias y procesos que garantizan la permanencia y mejora continua?", support.FollowEvaluation);
+
+                    }
+
+                    // monitoreos 
+                    SectionTitle(col, "");
+                    var monito = obj.Monitorings?.FirstOrDefault();
+                    if (obj != null)
                     {
-                        // I left section title empty in your original, so we keep simple rows
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("¿Durante el desarrollo de la Experiencia Significativa se evidencio reorganización y actualización permanente desde el análisis de la implementación, nuevos conocimientos, comprensiones, enfoques y métodos que contribuyen al mejoramiento de la práctica pedagógica?:").Bold();
-                            r.RelativeColumn().Text(support.Summary ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("¿Existe un nivel alto de empoderamiento, participación y apropiación por parte de toda la comunidad educativa?:").Bold();
-                            r.RelativeColumn().Text(support.MetaphoricalPhrase ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("¿Cuenta con acciones, recursos tecnológicos o no tecnológicos, materiales, métodos, contenidos entre otros novedosos para su desarrollo?:").Bold();
-                            r.RelativeColumn().Text(support.Testimony ?? "—");
-                        });
-
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("¿La Experiencia Significativa cuenta con estrategias y procesos que garantizan la permanencia y mejora continua?:").Bold();
-                            r.RelativeColumn().Text(support.FollowEvaluation ?? "—");
-                        });
+                        Field(col, "¿Existen metodologías o mecanismos que sirven de referencia para replicar la Experiencia Significativa en otros escenarios?", monito.MonitoringEvaluation);
+                        Field(col, "¿Cuenta con mecanismos para el seguimiento y evaluación de la implementación de la Experiencia Significativa?", monito.Sustainability);
                     }
 
-                    // Monitoreos
-                    var moni = obj?.Monitorings?.FirstOrDefault();
-                    if (moni != null)
-                    {
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("¿Existen metodologías o mecanismos que sirven de referencia para replicar la Experiencia Significativa en otros escenarios?:").Bold();
-                            r.RelativeColumn().Text(moni.MonitoringEvaluation ?? "—");
-                        });
 
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("¿Cuenta con mecanismos para el seguimiento y evaluación de la implementación de la Experiencia Significativa?:").Bold();
-                            r.RelativeColumn().Text(moni.Sustainability ?? "—");
-                        });
-                    }
-
-                    // Documentos
-                    col.Item().Text("7. Enalaces solicitados")
-                        .FontSize(16).Bold().FontColor(primaryColor);
+                    SectionTitle(col, "7. Enlaces Solicitados");
 
                     foreach (var d in data.Documents ?? Enumerable.Empty<Entity.Models.ModuleOperation.Document>())
                     {
-                        col.Item().Row(r =>
+                        col.Item().Border(1).BorderColor(lineGray).Padding(10).Column(t =>
                         {
-                            r.RelativeColumn().Text("Documento:").Bold();
-                            r.RelativeColumn().Text(d.Name ?? "—");
-                        });
+                            t.Spacing(5);
 
-                        col.Item().Row(r =>
-                        {
-                            r.RelativeColumn().Text("Enlaces:").Bold();
-                            r.RelativeColumn().Text(d.UrlLink ?? "—");
+                            t.Item().Text($"Documento: {d.Name}")
+                                .FontSize(12).Bold().FontColor(mainColor);
+
+                            t.Item().LineHorizontal(0.5f).LineColor(lineGray);
+
+                            t.Item().Text(d.UrlLink ?? "—")
+                                .FontSize(11)
+                                .FontColor("#0066CC")
+                                .Underline();
                         });
                     }
                 });
 
-                page.Footer().AlignCenter()
-                    .Text("Sistema de Experiencias Significativas © 2025")
-                    .FontSize(10)
-                    .FontColor(Colors.Grey.Darken1);
+              
+                page.Footer().AlignCenter().Text("Sistema de Experiencias Significativas © 2025")
+                    .FontColor(softGray).FontSize(10);
             });
         });
 
         return pdf.GeneratePdf();
     }
 
-    // Opacidad de imagen simple 
-        public static byte[] ApplyImageOpacitySimple(byte[] imageBytes, float opacity)
-        {
-            using var image = SixLabors.ImageSharp.Image.Load<Rgba32>(imageBytes);
-            image.Mutate(ctx => ctx.Opacity(opacity));
-            using var ms = new MemoryStream();
-            image.Save(ms, new PngEncoder());
-            return ms.ToArray();
-        }
+  
 
-
-    //  Cargar logo desde URL 
-    public static async Task<byte[]?> LoadImageFromUrlAsync(string imageUrl)
+    static void SectionTitle(ColumnDescriptor col, string title)
     {
-        using var http = new HttpClient();
-        return await http.GetByteArrayAsync(imageUrl);
+        col.Item()
+           .PaddingBottom(5)
+           .Text(title)
+               .FontSize(16)
+               .Bold()
+               .FontColor("#333333");
+    }
 
+    static void Field(ColumnDescriptor col, string label, string? value)
+    {
+        col.Item().PaddingBottom(10).Column(c =>
+        {
+            c.Item().Text(label + ":").Bold().FontColor("#333333").FontSize(12);
+            c.Item().Text(string.IsNullOrWhiteSpace(value) ? "—" : value)
+                .FontSize(11).FontColor("#555555").LineHeight(1.4f);
+        });
+    }
+
+    // Marca de agua suave
+    public static byte[] ApplyImageOpacitySimple(byte[] imageBytes, float opacity)
+    {
+        using var image = SixLabors.ImageSharp.Image.Load<Rgba32>(imageBytes);
+        image.Mutate(ctx => ctx.Opacity(opacity));
+        using var ms = new MemoryStream();
+        image.Save(ms, new PngEncoder());
+        return ms.ToArray();
+    }
+
+    // Cargar imagen desde URL — método SEGURO
+    public static async Task<byte[]> LoadImageFromUrlSafeAsync(string imageUrl)
+    {
+        try
+        {
+            using var http = new HttpClient();
+            return await http.GetByteArrayAsync(imageUrl);
+        }
+        catch
+        {
+            return Array.Empty<byte>(); // nunca null
+        }
     }
 }
+
+
 
 
 
