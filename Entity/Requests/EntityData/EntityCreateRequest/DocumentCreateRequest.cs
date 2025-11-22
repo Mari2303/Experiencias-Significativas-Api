@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-<<<<<<<< HEAD:Entity/Requests/EntityData/EntityCreateRequest/DocumentCreateRequest.cs
+
 namespace Entity.Requests.EntityData.EntityCreateRequest
-========
-namespace Entity.Requests.EntityData.EntityUpdateRequest
->>>>>>>> HU-24-dev:Entity/Requests/EntityData/EntityUpdateRequest/DocumentUpdateRequest.cs
+
 {
     public class DocumentCreateRequest
     {
