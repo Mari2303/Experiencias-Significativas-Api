@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-<<<<<<<< HEAD:Entity/Requests/EntityData/EntityUpdateRequest/LeaderUpdateRequest.cs
+
 namespace Entity.Requests.EntityData.EntityUpdateRequest
-========
-namespace Entity.Requests.EntityData.EntityDetailRequest
->>>>>>>> HU-24-dev:Entity/Requests/EntityData/EntityDetailRequest/LeaderDetailRequest.cs
+
 {
     public class LeaderUpdateRequest
     {
