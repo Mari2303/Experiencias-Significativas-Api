@@ -24,5 +24,9 @@ namespace Entity.Dtos.ModuleSegurity
         /// /// Foreign key referencing the associated person
         /// </summary>
         public int PersonId { get; set; }
+
+      
+
+
     }
 }

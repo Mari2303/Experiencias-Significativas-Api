@@ -37,6 +37,7 @@ namespace Service.Extensions
                 InstitutionInfo = experience.Institution?.ToInstitutionRequest() ?? new InstitutionInfoRequest(),
                 DocumentInfo = experience.Documents?.ToDocumentDTOs() ?? new List<DocumentDetailRequest>(),
                 CriteriasDetail = experience.Evaluations.ToCriteriaDTOs()
+
             };
         }
 
@@ -53,11 +54,13 @@ namespace Service.Extensions
                 NameExperiences = experience.NameExperiences,
                 Developmenttime = experience.Developmenttime,
                 StateExperienceId= experience.StateExperienceId,
+                
+              
 
 
                 Leaders = experience.Leaders?
-                .Select(l => new LeaderUpdateRequest {  NameLeaders = l.NameLeaders}) 
-                .ToList() ?? new List<LeaderUpdateRequest>(),
+                .Select(l => new LeaderDetailRequest {  NameLeaders = l.NameLeaders}) 
+                .ToList() ?? new List<LeaderDetailRequest>(),
 
 
                 // Se toma el resultado de la última evaluación si existe,.
@@ -106,8 +109,12 @@ namespace Service.Extensions
         {
             return documents.Select(d => new DocumentDetailRequest
             {
-                UrlPdf = d.UrlPdf,
+             
                 UrlLink = d.UrlLink,
+                UrlPdf = d.UrlPdf,
+                UrlPdfExperience = d.UrlPdfExperience                               
+
+
             }).ToList();
         }
 

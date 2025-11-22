@@ -1,4 +1,5 @@
 ﻿
+using Entity.Dtos.ModuleOperation;
 using Entity.Dtos.ModuleOperational;
 using Entity.Models.ModuleOperation;
 using Entity.Requests.EntityData.EntityCreateRequest;
@@ -15,7 +16,14 @@ namespace Service.Interfaces.ModelOperationService
         Task<bool> PatchAsync(ExperienceUpdateRequest Request);
         Task<ExperienceDetailRequest?> GetDetailByIdAsync(int id);
         Task<Experience> RegisterExperienceAsync(ExperienceCreateRequest Request);
-
+        Task<string> GeneratePdfAndUploadAsync(int experienceId);
         Task<IEnumerable<Experience>> GetExperiencesAsync(string role, int userId);
+
+        Task RequestEditAsync(int experienceId, int userId);
+        Task ApproveEditAsync(int experienceId);
+
+        Task<List<ExperienceEditPermissionDTO>> GetAllAsync();
+
+        Task<Experience?> GetDetailAsync(int id);
     }
 }

@@ -44,6 +44,19 @@ namespace API.Controllers.ModuleOperationController
 
         }
 
+        [Authorize]
+        [HttpGet("{id}/generate-pdf")]
+        public async Task<IActionResult> GeneratePdf(int id)
+        {
+            var url = await _experienceService.GeneratePdfAndUploadAsync(id);
+
+            return Ok(new
+            {
+                Message = "PDF generado correctamente",
+                PdfUrl = url
+            });
+        }
+
 
 
 
@@ -84,6 +97,50 @@ namespace API.Controllers.ModuleOperationController
             var experiences = await _experienceService.GetExperiencesAsync(role, userId);
             return Ok(experiences);
         }
+
+
+
+
+
+
+       
+        [HttpPost("{id}/request-edit")]
+        public async Task<IActionResult> RequestEdit(int id,  int userId)
+        {
+            await _experienceService.RequestEditAsync(id, userId);
+            return Ok(new { message = "Solicitud enviada. Espera aprobación." });
+        }
+
+
+        [Authorize(Roles = "SUPERADMIN")]
+        [HttpPost("{id}/approve-edit")]
+        public async Task<IActionResult> ApproveEdit(int id)
+        {
+            await _experienceService.ApproveEditAsync(id);
+            return Ok(new { message = "Edición habilitada." });
+        }
+
+        [Authorize(Roles = "SUPERADMIN")]
+        [HttpGet("all/Notification")]
+        public async Task<IActionResult> GetAllPermissions()
+        {
+            var list = await _experienceService.GetAllAsync();
+            return Ok(list);  
+        }
+
+
+        [Authorize(Roles = "SUPERADMIN")]
+        [HttpGet("detail/Form/{id}")]
+        public async Task<IActionResult> GetDetail(int id)
+        {
+            var experience = await _experienceService.GetDetailAsync(id);
+
+            if (experience == null)
+                return NotFound("No se encontró la experiencia.");
+
+            return Ok(experience);
+        }
+
 
 
     }

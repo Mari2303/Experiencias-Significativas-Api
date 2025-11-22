@@ -11,8 +11,9 @@ namespace Entity.Dtos.ModuleOperational
     {
 
         public string Name { get; set; } = string.Empty;
-        public string UrlPdf { get; set; } = string.Empty;
         public string UrlLink { get; set; } = string.Empty;
+        public string UrlPdf { get; set; } = string.Empty;
+        public string UrlPdfExperience { get; set; } = string.Empty;
         public int ExperienceId { get; set; }
     }
 }

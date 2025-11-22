@@ -377,9 +377,22 @@ namespace Entity.Context
                 DeletedAt = null!
             };
 
+            var formExpe = new Form
+            {
+                Id = 19,
+                Name = "gestion experiencia",
+                Path = "experiensGestion",
+                Description = "permite hacer el seguimiento de edicion de los formularios",
+                Icon = "fa-solid fa-window-restore",
+                Order = 19,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+
 
             modelBuilder.Entity<Form>().HasData(formInicio, formExperiencia, formEvaluacion, formRoles, formUsers, formPersons, formSeguimiento, forms, formModules,
-                formPermissions, formUsersRol, formFormModule, formRolFormPermission, formCriteria, formGrade, formLineThematic, formPopulationGrade, formState);
+                formPermissions, formUsersRol, formFormModule, formRolFormPermission, formCriteria, formGrade, formLineThematic, formPopulationGrade, formState, formExpe);
 
             // Form - Modules
             var formModuleInicio = new FormModule()
@@ -548,9 +561,20 @@ namespace Entity.Context
                 CreatedAt = currentDate,
                 DeletedAt = null!
             };
+
+            var formModuleExpe = new FormModule()
+            {
+                Id = 19,
+                FormId = 19,
+                ModuleId = 2,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+
             modelBuilder.Entity<FormModule>().HasData(formModuleInicio, formModuleExperiencia, formModuleEvaluacion, formModuleRoles, formModuleUsers, formModulePersons,
                 formModuleSeguimiento, formModulePermissions, formModuleForms, formModuleModules, formModuleUsersRol, formModuleFormModule, formModuleRolFormPermissions,
-                formModuleCriteria, formModuleGrade, formModuleLineThematic, formModulePopulationGrade, formModuleState);
+                formModuleCriteria, formModuleGrade, formModuleLineThematic, formModulePopulationGrade, formModuleState, formModuleExpe);
 
             // Permission
             var permissionReadWrite = new Permission()
@@ -766,6 +790,17 @@ namespace Entity.Context
                 PermissionId = 1,
             };
 
+            var RoleFormPermissionExperi = new RoleFormPermission()
+            {
+                Id = 21,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!,
+                RoleId = 1,
+                FormId = 19,
+                PermissionId = 1,
+            };
+
 
             // Roles - Forms - Permissions (PROFESOR: solo Inicio y Experiencia)
             var RoleFormPermissionTeacherInicio = new RoleFormPermission()
@@ -788,6 +823,18 @@ namespace Entity.Context
                 CreatedAt = currentDate,
                 DeletedAt = null!
             };
+
+            var RoleFormPermissionExpere = new RoleFormPermission()
+            {
+                Id = 22,
+                RoleId = 2,
+                FormId = 19, // Experiencia
+                PermissionId = 2, // Solo lectura
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+
 
             // Roles - Forms - Permissions (Admin: solo Inicio y Experiencia)
 
@@ -813,7 +860,9 @@ namespace Entity.Context
       RoleFormPermissionGrade,
       RoleFormPermissionLineThematic,
       RoleFormPermissionPopulationGrade,
-      RoleFormPermissionState
+      RoleFormPermissionState,
+      RoleFormPermissionExpere,
+      RoleFormPermissionExperi
   );
 
         }

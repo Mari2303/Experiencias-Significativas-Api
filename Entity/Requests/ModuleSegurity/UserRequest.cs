@@ -18,5 +18,8 @@ namespace Entity.Requests.ModuleSegurity
     
         public string? Person { get; set; } = null!;
         public bool State { get; set; }
+
+     
+
     }
 }

@@ -14,9 +14,13 @@ namespace Entity.Requests.ModuleOperation
         public string Recognition { get; set; } = string.Empty;
         public string Socialization { get; set; } = string.Empty;
         public int UserId { get; set; }
+  
+
         public int StateExperienceId { get; set; }
-        
+        public string? StateExperience { get; set; }
+
       
+
 
         public InstitutionCreateRequest Institution { get; set; } = null!;
         public List<DocumentRequest> Documents { get; set; } 

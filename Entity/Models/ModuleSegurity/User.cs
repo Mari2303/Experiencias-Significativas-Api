@@ -24,6 +24,9 @@ namespace Entity.Models
         public string? RecoveryCode { get; set; }        // Código temporal enviado por correo
         public DateTime? RecoveryCodeExpiration { get; set; } // Hora de expiración del código
 
+     
+
+
         public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
         public virtual ICollection<Experience> Experiences { get; set; } = new List<Experience>();
         public virtual ICollection<Evaluation> Evaluations { get; set; } = new List<Evaluation>();

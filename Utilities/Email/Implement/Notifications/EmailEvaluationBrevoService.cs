@@ -26,62 +26,83 @@ public class EmailEvaluationBrevoService : IEmailEvaluationBrevoService
 
     public async Task SendEvaluationResultEmailAsync(string toEmail, string userName, string evaluationResult)
     {
-        //  Colores dinámicos según el resultado
+        // Colores dinámicos según el resultado (manteniendo la lógica y valores originales)
         string color = evaluationResult switch
         {
             "Naciente" => "#ff9f43",      // naranja
-            "Creciente" => "#3498db",     // azul
+            "Creciente" => "#1793D1",     // Azul corporativo (en lugar del azul genérico #3498db)
             "Inspiradora" => "#27ae60",   // verde
             _ => "#7f8c8d"                // gris neutro
         };
 
+        // Color base de tu aplicación web para fondos y acentos principales
+        string primaryBlue = "#0F6799";
+        string lightGray = "#F9FAFB";
+        string darkText = "#1F2937";
+
         string message = evaluationResult switch
         {
-            "Naciente" => "Tu evaluación se encuentra en la etapa <strong>Naciente</strong>. ¡Sigue esforzándote, vas por buen camino!",
-            "Creciente" => "Tu resultado es <strong>Creciente</strong>. ¡Estás avanzando de forma consistente, felicidades!",
-            "Inspiradora" => "Tu evaluación fue <strong>Inspiradora</strong>. ¡Increíble trabajo, tu desempeño es ejemplar!",
-            _ => $"Tu resultado de evaluación es: <strong>{evaluationResult}</strong>."
+            "Naciente" => "Tu evaluación se encuentra en la etapa **Naciente**. ¡Sigue esforzándote, vas por buen camino y tienes potencial de crecimiento!",
+            "Creciente" => "Tu resultado es **Creciente**. ¡Estás avanzando de forma consistente, felicidades! Mantén el ritmo para alcanzar la excelencia.",
+            "Inspiradora" => "Tu evaluación fue **Inspiradora**. ¡Increíble trabajo! Tu desempeño es ejemplar y superó las expectativas.",
+            _ => $"Tu resultado de evaluación es: **{evaluationResult}**."
         };
 
-        // Plantilla HTML elegante
+        // Plantilla HTML mejorada con estilos de tarjetas y tu marca
         string html = $@"
-        <div style='background-color:#f4f6f8; padding:40px 0; font-family:Arial, sans-serif;'>
-            <div style='max-width:600px; margin:auto; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.1);'>
-                
-                <!-- Encabezado -->
-                <div style='background:{color}; color:white; padding:20px; text-align:center;'>
-                    <h1 style='margin:0; font-size:24px;'>Sistema de Evaluación</h1>
-                    <p style='margin:5px 0 0; font-size:14px;'>Experiencias Significativas</p>
-                </div>
+        <div style='background-color:{lightGray}; padding:40px 0; font-family:Arial, sans-serif; text-align:center;'>
+            <table role='presentation' style='width:100%; border-collapse:collapse;' cellspacing='0' cellpadding='0'>
+                <tr>
+                    <td align='center' style='padding:0;'>
+                        <table role='presentation' style='width:600px; max-width:100%; border-collapse:collapse; background-color: #ffffff; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.1);' cellspacing='0' cellpadding='0'>
+                            
+                            <tr>
+                                <td style='padding: 20px 30px; background-color:{color}; color:white; text-align:center;'>
+                                    <h1 style='margin:0; font-size:26px; font-weight:bold;'>Resultado de Evaluación</h1>
+                                    <p style='margin:5px 0 0; font-size:14px; opacity:0.9;'>Experiencias Significativas</p>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td style='padding: 40px 40px 30px 40px;'>
+                                    
+                                    <h2 style='color:{darkText}; font-size:22px; margin-top:0; margin-bottom:15px;'>Hola {userName},</h2>
+                                    
+                                    <p style='font-size:16px; color:#4B5563; line-height:1.6;'>
+                                        Nos complace compartir contigo el resultado oficial de tu más reciente evaluación.
+                                    </p>
 
-                <!-- Cuerpo -->
-                <div style='padding:30px; text-align:center;'>
-                    <h2 style='color:#333;'>Hola {userName},</h2>
-                    <p style='font-size:16px; color:#555; line-height:1.6;'>
-                        Nos complace informarte el resultado de tu evaluación:
-                    </p>
+                                    <div style='margin:30px auto; max-width:80%; background:{color}; color:white; padding:20px; border-radius:12px; font-size:24px; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.2);'>
+                                        {evaluationResult}
+                                    </div>
 
-                    <div style='margin:30px auto; width:70%; background:{color}; color:white; padding:15px; border-radius:8px; font-size:20px; font-weight:bold;'>
-                        {evaluationResult}
-                    </div>
+                                    <p style='font-size:16px; color:#4B5563; line-height:1.6; margin-top:30px;'>
+                                        {message.Replace("**", "<strong>").Replace("</strong>", "</strong>")}
+                                    </p>
 
-                    <p style='font-size:15px; color:#555; line-height:1.6;'>
-                        {message}
-                    </p>
+                                   
 
-                    <hr style='border:none; height:1px; background-color:#ddd; margin:30px 0;'>
+                                    <hr style='border:none; height:1px; background-color:#E5E7EB; margin:40px 0;'>
 
-                    <p style='font-size:13px; color:#777;'>
-                        Este mensaje ha sido generado automáticamente. No respondas a este correo.<br>
-                        Gracias por participar en nuestro proceso de evaluación.
-                    </p>
-                </div>
-
-                <!-- Pie -->
-                <div style='background:#f0f0f0; text-align:center; padding:15px; font-size:12px; color:#888;'>
-                    © 2025 Sistema de Evaluación de Experiencias Significativas
-                </div>
-            </div>
+                                    <p style='font-size:13px; color:#777;'>
+                                        Este mensaje ha sido generado automáticamente por el Sistema de Evaluación.
+                                        No respondas a este correo.
+                                    </p>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td style='padding: 15px 40px; background-color:#E5E7EB; border-radius: 0 0 12px 12px; text-align:center;'>
+                                    <p style='font-size:12px; color:#6B7280; margin:0;'>
+                                        &copy; 2025 Sistema de Evaluación de Experiencias Significativas
+                                    </p>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </div>";
 
         var body = new
@@ -102,6 +123,6 @@ public class EmailEvaluationBrevoService : IEmailEvaluationBrevoService
         }
     }
 }
- 
+
 
 

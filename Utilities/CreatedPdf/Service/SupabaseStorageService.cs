@@ -27,25 +27,25 @@ public class SupabaseStorageService
         if (!uploadResponse.IsSuccessStatusCode)
         {
             var error = await uploadResponse.Content.ReadAsStringAsync();
-            throw new Exception($" Error subiendo PDF a Supabase: {error}");
+            throw new Exception($"❌ Error subiendo PDF a Supabase: {error}");
         }
 
-        // Generar URL firmada válida por 7 días
+        // Generar firmada válida por 1 año
         string signUrl = $"/storage/v1/object/sign/{bucket}/{fileName}";
-        var signBody = new { expiresIn = 604800 }; 
+        var signBody = new { expiresIn = 31536000 }; 
         var signContent = new StringContent(JsonConvert.SerializeObject(signBody), Encoding.UTF8, "application/json");
 
         var signResponse = await client.PostAsync(signUrl, signContent);
         if (!signResponse.IsSuccessStatusCode)
         {
             var error = await signResponse.Content.ReadAsStringAsync();
-            throw new Exception($" Error generando URL firmada: {error}");
+            throw new Exception($"❌ Error generando URL firmada: {error}");
         }
 
         var json = await signResponse.Content.ReadAsStringAsync();
         dynamic result = JsonConvert.DeserializeObject(json);
 
-        // Armar la URL firmada correctamente
+        // Armar la firmada correctamente
         return $"{supabaseUrl}/storage/v1{result.signedURL}";
     }
 }

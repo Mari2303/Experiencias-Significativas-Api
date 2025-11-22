@@ -15,6 +15,6 @@ namespace Entity.Dtos.ModuleOperational
         public string TableName { get; set; } = string.Empty;
         public int ExperienceId { get; set; }
         public int UserId { get; set; }
-        public int StateId { get; set; }
+     
     }
 }

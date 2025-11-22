@@ -45,5 +45,9 @@ namespace Entity.Requests.ModuleSegurity
         /// Lista de roles asociados al usuario autenticado.
         /// </summary>
         public List<string> Role { get; set; } = new();
+
+
+        
+
     }
 }

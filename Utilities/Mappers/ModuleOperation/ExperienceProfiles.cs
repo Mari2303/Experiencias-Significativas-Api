@@ -11,6 +11,12 @@ namespace Utilities.Mappers.ModuleOperation
         {
             CreateMap<ExperienceDTO, Experience>().ReverseMap();
             CreateMap<ExperienceRequest, Experience>().ReverseMap();
+
+
+            CreateMap<Experience, ExperienceRequest>()
+    .ForMember(dest => dest.StateExperience,
+               opt => opt.MapFrom(src => src.StateExperience.Name));
+
         }
     }
 }

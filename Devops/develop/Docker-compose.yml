@@ -3,9 +3,9 @@ version: "3.9"
 services:
   # 🌐 API principal - DEVELOP
   exp-api-develop:
-    container_name: experiencia-api-develop
+    container_name: exp-api-develop
     build:
-      context: ../..
+      context: ../..        # raíz del repositorio
       dockerfile: API/Dockerfile
     restart: always
     env_file:
@@ -15,11 +15,8 @@ services:
     networks:
       - network_experiencesig
     labels:
-      - com.Exp.environment=develop
+      - com.exp.environment=develop
 
 networks:
   network_experiencesig:
     external: true
-
-
-

@@ -18,6 +18,7 @@ namespace Repository.Interfaces.IModuleOperationRepository
         Task<IEnumerable<Experience>> GetByUserIdAsync(int userId);
         Task<Experience> GetByIdWithDetailsAsync(int experienceId);
 
+        Task<Experience?> GetDetailByIdAsync(int id);
 
     }
 }

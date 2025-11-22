@@ -3,7 +3,6 @@ using Entity.Models.ModuleOperation;
 using Entity.Requests.ModuleSegurity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Repository.Interfaces;
 using Repository.Interfaces.IModuleSegurityRepository;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

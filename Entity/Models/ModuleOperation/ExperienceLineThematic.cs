@@ -10,7 +10,7 @@ namespace Entity.Models.ModuleOperation
         public int ExperienceId { get; set; } 
         public int LineThematicId { get; set; } 
 
-        public virtual Experience Experience { get; set; } = null;
-        public virtual LineThematic LineThematic { get; set; } = null;
+        public virtual Experience Experience { get; set; } = null!;
+        public virtual LineThematic LineThematic { get; set; } = null!;
     }
 }
