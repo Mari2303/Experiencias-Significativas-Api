@@ -15,8 +15,9 @@ namespace Entity.Requests.ModuleOperation
         public int UserId { get; set; }
         public string? User { get; set; } = null!;
         public bool Approved { get; set; } = false;
+        public DateTime? ExpiresAt { get; set; }
 
-        
+
 
 
     }

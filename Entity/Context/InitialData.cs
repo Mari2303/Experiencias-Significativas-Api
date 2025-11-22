@@ -790,6 +790,17 @@ namespace Entity.Context
                 PermissionId = 1,
             };
 
+            var RoleFormPermissionExperi = new RoleFormPermission()
+            {
+                Id = 21,
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!,
+                RoleId = 1,
+                FormId = 19,
+                PermissionId = 1,
+            };
+
 
             // Roles - Forms - Permissions (PROFESOR: solo Inicio y Experiencia)
             var RoleFormPermissionTeacherInicio = new RoleFormPermission()
@@ -812,6 +823,18 @@ namespace Entity.Context
                 CreatedAt = currentDate,
                 DeletedAt = null!
             };
+
+            var RoleFormPermissionExpere = new RoleFormPermission()
+            {
+                Id = 22,
+                RoleId = 2,
+                FormId = 19, // Experiencia
+                PermissionId = 2, // Solo lectura
+                State = true,
+                CreatedAt = currentDate,
+                DeletedAt = null!
+            };
+
 
             // Roles - Forms - Permissions (Admin: solo Inicio y Experiencia)
 
@@ -837,7 +860,9 @@ namespace Entity.Context
       RoleFormPermissionGrade,
       RoleFormPermissionLineThematic,
       RoleFormPermissionPopulationGrade,
-      RoleFormPermissionState
+      RoleFormPermissionState,
+      RoleFormPermissionExpere,
+      RoleFormPermissionExperi
   );
 
         }

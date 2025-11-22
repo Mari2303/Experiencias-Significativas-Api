@@ -15,7 +15,7 @@ namespace Entity.Dtos.ModuleOperation
         public string ExperienceName { get; set; } = string.Empty;
         public int UserId { get; set; }
         public string UserName { get; set; } = string.Empty;
-
+        public DateTime? ExpiresAt { get; set; }
         public bool Approved { get; set; } = false;
 
 

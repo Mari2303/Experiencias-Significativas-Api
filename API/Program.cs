@@ -93,6 +93,7 @@ builder.Services.AddScoped<IBrevoEmailService, BrevoEmailService>();
 builder.Services.AddScoped<AccountNotificationService>();
 builder.Services.AddScoped<IEmailEvaluationBrevoService, EmailEvaluationBrevoService>();
 
+
 builder.Services.Configure<PdfSettingsRequest>(builder.Configuration.GetSection("PdfSettings"));
 
 builder.Services.AddSignalR();
@@ -117,6 +118,7 @@ builder.Services.AddCors(options =>
 
 
 // CONSTRUCCIÓN DE LA APLICACIÓN
+
 var app = builder.Build();
 
 

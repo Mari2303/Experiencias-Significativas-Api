@@ -103,9 +103,9 @@ namespace API.Controllers.ModuleOperationController
 
 
 
-        [Authorize]
+       
         [HttpPost("{id}/request-edit")]
-        public async Task<IActionResult> RequestEdit(int id, [FromBody] int userId)
+        public async Task<IActionResult> RequestEdit(int id,  int userId)
         {
             await _experienceService.RequestEditAsync(id, userId);
             return Ok(new { message = "Solicitud enviada. Espera aprobación." });

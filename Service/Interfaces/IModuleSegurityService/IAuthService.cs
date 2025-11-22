@@ -56,6 +56,8 @@ namespace Service.Interfaces.IModuleSegurityService
         /// que contiene el nuevo token renovado y su fecha de expiración.
         /// </returns>
         Task<RenewTokenRequest> RenewTokenAsync(string token);
+
+
     }
 }
 

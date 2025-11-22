@@ -54,7 +54,7 @@ namespace Service.Extensions
                 NameExperiences = experience.NameExperiences,
                 Developmenttime = experience.Developmenttime,
                 StateExperienceId= experience.StateExperienceId,
-                UrlPdf = experience.UrlPdf,
+                
               
 
 
@@ -111,7 +111,9 @@ namespace Service.Extensions
             {
              
                 UrlLink = d.UrlLink,
-              
+                UrlPdf = d.UrlPdf,
+                UrlPdfExperience = d.UrlPdfExperience                               
+
 
             }).ToList();
         }
