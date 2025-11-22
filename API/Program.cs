@@ -140,11 +140,10 @@ using (var scope = app.Services.CreateScope())
 
 //  CONFIGURACIÓN DEL PIPELINE HTTP
 
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 // CORS global
 app.UseCors("AllowAll");
