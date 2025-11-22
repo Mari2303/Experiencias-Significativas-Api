@@ -260,6 +260,48 @@ namespace Entity.MigrationsSqlServe
                             Order = 18,
                             Path = "state",
                             State = true
+                        });
+                });
+
+            modelBuilder.Entity("Entity.Models.FormModule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FormId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FormId");
+
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("FormModules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 1,
+                            ModuleId = 2,
+                            State = true
                         },
                         new
                         {
@@ -270,6 +312,134 @@ namespace Entity.MigrationsSqlServe
                             Name = "gestion experiencia",
                             Order = 19,
                             Path = "experiensGestion",
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 3,
+                            ModuleId = 2,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 4,
+                            ModuleId = 1,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 5,
+                            ModuleId = 1,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 6,
+                            ModuleId = 1,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 7,
+                            ModuleId = 2,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 8,
+                            ModuleId = 1,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 10,
+                            ModuleId = 1,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 9,
+                            ModuleId = 1,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 11,
+                            ModuleId = 1,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 12,
+                            ModuleId = 1,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 13,
+                            ModuleId = 1,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 14,
+                            ModuleId = 3,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 15,
+                            ModuleId = 3,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 16,
+                            ModuleId = 3,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 17,
+                            ModuleId = 3,
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            FormId = 18,
+                            ModuleId = 3,
                             State = true
                         });
                 });
@@ -685,6 +855,62 @@ namespace Entity.MigrationsSqlServe
                             Code = "03",
                             CreatedAt = new DateTime(2025, 11, 21, 18, 48, 12, 339, DateTimeKind.Utc).AddTicks(7945),
                             Name = "Inspiradora",
+                            State = true
+                        });
+                });
+
+            modelBuilder.Entity("Entity.Models.Module", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Modules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            Description = "El módulo de seguridad gestiona autenticación, roles, permisos y acceso a los formularios del sistema.",
+                            Name = "Security",
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            Description = "El módulo operativo gestiona los formularios funcionales principales del sistema.",
+                            Name = "Operational",
+                            State = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 11, 10, 11, 14, 29, 177, DateTimeKind.Utc).AddTicks(6729),
+                            Description = "El módulo de parametrización gestiona los formularios que controlan el comportamiento general del sistema.",
+                            Name = "Parametrización",
                             State = true
                         });
                 });
@@ -2260,6 +2486,10 @@ namespace Entity.MigrationsSqlServe
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -2268,6 +2498,12 @@ namespace Entity.MigrationsSqlServe
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("RecoveryCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RecoveryCodeExpiration")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("State")
                         .HasColumnType("bit");
@@ -2366,7 +2602,25 @@ namespace Entity.MigrationsSqlServe
                             PersonId = 2,
                             State = true,
                             Username = "juan.perez@correo.com"
-                        });
+                });
+
+            modelBuilder.Entity("Entity.Models.FormModule", b =>
+                {
+                    b.HasOne("Entity.Models.Form", "Form")
+                        .WithMany("FormModules")
+                        .HasForeignKey("FormId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entity.Models.Module", "Module")
+                        .WithMany("FormModules")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Form");
+
+                    b.Navigation("Module");
                 });
 
             modelBuilder.Entity("Entity.Models.ModuleGeographic.Address", b =>
@@ -2768,6 +3022,11 @@ namespace Entity.MigrationsSqlServe
                     b.Navigation("Experiences");
 
                     b.Navigation("HistoryExperiences");
+                });
+
+            modelBuilder.Entity("Entity.Models.Module", b =>
+                {
+                    b.Navigation("FormModules");
                 });
 
             modelBuilder.Entity("Entity.Models.ModuleOperation.Evaluation", b =>

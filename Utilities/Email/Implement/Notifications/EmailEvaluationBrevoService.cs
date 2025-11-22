@@ -65,26 +65,27 @@ public class EmailEvaluationBrevoService : IEmailEvaluationBrevoService
                             
                             <tr>
                                 <td style='padding: 40px 40px 30px 40px;'>
-                                    
+                
                                     <h2 style='color:{darkText}; font-size:22px; margin-top:0; margin-bottom:15px;'>Hola {userName},</h2>
-                                    
+
                                     <p style='font-size:16px; color:#4B5563; line-height:1.6;'>
                                         Nos complace compartir contigo el resultado oficial de tu más reciente evaluación.
-                                    </p>
+                    </p>
 
                                     <div style='margin:30px auto; max-width:80%; background:{color}; color:white; padding:20px; border-radius:12px; font-size:24px; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.2);'>
-                                        {evaluationResult}
-                                    </div>
+                        {evaluationResult}
+                    </div>
 
                                     <p style='font-size:16px; color:#4B5563; line-height:1.6; margin-top:30px;'>
                                         {message.Replace("**", "<strong>").Replace("</strong>", "</strong>")}
-                                    </p>
+                    </p>
 
-                                   
+                    <hr style='border:none; height:1px; background-color:#ddd; margin:30px 0;'>
+
 
                                     <hr style='border:none; height:1px; background-color:#E5E7EB; margin:40px 0;'>
 
-                                    <p style='font-size:13px; color:#777;'>
+                    <p style='font-size:13px; color:#777;'>
                                         Este mensaje ha sido generado automáticamente por el Sistema de Evaluación.
                                         No respondas a este correo.
                                     </p>
@@ -95,10 +96,10 @@ public class EmailEvaluationBrevoService : IEmailEvaluationBrevoService
                                 <td style='padding: 15px 40px; background-color:#E5E7EB; border-radius: 0 0 12px 12px; text-align:center;'>
                                     <p style='font-size:12px; color:#6B7280; margin:0;'>
                                         &copy; 2025 Sistema de Evaluación de Experiencias Significativas
-                                    </p>
+                    </p>
                                 </td>
                             </tr>
-                            
+
                         </table>
                     </td>
                 </tr>
@@ -123,6 +124,6 @@ public class EmailEvaluationBrevoService : IEmailEvaluationBrevoService
         }
     }
 }
-
+ 
 
 

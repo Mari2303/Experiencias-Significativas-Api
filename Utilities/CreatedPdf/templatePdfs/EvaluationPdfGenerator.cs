@@ -39,8 +39,8 @@ namespace Utilities.CreatedPdf.templatePdfs
                         if (logoBytes != null)
                         {
                             col.Item().Width(100).AlignCenter()
-                               .Image(logoBytes)
-                               .WithCompressionQuality(ImageCompressionQuality.High);
+                                .Image(logoBytes)
+                                .WithCompressionQuality(ImageCompressionQuality.High);
                         }
 
                         // TÍTULO principal
@@ -109,7 +109,7 @@ namespace Utilities.CreatedPdf.templatePdfs
                         .Background(headerColor)
                         .Padding(12)
                         .Row(row =>
-                        {
+                    {
                             row.RelativeColumn()
                                 .AlignLeft()
                                 .Text("Evaluación Detallada")
@@ -120,8 +120,8 @@ namespace Utilities.CreatedPdf.templatePdfs
                             row.ConstantColumn(100)
                                 .AlignRight()
                                 .Text(DateTime.Now.ToString("dd/MM/yyyy"))
-                                .FontColor(Colors.White);
-                        });
+                            .FontColor(Colors.White);
+                    });
 
                     // CONTENIDO
                     page.Content().PaddingVertical(20).Column(col =>

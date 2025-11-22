@@ -107,7 +107,7 @@ namespace Service.Implementations.ModelOperationService
 
             // ADMIN = edición ilimitada
             if (roles.Contains("SUPERADMIN"))
-            {
+        {
                 experience.ApplyPatch(request);
                 await _experienceRepository.UpdateAsync(experience);
                 await NotifyAdmins(experience);
@@ -119,7 +119,7 @@ namespace Service.Implementations.ModelOperationService
 
             if (permission == null || !permission.Approved)
                 throw new Exception("No tienes permiso para editar esta experiencia.");
-
+            
             // Validar expiración
             if (permission.ExpiresAt == null || permission.ExpiresAt < DateTime.UtcNow)
                 throw new Exception("El tiempo de edición expiró. Debes solicitar permiso nuevamente.");
