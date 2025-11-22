@@ -58,6 +58,7 @@ namespace API.Controllers.ModuleSegurityController
             }
         }
 
+
         /// <summary>
         /// Endpoint para cambiar la contraseña de un usuario.
         /// Requiere que el usuario esté autenticado.

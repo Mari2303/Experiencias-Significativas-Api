@@ -246,7 +246,36 @@ namespace Repository.Implementations.ModuleSegurityRepository
 
 
 
+        public async Task UpdateTwoFactorAsync(int userId, string twoFactorCode, DateTime expiration)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
+            if (user == null)
+                throw new Exception("Usuario no encontrado");
+
+            user.RecoveryCode = twoFactorCode;
+            user.RecoveryCodeExpiration = expiration;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateTwoAsync(int userId, string code, DateTime expiration)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            user.RecoveryCode = code;
+            user.RecoveryCodeExpiration = expiration;
+            await _context.SaveChangesAsync();
+        }
+
+
+
+        public async Task ClearTwoFactorCodeAsync(int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            user.RecoveryCode = null;
+            user.RecoveryCodeExpiration = null;
+            await _context.SaveChangesAsync();
+        }
 
 
 

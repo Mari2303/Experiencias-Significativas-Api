@@ -14,12 +14,17 @@ namespace Utilities.CreatedPdf.templatePdfs
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
-            var primaryColor = Colors.Blue.Medium;
-            var accentColor = Colors.Grey.Lighten3;
+            // Colores más profesionales
+            var primaryColor = Colors.Grey.Darken3;      // Gris oscuro elegante
+            var headerColor = Colors.Grey.Darken4;       // Gris casi negro
+            var softGrey = Colors.Grey.Lighten3;         // Cuadros suaves
+            var tableBorder = Colors.Grey.Lighten1;      // Líneas más elegantes
 
             var pdf = Document.Create(container =>
             {
-              
+                // -------------------------------
+                //  PÁGINA 1 – Portada profesional
+                // -------------------------------
                 container.Page(page =>
                 {
                     page.Margin(60);
@@ -30,45 +35,43 @@ namespace Utilities.CreatedPdf.templatePdfs
                     {
                         col.Spacing(25);
 
-                        // Logo superior centrado
+                        // LOGO — sin modificar
                         if (logoBytes != null)
                         {
-                            col.Item()
-                                .Width(90) 
-                                .AlignCenter()
-                                .Image(logoBytes)
-                                .WithCompressionQuality(ImageCompressionQuality.High);
+                            col.Item().Width(100).AlignCenter()
+                               .Image(logoBytes)
+                               .WithCompressionQuality(ImageCompressionQuality.High);
                         }
 
-                        // Espacio entre logo y título
-                        col.Item().PaddingTop(5)
-                            .AlignCenter()
+                        // TÍTULO principal
+                        col.Item().PaddingTop(10)
                             .Text("REPORTE EVALUATIVO DE LA EXPERIENCIA")
-                            .FontSize(26).Bold().FontColor(primaryColor).AlignCenter();
+                            .FontSize(28).SemiBold()
+                            .FontColor(headerColor)
+                            .AlignCenter();
 
-                        // Experiencia
-                        col.Item().PaddingTop(65)
+                        // Subtítulos con estilo más profesional
+                        col.Item().PaddingTop(60)
                             .AlignCenter()
                             .Text($"Experiencia: {evaluation.ExperienceName}")
-                            .FontSize(16).FontColor(Colors.Grey.Darken3);
+                            .FontSize(17)
+                            .FontColor(primaryColor);
 
-                        // Institución
-                        col.Item().PaddingTop(40)
+                        col.Item().PaddingTop(30)
                             .AlignCenter()
                             .Text($"Institución Educativa: {evaluation.InstitutionName}")
-                            .FontSize(15);
+                            .FontSize(16);
 
-                        // Tipo de Evaluación
-                        col.Item().PaddingTop(50)
+                        col.Item().PaddingTop(30)
                             .AlignCenter()
                             .Text($"Tipo de Evaluación: {evaluation.TypeEvaluation}")
-                            .FontSize(15);
+                            .FontSize(16);
 
-                        // Fecha (abajo)
-                        col.Item().PaddingTop(150)
+                        col.Item().PaddingTop(120)
                             .AlignCenter()
                             .Text($"Generado el {DateTime.Now:dd 'de' MMMM 'de' yyyy}")
-                            .FontSize(12).Italic().FontColor(Colors.Grey.Darken1);
+                            .FontColor(Colors.Grey.Darken1)
+                            .Italic();
                     });
 
                     page.Footer().AlignCenter()
@@ -77,126 +80,161 @@ namespace Utilities.CreatedPdf.templatePdfs
                 });
 
 
+                // -------------------------------
+                //  PÁGINA 2 – Contenido detallado
+                // -------------------------------
                 container.Page(page =>
                 {
                     page.Margin(50);
                     page.Size(PageSizes.A4);
                     page.DefaultTextStyle(x => x.FontSize(11));
 
-                    // Fondo con marca de agua (logo)
+                    // Marca de agua — NO SE CAMBIA
                     if (logoBytes != null)
                     {
-                        var fadedLogo = ApplyImageOpacitySimple(logoBytes, 0.08f);
+                        var faded = ApplyImageOpacitySimple(logoBytes, 0.07f);
 
-                        page.Background().Layers(layers =>
+                        page.Background().Layers(layer =>
                         {
-                            layers.PrimaryLayer()
-                                .AlignCenter()
-                                .AlignMiddle()
-                                .Width(280)
-                                .Height(280)
-                                .Image(fadedLogo)
+                            layer.PrimaryLayer()
+                                .AlignCenter().AlignMiddle()
+                                .Width(290).Height(290)
+                                .Image(faded)
                                 .WithCompressionQuality(ImageCompressionQuality.Medium);
                         });
                     }
 
-                    // Encabezado superior
-                    page.Header().Background(primaryColor).Padding(10).Row(row =>
-                    {
-                        row.RelativeColumn().AlignLeft().Text("Evaluación Detallada")
-                            .FontSize(16).Bold().FontColor(Colors.White);
-                        row.ConstantColumn(90).AlignRight().Text(DateTime.Now.ToString("dd/MM/yyyy"))
-                            .FontColor(Colors.White);
-                    });
-
-                    // Contenido principal
-                    page.Content().PaddingVertical(15).Column(col =>
-                    {
-                        col.Spacing(10);
-
-                        // Información general
-                        col.Item().Background(accentColor).Padding(8)
-                            .Text("Información General")
-                            .FontSize(14).Bold().FontColor(primaryColor);
-
-                        col.Item().PaddingLeft(10).Table(table =>
+                    // Encabezado moderno
+                    page.Header()
+                        .Background(headerColor)
+                        .Padding(12)
+                        .Row(row =>
                         {
-                            table.ColumnsDefinition(columns =>
-                            {
-                                columns.ConstantColumn(200);
-                                columns.RelativeColumn();
-                            });
+                            row.RelativeColumn()
+                                .AlignLeft()
+                                .Text("Evaluación Detallada")
+                                .FontSize(18)
+                                .FontColor(Colors.White)
+                                .Bold();
 
-                            void AddRow(string label, string value)
-                            {
-                                table.Cell().Border(0.5f).BorderColor(Colors.Grey.Lighten2)
-                                    .Background(Colors.White).Padding(5)
-                                    .Text(label).Bold().FontColor(primaryColor);
-
-                                table.Cell().Border(0.5f).BorderColor(Colors.Grey.Lighten2)
-                                    .Padding(5).Text(value ?? "—");
-                            }
-
-                            AddRow("Tipo de Evaluación:", evaluation.TypeEvaluation);
-                            AddRow("Rol de Acompañamiento:", evaluation.AccompanimentRole);
-                            AddRow("Resultado Final:", evaluation.EvaluationResult);
-                            AddRow("Experiencia:", evaluation.ExperienceName);
-                            AddRow("Institución:", evaluation.InstitutionName);
-                            AddRow("Comentarios:", evaluation.Comments);
+                            row.ConstantColumn(100)
+                                .AlignRight()
+                                .Text(DateTime.Now.ToString("dd/MM/yyyy"))
+                                .FontColor(Colors.White);
                         });
 
+                    // CONTENIDO
+                    page.Content().PaddingVertical(20).Column(col =>
+                    {
+                        col.Spacing(15);
+
+                        // ----------------------
+                        // Información General
+                        // ----------------------
+                        col.Item().Background(softGrey).Padding(8)
+                            .Text("Información General")
+                            .FontSize(15).SemiBold()
+                            .FontColor(headerColor);
+
+                        col.Item().PaddingLeft(8).Table(table =>
+                        {
+                            table.ColumnsDefinition(c =>
+                            {
+                                c.ConstantColumn(210);
+                                c.RelativeColumn();
+                            });
+
+                            void Row(string label, string value)
+                            {
+                                table.Cell()
+                                    .BorderBottom(0.25f)
+                                    .BorderColor(tableBorder)
+                                    .Padding(6)
+                                    .Text(label).Bold().FontColor(primaryColor);
+
+                                table.Cell()
+                                    .BorderBottom(0.25f)
+                                    .BorderColor(tableBorder)
+                                    .Padding(6)
+                                    .Text(value ?? "—");
+                            }
+
+                            Row("Tipo de Evaluación:", evaluation.TypeEvaluation);
+                            Row("Rol de Acompañamiento:", evaluation.AccompanimentRole);
+                            Row("Resultado Final:", evaluation.EvaluationResult);
+                            Row("Experiencia:", evaluation.ExperienceName);
+                            Row("Institución:", evaluation.InstitutionName);
+                            Row("Comentarios:", evaluation.Comments);
+                        });
+
+                        // ----------------------
                         // Criterios
-                        col.Item().PaddingTop(15).Background(accentColor).Padding(8)
+                        // ----------------------
+                        col.Item().PaddingTop(15)
+                            .Background(softGrey).Padding(8)
                             .Text("Criterios de Evaluación")
-                            .FontSize(14).Bold().FontColor(primaryColor);
+                            .FontSize(15).SemiBold()
+                            .FontColor(headerColor);
 
                         col.Item().Table(table =>
                         {
-                            table.ColumnsDefinition(columns =>
+                            table.ColumnsDefinition(c =>
                             {
-                                columns.ConstantColumn(150);
-                                columns.ConstantColumn(80);
-                                columns.RelativeColumn();
+                                c.RelativeColumn(1);
+                                c.ConstantColumn(70);
+                                c.RelativeColumn(2);
                             });
 
                             // Encabezados
                             table.Header(header =>
                             {
-                                header.Cell().Background(primaryColor).Padding(5).Text("Criterio").FontColor(Colors.White).Bold();
-                                header.Cell().Background(primaryColor).Padding(5).Text("Puntaje").FontColor(Colors.White).Bold();
-                                header.Cell().Background(primaryColor).Padding(5).Text("Descripción").FontColor(Colors.White).Bold();
+                                header.Cell().Background(primaryColor).Padding(6)
+                                    .Text("Criterio").FontColor(Colors.White).Bold();
+
+                                header.Cell().Background(primaryColor).Padding(6)
+                                    .Text("Puntaje").FontColor(Colors.White).Bold();
+
+                                header.Cell().Background(primaryColor).Padding(6)
+                                    .Text("Descripción").FontColor(Colors.White).Bold();
                             });
 
                             foreach (var c in evaluation.CriteriaEvaluations)
                             {
-                                table.Cell().Border(0.5f).BorderColor(Colors.Grey.Lighten2)
-                                    .Padding(5).Text(c.Criteria).Bold();
+                                table.Cell().BorderBottom(0.25f).BorderColor(tableBorder)
+                                    .Padding(6).Text(c.Criteria).Bold();
 
-                                table.Cell().Border(0.5f).BorderColor(Colors.Grey.Lighten2)
-                                    .Padding(5).AlignCenter().Text(c.Score.ToString());
+                                table.Cell().BorderBottom(0.25f).BorderColor(tableBorder)
+                                    .AlignCenter().Padding(6)
+                                    .Text(c.Score.ToString());
 
-                                table.Cell().Border(0.5f).BorderColor(Colors.Grey.Lighten2)
-                                    .Padding(5).Text(c.DescriptionContribution ?? "—");
+                                table.Cell().BorderBottom(0.25f).BorderColor(tableBorder)
+                                    .Padding(6).Text(c.DescriptionContribution ?? "—");
                             }
                         });
 
-                        // Líneas temáticas
-                        col.Item().PaddingTop(15).Background(accentColor).Padding(8)
+                        // ----------------------
+                        // Líneas Temáticas
+                        // ----------------------
+                        col.Item().PaddingTop(15)
+                            .Background(softGrey).Padding(8)
                             .Text("Líneas Temáticas")
-                            .FontSize(14).Bold().FontColor(primaryColor);
+                            .FontSize(15).SemiBold()
+                            .FontColor(headerColor);
 
                         col.Item().Table(table =>
                         {
-                            table.ColumnsDefinition(columns => columns.RelativeColumn());
+                            table.ColumnsDefinition(c => c.RelativeColumn());
                             foreach (var line in evaluation.ThematicLineNames)
                             {
-                                table.Cell().Border(0.5f).BorderColor(Colors.Grey.Lighten2)
-                                    .Padding(6).Text($"• {line}");
+                                table.Cell()
+                                    .BorderBottom(0.25f)
+                                    .BorderColor(tableBorder)
+                                    .Padding(6)
+                                    .Text($"• {line}");
                             }
                         });
                     });
 
-                    // Pie de página
                     page.Footer().AlignCenter().Text(txt =>
                     {
                         txt.Span("Sistema de Evaluación de Experiencias Significativas ").FontSize(9);

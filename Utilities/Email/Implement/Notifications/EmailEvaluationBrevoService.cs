@@ -72,7 +72,7 @@ public class EmailEvaluationBrevoService : IEmailEvaluationBrevoService
                                         Nos complace compartir contigo el resultado oficial de tu más reciente evaluación.
                                     </p>
 
-                                    <div style='margin:30px auto; max-width:80%; background:{color}; color:white; padding:10px; border-radius:12px; font-size:24px; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.2);'>
+                                    <div style='margin:30px auto; max-width:80%; background:{color}; color:white; padding:20px; border-radius:12px; font-size:24px; font-weight:bold; box-shadow:0 2px 8px rgba(0,0,0,0.2);'>
                                         {evaluationResult}
                                     </div>
 
@@ -80,9 +80,7 @@ public class EmailEvaluationBrevoService : IEmailEvaluationBrevoService
                                         {message.Replace("**", "<strong>").Replace("</strong>", "</strong>")}
                                     </p>
 
-                                    <a href='[LINK_A_PLATAFORMA]' target='_blank' style='display:inline-block; margin-top:30px; padding:12px 25px; background-color:{primaryBlue}; color:#ffffff; font-size:16px; font-weight:bold; text-decoration:none; border-radius:8px; transition:background-color 0.3s;'>
-                                        Ver Detalles en la Plataforma
-                                    </a>
+                                   
 
                                     <hr style='border:none; height:1px; background-color:#E5E7EB; margin:40px 0;'>
 
