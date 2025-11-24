@@ -33,7 +33,7 @@ namespace Entity.Context
             var GradeBasi = new Grade()
             {
                 Id = 3,
-                Name = "Basica",
+                Name = "Basic",
                 State = true,
                 Code = "03",
                 CreatedAt = currentDate,
