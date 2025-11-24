@@ -45,7 +45,7 @@ namespace Entity.Context
             var PopulationGradePalenq = new PopulationGrade()
             {
                 Id = 4,
-                Name = "Raizal",
+                Name = "Rizal",
                 State = true,
                 Code = "04",
                 CreatedAt = currentDate,
