@@ -121,11 +121,10 @@ var app = builder.Build();
 
 
 //  MIGRACIONES AUTOMÁTICAS (opcional)
-
 using (var scope = app.Services.CreateScope())
 {
     var sqlServerContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-    sqlServerContext.Database.Migrate();
+  sqlServerContext.Database.Migrate();
 
     // Si deseas aplicar también las migraciones de otros motores, descomenta:
     
